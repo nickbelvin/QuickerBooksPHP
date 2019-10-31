@@ -1,6 +1,5 @@
 <?php
 include('config.php');
-session_start();
 
 if (isset($_POST['forgot_password'])) {
 
@@ -70,6 +69,5 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
         <p id="status"></p>
       </form>
     </div>
-    <?php include_once("template_pageBottom.php"); ?>
     </body> 
     </html> 
