@@ -1,6 +1,7 @@
 <!--TEST TWO-->
 
-<?php include('config.php')?>
+<?php // include('config.php')?>
+<?php include('Journalizing.php')?>
 <?php
 // Check if a file has been uploaded
 if(isset($_FILES['uploaded_file'])) {
@@ -13,13 +14,17 @@ if(isset($_FILES['uploaded_file'])) {
         $mime = $conn->real_escape_string($_FILES['uploaded_file']['type']);
         $data = $conn->real_escape_string(file_get_contents($_FILES  ['uploaded_file']['tmp_name']));
         $size = intval($_FILES['uploaded_file']['size']);
-/*      $TranID = mysqli_query("SELECT TranID FROM file2 order by TranID desc limit 1") + 1;
-        $amount = $_POST(amount); //Amount for transaction
-        $AccDebited = $_POST(AccDebited); //Debited Account
-        $AccCredited = $_POST(AccCredited); //Credited Account
-*/
-        // Create the SQL query
 
+        $TranIDQuery = mysqli_query($conn, "SELECT TranID FROM file2 order by TranID desc limit 1");
+        $row=$TranIDQuery->fetch_assoc();
+        $TranID = $row['TranID'] + 1;
+
+        $amount = $_POST['amount']; //Amount for transaction
+        $AccDebited = $_POST['AccDebited']; //Debited Account
+        $AccCredited = $_POST['AccCredited']; //Credited Account
+
+        // Create the SQL query
+/*
        $query = "
             INSERT INTO `file` (
                 `name`, `mime`, `size`, `data`, `created`
@@ -27,22 +32,22 @@ if(isset($_FILES['uploaded_file'])) {
             VALUES (
                 '{$name}', '{$mime}', {$size}, '{$data}', NOW()
             )";
-
-/*
-        $query2 = "
-            INSERT INTO `file2` (
-                `name`, `TranID`, `amount`, `AccDebited`, `AccCredited`, `path`, `size`, `data`, `created`
-            )
-            VALUES (
-                '{$name}', '{$TranID}', '{$amount}', {$AccDebited}, '{$AccCredited}', '{$mime}', {$size}, '{$data}', NOW()
-            )";
 */
 
-        // Execute the query
-        $result = $conn->query($query);
-        //$result2 = $conn->query($query2);
+        $query2 = "
+            INSERT INTO `file2` (
+                `name`, `TranID`, `amount`, `AccDebited`, `AccCredited`, `path`, `size`, `data`, `created`, `status`
+            )
+            VALUES (
+                '{$name}', '{$TranID}', '{$amount}', {$AccDebited}, '{$AccCredited}', '{$mime}', {$size}, '{$data}', NOW(), 'Pending'
+            )";
 
-        // Check if it was successfull
+
+        // Execute the query
+//        $result = $conn->query($query);
+        $result = $conn->query($query2);//changed to query2 from query
+
+        // Check if it was successful
         if($result) {
             echo 'Success! Your file was successfully added!';
         }
