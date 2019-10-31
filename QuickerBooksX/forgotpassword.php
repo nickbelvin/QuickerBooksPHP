@@ -52,22 +52,3 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 		<div><input type="submit" name="forgot-password" id="forgot-password" value="Submit" class="form-submit-button"></div>
 	</div>	
 </form>
-
-<h4>Please answer the following security questions!!</h4>
-      <form id="securityform" onsubmit="return false;">
-        <div>Question 1:</div>
-        <p><?php echo $q1 = "Security Question 1"; ?></p>
-        <input name="ans1" id="ans1" type="text" onfocus="_('status').innerHTML='';" maxlength="100">
-        <br/><br/>
-        <div>Question 2:</div>
-        <p><?php echo $q2 = "Security Question 2"; ?></p>
-        <input name="ans2" id="ans2" type="text" onfocus="_('status').innerHTML='';" maxlength="100">
-        <br /><br />
-        <input name="email" id="email" type="hidden" value="<?php echo $email; ?>" />
-
-        <button id="anssubmitbtn" onclick="forgotpasscon()">Submit</button> 
-        <p id="status"></p>
-      </form>
-    </div>
-    </body> 
-    </html> 
