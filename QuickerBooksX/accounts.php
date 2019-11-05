@@ -4,8 +4,8 @@
 <html>
 <head>
 
-<title>Chart of Accounts</title>
-    <h1>Chart of Accounts</h1>
+<title>Accounts</title>
+    <h1>Accounts</h1>
 
     <style>
 table {
@@ -30,7 +30,7 @@ tr:nth-child(even) {background-color: #f2f2f2}
 
 <p><a href="index.php">Home</a> 
 | <a href="createaccount.php">Create an Account</a> 
-| <a href="accounts.php">Accounts</a> 
+| <a href="chartofaccounts.php">Chart of Accounts</a> 
 | <a href="logout.php">Logout</a></p>
 
 <form action="SearchCOA.php" method="GET">
@@ -46,10 +46,12 @@ tr:nth-child(even) {background-color: #f2f2f2}
 <tr>
 	<th onclick="sortTable(0)">Account Number</th>
 	<th onclick="sortTable(1)">Account Name</th>
-	<th>Description</th>
-	<th onclick="sortTable(3)">Category</th>
-	<th onclick="sortTable(4)">Sub-Category</th>
-	<th>Comment</th>
+	<th>Category</th>
+	<th>Term</th>
+	<th>Balance</th>
+	<th>Created By</th>
+	<th>Date Created</th>
+	<th>Comments</th>
 	<th>Edit</th>
 	<th>Delete</th>
 </tr>
@@ -111,6 +113,7 @@ function sortTable(n) {
 }
 </script>
 
+
 <?php
 
 $conn = mysqli_connect("localhost", "root", "", "QuickerBooksDB");
@@ -119,7 +122,7 @@ if ($conn->connect_error) {
 die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT accountnumber, accountname, description, category, subcategory, comment from chartofaccounts";
+$sql = "SELECT accountnumber, accountname, category, term, balance, userid, dateadded, comment from chartofaccounts";
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
 // output data of each row
@@ -130,9 +133,11 @@ $row["description"]. "</td><td>" . $row["category"] .  "</td><td>" . $row["subca
 while($row = mysqli_fetch_assoc($result)) { ?>
 <tr><td align="left"><?php echo $row["accountnumber"]; ?></td>
 <td align="left"><?php echo $row["accountname"]; ?></td>
-<td align="left"><?php echo $row["description"]; ?></td>
 <td align="left"><?php echo $row["category"]; ?></td>
-<td align="left"><?php echo $row["subcategory"]; ?></td>
+<td align="left"><?php echo $row["term"]; ?></td>
+<td align="left"><?php echo $row["balance"]; ?></td>
+<td align="left"><?php echo $row["userid"]; ?></td>
+<td align="left"><?php echo $row["dateadded"]; ?></td>
 <td align="left"><?php echo $row["comment"]; ?></td>
 <td align="center">
 <a href="edit.php?id=<?php echo $row["id"]; ?>">Edit</a>

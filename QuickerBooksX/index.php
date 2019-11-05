@@ -10,7 +10,7 @@
   <!-- Custome styles -->
   <link rel="stylesheet" href="static/css/style.css">
 </head>
-<body>
+<br>
 <?php include(INCLUDE_PATH . "/layouts/messages.php") ?>
     <h1>Home page</h1>
 <a href="Journalizing.php" name="journalizingLink">Journalizing</a><br/><br/>
@@ -18,4 +18,7 @@
 <a href="login.php" name="loginLink">Login</a><br/><br/>
 <a href="ViewUsers.php" name="viewUsers">View Users Table</a><br/><br/>
 <a href="signup.php" name="createUsers">Create User</a><br/><br/>
+<a href="balancesheet.php" name="balancesheet">Balance Sheet</a><br/><br/>
+</body>
+</html>
    
