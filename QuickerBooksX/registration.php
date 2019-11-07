@@ -10,7 +10,7 @@ if (isset($_POST['register'])) {
     $password = $_POST['password'];
     $password_hash = password_hash($password, PASSWORD_BCRYPT);
 
-    $query = $conn->prepare("SELECT * FROM users WHERE EMAIL=:email");
+    $query = $connection->prepare("SELECT * FROM users WHERE EMAIL=:email");
     $query->bindParam("email", $email, PDO::PARAM_STR);
     $query->execute();
 
@@ -19,12 +19,11 @@ if (isset($_POST['register'])) {
     }
 
     if ($query->rowCount() == 0) {
-        $query = $conn->prepare("INSERT INTO users(USERNAME,PASSWORD,EMAIL) VALUES (:username,:password_hash,:email)");
+        $query = $connection->prepare("INSERT INTO users(USERNAME,PASSWORD,EMAIL) VALUES (:username,:password_hash,:email)");
         $query->bindParam("username", $username, PDO::PARAM_STR);
         $query->bindParam("password_hash", $password_hash, PDO::PARAM_STR);
         $query->bindParam("email", $email, PDO::PARAM_STR);
         $result = $query->execute();
-
         if ($result) {
             echo '<p class="success">Your registration was successful!</p>';
         } else {
