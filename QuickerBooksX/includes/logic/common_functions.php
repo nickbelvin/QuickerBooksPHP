@@ -2,7 +2,7 @@
   // Accept a user ID and returns true if user is admin and false if otherwise
   function isAdmin($user_id) {
     global $conn;
-    $sql = "SELECT * FROM users WHERE id=? AND role_id IS NOT NULL LIMIT 1";
+    $sql = "SELECT * FROM users WHERE id=? AND role_id =1";
     $user = getSingleRecord($sql, 'i', [$user_id]); // get single user from database
     if (!empty($user)) {
       return true;
@@ -10,6 +10,29 @@
       return false;
     }
   }
+
+  function isManager($user_id) {
+    global $conn;
+    $sql = "SELECT * FROM users WHERE id=? AND role_id =2";
+    $user = getSingleRecord($sql, 'i', [$user_id]); // get single user from database
+    if (!empty($user)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  function isAccountant($user_id) {
+    global $conn;
+    $sql = "SELECT * FROM users WHERE id=? AND role_id =3";
+    $user = getSingleRecord($sql, 'i', [$user_id]); // get single user from database
+    if (!empty($user)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   function loginById($user_id) {
     global $conn;
     $sql = "SELECT u.id, u.role_id, u.username, r.name as role FROM users u LEFT JOIN roles r ON u.role_id=r.id WHERE u.id=? LIMIT 1";
@@ -19,18 +42,9 @@
       // put logged in user into session array
       $_SESSION['user'] = $user;
       $_SESSION['success_msg'] = "You are now logged in";
-      // if user is admin, redirect to dashboard, otherwise to homepage
-      if (isAdmin($user_id)) {
-        $permissionsSql = "SELECT p.name as permission_name FROM permissions as p
-                            JOIN permission_role as pr ON p.id=pr.permission_id
-                            WHERE pr.role_id=?";
-        $userPermissions = getMultipleRecords($permissionsSql, "i", [$user['role_id']]);
-        $_SESSION['userPermissions'] = $userPermissions;
+      // redirect to dashboard
         header('location: ' . BASE_URL . 'index.php');
-      } else {
-        header('location: ' . BASE_URL . 'index.php');
-      }
-      exit(0);
+      
     }
   }
 
@@ -38,6 +52,39 @@
   function validateUser($user, $ignoreFields) {
   		global $conn;
       $errors = [];
+
+     // password check
+     if (in_array('signup_btn', $ignoreFields) && isset($user['password']))  {
+     
+      // Validate password strength
+      $string = $user['password'];
+      $firstCharacter = $string[0];
+      $uppercase = preg_match('@[A-Z]@', $user['password']);
+      $lowercase = preg_match('@[a-z]@',$user['password']);
+      $number    = preg_match('@[0-9]@', $user['password']);
+      $specialChars = preg_match('@[^\w]@', $user['password']);
+      $isletter = preg_match('/[a-zA-Z]/', $firstCharacter);
+     
+      if(!$uppercase || !$lowercase ){
+        $errors['password'] = 'Password must contain at least one letter';
+      }      
+      if(!$lowercase){
+        $errors['password'] = 'Password must contain at least one lower-case letter';
+      }
+      if(!$number){
+        $errors['password'] = 'Password must contain at least one number';
+      }
+      if(!$specialChars){
+        $errors['password'] = 'Password must contain at least one special character';
+      }
+      if(!$isletter) {
+        $errors['password'] = 'Password must start with a letter';
+      }
+      if(strlen($user['password']) < 8) {
+        $errors['password'] = 'Password must be 8 or more characters';
+      }
+  }
+      
       // password confirmation
       if (isset($user['passwordConf']) && ($user['password'] !== $user['passwordConf'])) {
         $errors['passwordConf'] = "The two passwords do not match";
@@ -80,9 +127,9 @@
     // if file was sent from signup form ...
     if (!empty($_FILES) && !empty($_FILES['profile_picture']['name'])) {
         // Get image name
-        $profile_picture = date("Y.m.d") . $_FILES['profile_picture']['name'];
+        $profile_picture = date('Y.m.d') . $_FILES['profile_picture']['name'];
         // define Where image will be stored
-        $target = ROOT_PATH . "/assets/images/" . $profile_picture;
+        $target = "assets/images/" . $profile_picture;
         // upload image to folder
         if (move_uploaded_file($_FILES['profile_picture']['tmp_name'], $target)) {
           return $profile_picture;
@@ -92,3 +139,18 @@
         }
     }
   }
+
+  function getAccounts(){
+    global $conn;
+    $sql = "SELECT a.debit, a.credit, a.user_id, a.accountname, a.accountnumber, a.normalside, a.category, a.subcategory, a.balance, a.dateadded, a.statement, a.comment
+            FROM chartofaccounts a";
+            //WHERE user_id IS NULL ";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+   $result = $stmt->get_result();
+   $accounts = $result->fetch_all(MYSQLI_ASSOC);
+   
+   //$accounts = getMultipleRecords($sql, 'i');
+   return $accounts;
+    }
+

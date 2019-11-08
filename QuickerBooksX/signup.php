@@ -1,5 +1,6 @@
 <?php include('config.php'); ?>
 <?php include(INCLUDE_PATH . '/logic/userSignup.php'); ?>
+<?php $roles = getAllRoles(); ?>
 
 <!DOCTYPE html>
 <html lang="zxx">
@@ -31,12 +32,16 @@
     <link href="//fonts.googleapis.com/css?family=Quattrocento+Sans:400,400i,700,700i" rel="stylesheet">
     <link href="//fonts.googleapis.com/css?family=Mukta:200,300,400,500,600,700,800" rel="stylesheet">
     <!-- Google fonts -->
-
-</head>
+ 
+    
+      
+  
+       </head>
 <!-- //Head -->
 <!-- Body -->
 
 <body>
+
 
     <section class="main">
         <div class="layer">
@@ -65,8 +70,7 @@
                 <div class="content-bottom">
 			<!-- <form action="#" method="post"> -->
 				<form class="form" action="signup.php" method="post" enctype="multipart/form-data">
-          
-						
+                <?php include(INCLUDE_PATH . "/layouts/messages.php") ?>
 						<div class="field-group">
 						<span class="fa fa-f" aria-hidden="true"></span>
 						<div class="wthree-field">
@@ -98,39 +102,53 @@
 							<input name="email" id="text4" class="form-control" type="text" value="" placeholder="Email Address" required>
                             </div>
                         </div>
-                        <div class="field-group">
+                        <div class="field-group <?php echo isset($errors['password']) ? 'has-error' : '' ?>">
                             <span class="fa fa-lock" aria-hidden="true"></span>
                             <div class="wthree-field">
                                 <input name="password" class="form-control" id="myInput" type="Password" placeholder="Password">
+                                <?php if (isset($errors['password'])): ?>
+              <div class="help-block"><?php echo $errors['password'] ?></div>
+            <?php endif; ?>	
+                         
                             </div>
                         </div>
+                       
+                       
                         <div class="field-group">
                             <span class="fa fa-check" aria-hidden="true"></span>
                             <div class="wthree-field">
-							<input name="passwordConf" class="form-control" id="text5" type="text" value="" placeholder="Confirm Password" required>
+							<input name="passwordConf" class="form-control" id="text5" type="Password" value="" placeholder="Confirm Password" required>
                             </div>
                         </div>
-                       	<!-- <div class="form-class">
-						<div class="wthree-field">
-						<label>Select User Role</label>
-                            @Html.Label("User Role", new { @class = "col-md-2 control-label" })
-                            <div class="col-md-10">
-                                @*@Html.DropDownList("Name") *@
-                                @Html.DropDownList("UserRoles", (SelectList)ViewBag.Name, " ")
-							</div>
-							</div>
-						</div> -->
-						
-						<div class="form-class" style="text-align: center;">
-					<!--	<label>Select Profile Image</label> -->
+                                              
 
+                        <div class=" <?php echo isset($errors['role_id']) ? 'has-error' : '' ?>">           
+              <select class="select-css" name="role_id">
+                <option value="" class=""> Select User Role</option>
+                <?php foreach ($roles as $role): ?>
+                  <?php if ($role['id'] === $role_id): ?>
+                    <option value="<?php echo $role['id'] ?>" selected><?php echo $role['name'] ?></option>
+                  <?php else: ?>
+                    <option value="<?php echo $role['id'] ?>"><?php echo $role['name'] ?></option>
+                  <?php endif; ?>
+                <?php endforeach; ?>
+              </select>
+              <?php if (isset($errors['role_id'])): ?>
+                <span class="help-block"><?php echo $errors['role_id'] ?></span>
+              <?php endif; ?>
+            </div>
+
+						<div class="form-group" style="text-align: center;">
+					<!--	<label>Select Profile Image</label> -->
 							<img src="http://via.placeholder.com/150x150" id="profile_img" style="height: 100px; border-radius: 50%" alt="">
 							<!-- hidden file input to trigger with JQuery  -->
 							<input type="file" name="profile_picture" id="profile_input" value="" style="display: none;">
 						</div>
 
+
+
 						<div class="hide">
-							<input name="username" id="text4" class="form-control" type="text" value="" placeholder="" >
+							<input name="username" id="text4" class="form-control" type="text" value="username">
                         </div>
 						
 
@@ -146,6 +164,9 @@
     </section>
 
 </body>
+
+<script src="Templates/Dashboard/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="Templates/Dashboard/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="assets/js/display_profile_image.js"></script>
 <!-- //Body -->
 </html>
-<script type="text/javascript" src="assets/js/display_profile_image.js"></script>

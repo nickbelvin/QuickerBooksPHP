@@ -1,5 +1,6 @@
-@import url('https://fonts.googleapis.com/css?family=Lora');
-* { font-family: 'Lora', serif; font-size: 1.04em; }
+
+* { font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 12pt; }
 span.help-block { font-size: .7em; }
 form label { font-weight: normal; }
 .success_msg { color: '#218823'; }
