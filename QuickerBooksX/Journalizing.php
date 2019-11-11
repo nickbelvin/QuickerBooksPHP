@@ -12,8 +12,10 @@ TODO:
 -->
 <?php
     include('config.php');
+    //include('Journalize.js');
     //session_start();
 ?>
+
 <?php
 /*
 if (isset($_POST['login'])) {
@@ -24,76 +26,6 @@ if (isset($_POST['login'])) {
     $DocPath = $_POST(DocPath); //Attached document file path
 }
 */
-?>
-
-<!--FAILED TEST-->
-<?php
-/*
-$name= $_FILES[file][name];
-$tmp_name= $_FILES[file][tmp_name];
-$submitbutton= $_POST[submit];
-$position= strpos($name, ".");
-$fileextension= substr($name, $position + 1);
-$fileextension= strtolower($fileextension);
-$description= $_POST[description_entered];
-
-if (isset($name)) {
-
-    $path= 'Uploads/files/';
-
-    if (!empty($name)){
-        if (move_uploaded_file($tmp_name, $path.$name)) {
-            echo 'Uploaded!';
-
-        }
-    }
-}
-?>
-
-<?php
-
-
-if(!empty($name)){
-    $TranID = mysqli_query("SELECT TranID FROM journal order by TranID desc limit 1") + 1;
-    $query2 = $conn->prepare("INSERT INTO journal (TranID,Amount,DebAccNum,CredAccNum,Filename,TranStatus)
-VALUES (:TranID, :amount, :AccDebited, :AccCredited, :filename, 'Pending')");
-    $query2->bindParam("TranID", $TranID, PDO::PARAM_INT);
-    $query2->bindParam("amount", $amount, PDO::PARAM_INT);
-    $query2->bindParam("AccDebited", $AccDebited, PDO::PARAM_INT);
-    $query2->bindParam("AccCredited", $AccCredited, PDO::PARAM_INT);
-    $query2->bindParam("filename", $name, PDO::PARAM_STR);
-    $query2->execute();
-}
-
-
-
-?>
-
-<?php
-
-
-$result= mysqli_query( "SELECT * FROM journal ORDER BY ID desc" );
-
-print "<table border=1>\n";
-while ($row = ($result)){
-    $files_field= $row['filename'];
-    $files_show= "Uploads/files/$files_field";
-    $descriptionvalue= $row['description'];
-    print "<tr>\n";
-    print "\t<td>\n";
-    echo "<font face=arial size=4/>$descriptionvalue</font>";
-    print "</td>\n";
-    print "\t<td>\n";
-    echo "<div align=center><a href='$files_show'>$files_field</a></div>";
-    print "</td>\n";
-    print "</tr>\n";
-}
-print "</table>\n";
-*/
-?>
-
-<?php
-
 ?>
 
 
@@ -207,11 +139,21 @@ print "</table>\n";
 
 </head>
 <body>
-<form <!--action="UploadFile.php"--> id="myForm" method="post" enctype="multipart/form-data">
-    <div class="form-element">
-        <label>Amount</label>
-        <input type="text" name="currency-field" id="currency-field" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" value="" data-type="currency" placeholder="$0.00">
-       <!--jquery for formatting for number field-->
+<form action="UploadFile.php" id="myForm" method="post" enctype="multipart/form-data">
+    <div id="divID">
+    <div class="form-element" id="creditedOne">
+        <label>Account 1</label>
+        <select name="account1">
+            <option value="" disabled selected>Select Account</option>
+            <?php
+            $sql = mysqli_query($conn, "SELECT accountname, accountnumber FROM chartofaccounts order by accountnumber asc");
+            while ($row = $sql->fetch_assoc()){
+                echo "<option value=\": \">" . $row['accountnumber'] . ": " . $row['accountname'] . "</option>";
+            }
+            ?>
+        </select>
+        <input type="text" name="amount1" id="currency-field" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" value="" data-type="currency" placeholder="$0.00">
+        <!--jquery for formatting for number field-->
         <script>
             // Jquery Dependency
 
@@ -301,12 +243,15 @@ print "</table>\n";
 
 
         </script>
-
-        <!--<input type="number" name="amount" required />-->
+        <select name="TranType1[]">
+            <option value="" disabled selected>Select Type</option>
+            <option value="Debit">Debit</option>
+            <option value="Credit">Credit</option>
+        </select>
     </div>
-    <div class="form-element">
-        <label>Credited Account</label>
-        <select name="owner">
+    <div class="form-element" id="'debitedOne">
+        <label>Account 2</label>
+        <select name="account2">
             <option value="" disabled selected>Select Account</option>
             <?php
             $sql = mysqli_query($conn, "SELECT accountname, accountnumber FROM chartofaccounts order by accountnumber asc");
@@ -406,115 +351,61 @@ print "</table>\n";
 
 
         </script>
-    </div>
-    <div class="form-element">
-        <label>Debited Account</label>
-        <select name="owner">
-            <option value="" disabled selected>Select Account</option>
-            <?php
-            $sql = mysqli_query($conn, "SELECT accountname, accountnumber FROM chartofaccounts order by accountnumber asc");
-            while ($row = $sql->fetch_assoc()){
-                echo "<option value=\": \">" . $row['accountnumber'] . ": " . $row['accountname'] . "</option>";
-            }
-            ?>
+        <select name="TranType2[]">
+            <option value="" disabled selected>Select Type</option>
+            <option value="Debit">Debit</option>
+            <option value="Credit">Credit</option>
         </select>
-        <input type="text" name="currency-field" id="currency-field" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" value="" data-type="currency" placeholder="$0.00">
-        <!--jquery for formatting for number field-->
+        <input onclick="addAccount();" type="button" value="Add Account" id="addAccount" />
+
         <script>
-            // Jquery Dependency
-
-            $("input[data-type='currency']").on({
-                keyup: function() {
-                    formatCurrency($(this));
-                },
-                blur: function() {
-                    formatCurrency($(this), "blur");
-                }
-            });
-
-
-            function formatNumber(n) {
-                // format number 1000000 to 1,234,567
-                return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        //script to add new accounts for journalEntry : not working
+            function addAccount() {
+                var thing = $('#debitedOne').clone();
+                $('.divID').append(thing);
             }
-
-
-            function formatCurrency(input, blur) {
-                // appends $ to value, validates decimal side
-                // and puts cursor back in right position.
-
-                // get input value
-                var input_val = input.val();
-
-                // don't validate empty input
-                if (input_val === "") { return; }
-
-                // original length
-                var original_len = input_val.length;
-
-                // initial caret position
-                var caret_pos = input.prop("selectionStart");
-
-                // check for decimal
-                if (input_val.indexOf(".") >= 0) {
-
-                    // get position of first decimal
-                    // this prevents multiple decimals from
-                    // being entered
-                    var decimal_pos = input_val.indexOf(".");
-
-                    // split number by decimal point
-                    var left_side = input_val.substring(0, decimal_pos);
-                    var right_side = input_val.substring(decimal_pos);
-
-                    // add commas to left side of number
-                    left_side = formatNumber(left_side);
-
-                    // validate right side
-                    right_side = formatNumber(right_side);
-
-                    // On blur make sure 2 numbers after decimal
-                    if (blur === "blur") {
-                        right_side += "00";
-                    }
-
-                    // Limit decimal to only 2 digits
-                    right_side = right_side.substring(0, 2);
-
-                    // join number by .
-                    input_val = "$" + left_side + "." + right_side;
-
-                } else {
-                    // no decimal entered
-                    // add commas to number
-                    // remove all non-digits
-                    input_val = formatNumber(input_val);
-                    input_val = "$" + input_val;
-
-                    // final formatting
-                    if (blur === "blur") {
-                        input_val += ".00";
-                    }
-                }
-
-                // send updated string to input
-                input.val(input_val);
-
-                // put caret back in the right position
-                var updated_len = input_val.length;
-                caret_pos = updated_len - original_len + caret_pos;
-                input[0].setSelectionRange(caret_pos, caret_pos);
-            }
-
-
 
         </script>
-        <input onclick="addDebitOnClick(this.form);" type="button" value="Add Debit" />
-    </div>
+        <script>
+            addNewTransaction(event) {
+                var isDebit = (event.target.value === "true");
 
+                var newTransaction = {
+                    key: this.keygen(),
+                    accountID: "",
+                    amount: "0"
+                };
+
+                if (isDebit) {
+                    //is debit; have to insert after the last debit
+                    newTransaction.is_debit = true;
+
+                    let spliceLocation;
+                    for (let i = 0; i < this.state.transactions.length; i++) {
+                        if (this.state.transactions[i].is_debit === false) {
+                            spliceLocation = i;
+                            break;
+                        }
+                    }
+
+                    this.state.transactions.splice(spliceLocation, 0, newTransaction);
+                } else {
+                    //is credit; can just push to the end of the list
+                    newTransaction.is_debit = false;
+                    this.state.transactions.push(newTransaction);
+                }
+
+                this.setState({
+                    transactions: this.state.transactions
+                });
+            }
+        </script>
+
+    </div>
+    </div>
     <div>
     <input type="file" name="uploaded_file"><br>
-    <input type="submit" value="Upload file" formaction="UploadFile.php" name="submit[]">
+    <input type="submit" value="Submit" formaction="UploadFile.php" name="submit[]">
     </div>
 </form>
 <p>

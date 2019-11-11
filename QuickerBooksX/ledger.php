@@ -19,7 +19,7 @@ $sql = 'SELECT `id`, `name`, `TranID`, `amount`, `AccDebited`, `AccCredited`, `p
 //$result = $conn->query($sql);
 $result = $conn->query($sql);
 
-// Check if it was successfull
+// Check if it was successful
 if($result) {
     // Make sure there are some files in there
     if($result->num_rows == 0) {
