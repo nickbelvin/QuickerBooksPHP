@@ -35,7 +35,7 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 <form name="frmForgot" id="frmForgot" method="post" onSubmit="return validate_forgot();">
 <br>
 <body style ="background-color:#2B1F50;">
-<h3><center>Forgot Password</center></h3>
+<h3><center>Forgot Password?</center></h3>
 	<?php if(!empty($success_message)) { ?>
 	<div class="success_message">
 	<?php echo $success_message; ?></div>
@@ -48,15 +48,14 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 	</div>	
 	<div class="field-group">
 		<center>
-			<h5>Enter your email below to find your password</h5>
-		<div><input type="text" name="user-email" id="user-email" class="input-field"></div>
+			<h6>Enter your email below to find your password</h6>
+		<div><input type="text" name="user-email" id="user-email" class="input-field" placeholder = "Email"></div>
 		</center>
 	</div>
 	<div class="field-group">
 		<br>
 		<center>
-		<div><input type="submit" name="forgot-password" style="color:#888;" 
-    value="Submit" class= "form-submit-button" onfocus="inputFocus(this)" onblur="inputBlur(this)" /></div>
+		<div><input type="submit" name="forgot-password" id="forgot-password" value="Submit" class="form-submit-button"></div>
 		</center>
 	</div>	
 		</body>
@@ -64,6 +63,7 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 <style> 
 body{
 	color: white;
-	font-family: "Gill Sans";
+	font-family: "Verdana";
 }
 </style>
+
