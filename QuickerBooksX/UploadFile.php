@@ -15,7 +15,7 @@ if(isset($_POST['submit'])) {
         $data = $conn->real_escape_string(file_get_contents($_FILES  ['uploaded_file']['tmp_name']));
         $size = intval($_FILES['uploaded_file']['size']);
 
-        $TranIDQuery = mysqli_query($conn, "SELECT TranID FROM file2 order by TranID desc limit 1");
+        $TranIDQuery = mysqli_query($conn, "SELECT TranID FROM journalEntry order by TranID desc limit 1");
         $row=$TranIDQuery->fetch_assoc();
         $TranID = $row['TranID'] + 1;
 
@@ -36,9 +36,12 @@ if(isset($_POST['submit'])) {
         }
         if (isset($_POST['amount7'])) {
             $amount7 = $_POST['amount7'];
-
-
         }
+
+        $amount1 = ltrim($amount1, '$');
+        $amount2 = ltrim($amount2, '$');
+        $amount1 = ltrim($amount1, ',');
+        $amount2 = ltrim($amount2, ',');
 
         $AccDebited = $_POST['AccDebited'];
         $AccCredited = $_POST['AccCredited'];
@@ -174,10 +177,10 @@ if(isset($_POST['submit'])) {
 
         $query4 = "
             INSERT INTO attachment (
-                `TranID`, `mime`, `size`, `data`
+                `TranID`, `mime`, `size`, `data`, `name`
             )
             VALUES (
-                '{$name}', '{$mime}', {$size}, '{$data}'
+                '{$TranID}', '{$mime}', {$size}, '{$data}', '{$name}'
             )";
 
         $query5 = "

@@ -14,6 +14,7 @@ TODO:
     include('config.php');
     //include('Journalize.js');
     //session_start();
+
 ?>
 
 <?php
@@ -27,7 +28,14 @@ if (isset($_POST['login'])) {
 }
 */
 ?>
-
+<?php
+/*
+ * create new divs instead of trying to clone and append
+ *
+ * database handling multiple debits or credits by comma seperating in an acounts column instead of using many different entries
+ *
+ */
+?>
 
 <!DOCTYPE html>
 <head>
@@ -139,16 +147,16 @@ if (isset($_POST['login'])) {
 
 </head>
 <body>
-<form action="UploadFile.php" id="myForm" method="post" enctype="multipart/form-data">
-    <div id="divID">
-    <div class="form-element" id="creditedOne">
+<form action="UploadFile.php" id="myForm" name="myForm" method="post" enctype="multipart/form-data">
+    <div id="divID" name="divID">
+    <div class="form-element" id="credit1">
         <label>Account 1</label>
-        <select name="account1">
+        <select name="account1" id="account1">
             <option value="" disabled selected>Select Account</option>
             <?php
             $sql = mysqli_query($conn, "SELECT accountname, accountnumber FROM chartofaccounts order by accountnumber asc");
             while ($row = $sql->fetch_assoc()){
-                echo "<option value=\": \">" . $row['accountnumber'] . ": " . $row['accountname'] . "</option>";
+                echo "<option value=\"{$row['accountnumber']}: {$row['accountname']} \">" . $row['accountnumber'] . ": " . $row['accountname'] . "</option>";
             }
             ?>
         </select>
@@ -243,24 +251,24 @@ if (isset($_POST['login'])) {
 
 
         </script>
-        <select name="TranType1[]">
+        <select name="TranType1">
             <option value="" disabled selected>Select Type</option>
             <option value="Debit">Debit</option>
             <option value="Credit">Credit</option>
         </select>
     </div>
-    <div class="form-element" id="'debitedOne">
+    <div class="form-element" id="'debit1">
         <label>Account 2</label>
         <select name="account2">
             <option value="" disabled selected>Select Account</option>
             <?php
             $sql = mysqli_query($conn, "SELECT accountname, accountnumber FROM chartofaccounts order by accountnumber asc");
             while ($row = $sql->fetch_assoc()){
-                echo "<option value=\": \">" . $row['accountnumber'] . ": " . $row['accountname'] . "</option>";
+                echo "<option value=\"{$row['accountnumber']}: {$row['accountname']} \">" . $row['accountnumber'] . ": " . $row['accountname'] . "</option>";
             }
             ?>
         </select>
-        <input type="text" name="currency-field" id="currency-field" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" value="" data-type="currency" placeholder="$0.00">
+        <input type="text" name="amount2" id="currency-field" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" value="" data-type="currency" placeholder="$0.00">
         <!--jquery for formatting for number field-->
         <script>
             // Jquery Dependency
@@ -351,18 +359,22 @@ if (isset($_POST['login'])) {
 
 
         </script>
-        <select name="TranType2[]">
+        <select name="TranType2">
             <option value="" disabled selected>Select Type</option>
             <option value="Debit">Debit</option>
             <option value="Credit">Credit</option>
         </select>
-        <input onclick="addAccount();" type="button" value="Add Account" id="addAccount" />
+        <button type="button" id="addAccount" class="btn btn-primary btn-block">Add Account</button>
 
         <script>
         //script to add new accounts for journalEntry : not working
             function addAccount() {
-                var thing = $('#debitedOne').clone();
-                $('.divID').append(thing);
+                //var thing = $('#debitedOne').clone();
+                //$('.thing').append(DivID);
+                //1NxtNY-kk1MplpWL
+                //tanner jones
+                document.write("");
+
             }
 
         </script>
@@ -412,17 +424,14 @@ if (isset($_POST['login'])) {
     <a href="ListFiles.php">See all files</a>
 </p>
 
-
-
-<!--Javascript to show or hide extra debits-->
-<script>
-    function addDebitOnClick(){
-        document.getELementById('form-element').el.innerHTML += '<input type="text" name="item[]" /><input type="text" name="description[]" />' ;
-    }
-</script>
 </body>
 </html>
 
+
+
+
+
+<?php include('Templates/footer.php'); ?>
 <!--
 <head>
     <link rel="stylesheet" href="journalizing.css">

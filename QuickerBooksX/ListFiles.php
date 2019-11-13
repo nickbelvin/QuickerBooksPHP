@@ -126,22 +126,31 @@
 
 // Query for a list of all existing files
 //$sql = 'SELECT `id`, `name`, `mime`, `size`, `created` FROM `file`';
-$sql = 'SELECT `id`, `name`, `TranID`, `amount`, `AccDebited`, `AccCredited`, `path`, `size`, `data`, `created`, status FROM `file2`';
+//$sql = 'SELECT `id`, `name`, `TranID`, `amount`, `AccDebited`, `AccCredited`, `path`, `size`, `data`, `created`, status FROM `file2`';
+//$sql = 'SELECT `TranID`, `Account`, `CredOrDeb`, `TranDate`, `amount` from journalEntry left join attachment on journalEntry.TranID = attachment.TranID left join JournalStatus on journalEntry.TranID = JournalStatus.TranID';
+//$sql2 = 'SELECT `TranID`, `mime`, `size`, `data` from attachment';
+//$sql3 = 'SELECT `TranID`, `TranStatus`, `Reason` from JournalStatus';
+$sql = 'SELECT journalEntry.ID, journalEntry.TranID, journalEntry.Account, journalEntry.CredOrDeb, journalEntry.TranDate, journalEntry.amount, attachment.mime, attachment.size, attachment.data, attachment.name, JournalStatus.TranStatus, JournalStatus.Reason from journalEntry left join (attachment, JournalStatus) on attachment.TranID = journalEntry.TranID AND JournalStatus.TranID = journalEntry.TranID order by TranID DESC, CredOrDeb DESC';
+
+
 //$result = $conn->query($sql);
 $result = $conn->query($sql);
+//$result2 = $conn->query($sql2);
+//$result3 = $conn->query($sql3);
 
 // Check if it was successfull
-if($result) {
+if($result /*&& $result2 && $result3*/) {
     // Make sure there are some files in there
     if($result->num_rows == 0) {
         echo '<p>There are no files in the database</p>';
     }
     else {
+
         // Print the top of a table
         echo '<table width="100%">
                 <tr>
                     <td><b>Date</b></td>
-                    <td><b>Account</b></td>
+                    <td><b>Accounts</b></td>
                     <td><b>Reference</b></td>
                     <td><b>Debits</b></td>
                     <td><b>Credits</b></td>
@@ -150,7 +159,65 @@ if($result) {
                 </tr>';
 
         // Print each file
+        $rowPrime = 0;
         while($row = $result->fetch_assoc()) {
+
+
+            if ($row['TranID'] == $rowPrime){
+                if ($row['CredOrDeb'] == "Debit"){
+                    echo "
+                    <tr>
+                        <td></td>
+                        <td>{$row['Account']}</td>
+                        <td></td>
+                        <td>{$row['amount']}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    ";
+                }
+                else {
+                    echo "
+                        <tr>
+                            <td></td>
+                            <td><p class=\"tab\">{$row['Account']}</p></td>       
+                            <td></td>
+                            <td></td>
+                            <td>{$row['amount']}</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    ";
+                }
+
+            }
+            else {
+                $rowPrime = intval($row['TranID']);
+                echo "
+                <tr><td></td></tr>
+                <tr><td></td></tr>
+                <tr>
+                    <td>{$row['TranDate']}</td>
+                ";
+                        $strtype = strval($row['CredOrDeb']);
+                        if ($strtype == "Debit"){
+                            echo "<td>{$row['Account']}</td>";
+                        }
+                        else "<td></td>";
+
+                            echo "
+                    
+                    <td>{$row['TranID']}</td>
+                    <td>{$row['amount']}</td>
+                    <td></td>
+                    <td><a>{$row['TranStatus']}</a></td>
+                        <td><a href=''>Edit</a></td>
+                    <td><a href='get_file.php?id={$row['TranID']}'>Download Attachment</a></td>
+                </tr>
+                ";
+
+
+            }
 
             /*
                 echo "
@@ -162,28 +229,53 @@ if($result) {
                         <td><a href='get_file.php?id={$row['id']}'>Download</a></td>
                     </tr>";
                 */
+
+            /*
             echo "
             <tr>
-                    <td>{$row['created']}</td>
-                    <td>{$row['AccDebited']}</td>
-                    <td>{$row['amountDebited']}</td>
-                    <td>{$row['created']}</td>
-                    <td>{$row['name']}</td>
-                    <td><a>{$row['status']}</a></td>
+                    <td>{$row['TranDate']}</td>
+                    ";
+
+                        if ($row['CredOrDeb'] = "Debit"){
+                            echo "<td>{$row['Account']}</td>";
+                        }
+                        else "<td></td>";
+
+                            echo "
+                    
+                    <td>{$row['TranID']}</td>
+                    <td>{$row['amount']}</td>
+                    <td></td>
+                    <td><a>{$row['TranStatus']}</a></td>
                         
-                    <td><a href='get_file.php?id={$row['id']}'>Download Attachment</a></td>
+                    <td><a href='get_file.php?id={$row['TranID']}'>Download Attachment</a></td>
                 </tr>
+                
                 <tr>
                     <td></td>
-                    <td><p class=\"tab\">{$row['AccCredited']}</p></td>
+                    ";
+                        if ($row['CredOrDeb'] = "Credit"){
+                            echo "<td><p class=\"tab\">{$row['Account']}</p></td>";
+                        }
+                        else "<td></td>";
+
+                            echo "
+                            
                     <td></td>
-                    <td>{$row['amountCredited']}</td>
+                    
                     <td></td>
+                    ";
+                            if ($row['CredOrDeb'] = "Credit"){
+                                echo "<td>{$row['amount']}</td>";
+                            }
+                            else echo "<td></td>";
+                            echo "
                     <td></td>
                     <td><a href=''>Edit</a></td>
                 </tr>
                 <tr></tr>
                 ";
+            */
         }
 
         // Close table
