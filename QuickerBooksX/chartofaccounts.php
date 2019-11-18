@@ -3,17 +3,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-<title>Chart of Accounts</title>
+  <title>Chart of Accounts</title>
     <h1>Chart of Accounts</h1>
 
-    <style>
+ <style>
 table {
 border-collapse: collapse;
 width: 100%;
 color: #588c7e;
 font-family: monospace;
-font-size: 18px;
+font-size: 25px;
 text-align: left;
 }
 th {
@@ -26,11 +25,11 @@ tr:nth-child(even) {background-color: #f2f2f2}
 
 
 </head>
+
 <body>
 
 <p><a href="index.php">Home</a> 
 | <a href="createaccount.php">Create an Account</a> 
-| <a href="accounts.php">Accounts</a> 
 | <a href="logout.php">Logout</a></p>
 
 <form action="SearchCOA.php" method="GET">
@@ -135,10 +134,10 @@ while($row = mysqli_fetch_assoc($result)) { ?>
 <td align="left"><?php echo $row["subcategory"]; ?></td>
 <td align="left"><?php echo $row["comment"]; ?></td>
 <td align="center">
-<a href="edit.php?id=<?php echo $row["id"]; ?>">Edit</a>
+<a href="edit.php?accountnumber=<?php echo $row["accountnumber"]; ?>">Edit</a>
 </td>
 <td align="center">
-<a href="delete.php?id=<?php echo $row["id"]; ?>">Delete</a>
+<a href="deleteaccount.php?accountnumber=<?php echo $row["accountnumber"]; ?>">Delete</a>
 </td>
 </tr>
 <?php

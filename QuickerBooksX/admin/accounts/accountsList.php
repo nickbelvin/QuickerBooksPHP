@@ -13,7 +13,9 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>ACCOUNTS :: QUICKER BOOKS</title>
-  <?php include('../../header.php') ?>
+    <!----------------------------------------------ADDING NAVIGATION------------------------------------------------>
+
+    <?php include('../../header.php') ?>
 
 
 </head>
@@ -60,7 +62,7 @@
                 <?php endif; ?>
               </li> 
           <li class="nav-item">
-            <a href="#" class="nav-link active">
+            <a href="#" class="nav-link active">                                        <!--active added for current page-->
               <i class="nav-icon fas fa-columns"></i>
               <p>
                Accounts
@@ -117,8 +119,8 @@
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
-
-      <div class="row">
+<!---------------------------------------------------------------------------------------------->
+      <div4 class="row">
       <div class="col-md-12 col-md-offset-3">
 
     <a href="userForm.php" class="btn btn-success">

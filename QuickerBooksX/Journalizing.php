@@ -28,14 +28,6 @@ if (isset($_POST['login'])) {
 }
 */
 ?>
-<?php
-/*
- * create new divs instead of trying to clone and append
- *
- * database handling multiple debits or credits by comma seperating in an acounts column instead of using many different entries
- *
- */
-?>
 
 <!DOCTYPE html>
 <head>
@@ -248,8 +240,6 @@ if (isset($_POST['login'])) {
                 input[0].setSelectionRange(caret_pos, caret_pos);
             }
 
-
-
         </script>
         <select name="TranType1">
             <option value="" disabled selected>Select Type</option>
@@ -282,12 +272,10 @@ if (isset($_POST['login'])) {
                 }
             });
 
-
             function formatNumber(n) {
                 // format number 1000000 to 1,234,567
                 return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
             }
-
 
             function formatCurrency(input, blur) {
                 // appends $ to value, validates decimal side
@@ -356,62 +344,15 @@ if (isset($_POST['login'])) {
                 input[0].setSelectionRange(caret_pos, caret_pos);
             }
 
-
-
         </script>
         <select name="TranType2">
             <option value="" disabled selected>Select Type</option>
             <option value="Debit">Debit</option>
             <option value="Credit">Credit</option>
         </select>
-        <button type="button" id="addAccount" class="btn btn-primary btn-block">Add Account</button>
-
-        <script>
-        //script to add new accounts for journalEntry : not working
-            function addAccount() {
-                //var thing = $('#debitedOne').clone();
-                //$('.thing').append(DivID);
-                //1NxtNY-kk1MplpWL
-                //tanner jones
-                document.write("");
-
-            }
-
-        </script>
-        <script>
-            addNewTransaction(event) {
-                var isDebit = (event.target.value === "true");
-
-                var newTransaction = {
-                    key: this.keygen(),
-                    accountID: "",
-                    amount: "0"
-                };
-
-                if (isDebit) {
-                    //is debit; have to insert after the last debit
-                    newTransaction.is_debit = true;
-
-                    let spliceLocation;
-                    for (let i = 0; i < this.state.transactions.length; i++) {
-                        if (this.state.transactions[i].is_debit === false) {
-                            spliceLocation = i;
-                            break;
-                        }
-                    }
-
-                    this.state.transactions.splice(spliceLocation, 0, newTransaction);
-                } else {
-                    //is credit; can just push to the end of the list
-                    newTransaction.is_debit = false;
-                    this.state.transactions.push(newTransaction);
-                }
-
-                this.setState({
-                    transactions: this.state.transactions
-                });
-            }
-        </script>
+        <form method='post' action='AddAccountEntry.php'>
+        <input type="button" id="addAccount" value='Add Account' class="btn btn-primary btn-block"/>
+        </form>
 
     </div>
     </div>

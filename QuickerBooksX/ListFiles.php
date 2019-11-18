@@ -160,6 +160,7 @@ if($result /*&& $result2 && $result3*/) {
 
         // Print each file
         $rowPrime = 0;
+        $ledgercount = 0;
         while($row = $result->fetch_assoc()) {
 
 
@@ -168,19 +169,20 @@ if($result /*&& $result2 && $result3*/) {
                     echo "
                     <tr>
                         <td></td>
-                        <td>{$row['Account']}</td>
+                        <td><form method='post' action='ledger.php' name='ledgerform' id='ledgerform{$ledgercount}'><input type='hidden' name ='LedgerAccount' value='{$row['Account']}'/><input type='hidden' name ='ledgercount' value='{$ledgercount}'/><a onclick=\"document.getElementById('ledgerform{$ledgercount}').submit();\">{$row['Account']}</a></form></td>
                         <td></td>
                         <td>{$row['amount']}</td>
                         <td></td>
                         <td></td>
                     </tr>
                     ";
+                    $ledgercount++;
                 }
                 else {
                     echo "
                         <tr>
                             <td></td>
-                            <td><p class=\"tab\">{$row['Account']}</p></td>       
+                            <td><form method='post' action='ledger.php' name='ledgerform' id='ledgerform{$ledgercount}'><input type='hidden' name ='LedgerAccount' value='{$row['Account']}'/><input type='hidden' name ='ledgercount' value='{$ledgercount}'/><a onclick=\"document . getElementById('ledgerform{$ledgercount}') . submit();\" class=\"tab\">{$row['Account']}</a></form></td>       
                             <td></td>
                             <td></td>
                             <td>{$row['amount']}</td>
@@ -188,6 +190,7 @@ if($result /*&& $result2 && $result3*/) {
                             <td></td>
                         </tr>
                     ";
+                    $ledgercount++;
                 }
 
             }
@@ -201,7 +204,8 @@ if($result /*&& $result2 && $result3*/) {
                 ";
                         $strtype = strval($row['CredOrDeb']);
                         if ($strtype == "Debit"){
-                            echo "<td>{$row['Account']}</td>";
+                            echo "<td><form method='post' action='ledger.php' name='ledgerform' id='ledgerform{$ledgercount}'><input type='hidden' name ='LedgerAccount' value='{$row['Account']}'/><input type='hidden' name ='ledgercount' value='{$ledgercount}'/><a onclick=\"document . getElementById('ledgerform{$ledgercount}') . submit();\">{$row['Account']}</a></form></td>";
+                            $ledgercount++;
                         }
                         else "<td></td>";
 
@@ -213,77 +217,26 @@ if($result /*&& $result2 && $result3*/) {
                     ";
                          if($row['TranStatus'] == "Pending" /*&& Role = Manager*/){
                              $parameter = $row['TranID'];
-                             echo "<td><form action='updateStatus.php'><input type=\"submit\" name=\"approveButton{$row['TranID']}\" value=\"Approve\" id=\"{$parameter}\" /><input type=\"submit\" name=\"rejectButton{$row['TranID']}\" value=\"Reject\" id=\"{$parameter}\"/></form></td>";
+                             echo "<td><form method='post' action='updateStatus.php'>
+                                   <input type=\"submit\" name=\"approveButton\" value=\"Approve\" /> 
+                                   <input type=\"submit\" name=\"rejectButton\" value=\"Reject\" /> 
+                                   <input type=\"hidden\" name=\"hiddenData\" value=\"{$row['TranID']}\" /> 
+                                   </form></td>";
                          }
-                         else echo "<td>{$row['TranStatus']}</td>";
+                         else echo "<td>{$row['TranStatus']}: {$row['Reason']}</td>";
 
                     //<td><a>{$row['TranStatus']}</a></td>
                 echo "
-                        <td><a href=''>Edit</a></td>
+                        <td><form method='post' action='EditJournal.php'>
+                        <input type=\"submit\" name=\"editJournalButton\" value=\"Edit\" />
+                        <input type=\"hidden\" name=\"hiddenData\" value=\"{$row['TranID']}\" /> 
+                        </form></td>
                     <td><a href='get_file.php?id={$row['TranID']}'>Download Attachment</a></td>
                 </tr>
                 ";
 
 
             }
-
-            /*
-                echo "
-                    <tr>
-                        <td>{$row['name']}</td>
-                        <td>{$row['mime']}</td>
-                        <td>{$row['size']}</td>
-                        <td>{$row['created']}</td>
-                        <td><a href='get_file.php?id={$row['id']}'>Download</a></td>
-                    </tr>";
-                */
-
-            /*
-            echo "
-            <tr>
-                    <td>{$row['TranDate']}</td>
-                    ";
-
-                        if ($row['CredOrDeb'] = "Debit"){
-                            echo "<td>{$row['Account']}</td>";
-                        }
-                        else "<td></td>";
-
-                            echo "
-                    
-                    <td>{$row['TranID']}</td>
-                    <td>{$row['amount']}</td>
-                    <td></td>
-                    <td><a>{$row['TranStatus']}</a></td>
-                        
-                    <td><a href='get_file.php?id={$row['TranID']}'>Download Attachment</a></td>
-                </tr>
-                
-                <tr>
-                    <td></td>
-                    ";
-                        if ($row['CredOrDeb'] = "Credit"){
-                            echo "<td><p class=\"tab\">{$row['Account']}</p></td>";
-                        }
-                        else "<td></td>";
-
-                            echo "
-                            
-                    <td></td>
-                    
-                    <td></td>
-                    ";
-                            if ($row['CredOrDeb'] = "Credit"){
-                                echo "<td>{$row['amount']}</td>";
-                            }
-                            else echo "<td></td>";
-                            echo "
-                    <td></td>
-                    <td><a href=''>Edit</a></td>
-                </tr>
-                <tr></tr>
-                ";
-            */
         }
 
         // Close table
@@ -301,7 +254,7 @@ else
 }
 
 // Close the mysql connection
-$conn->close();
+//$conn->close();
 ?>
 <?php
     function editEntry($accountID){

@@ -1,39 +1,31 @@
-<?php include('config.php'); ?>
+<?php include('ListFiles.php'); ?>
 <?php
-$sql = "SELECT TranID from JournalStatus";
-$results = $conn->query($sql);
-while($row = $results->fetch_assoc()) {
-    echo "
-<script>
-    $(document).ready(function(){
-    $('.button').click(function(){
-        var clickBtnValue = $(this).approveFunction{$row['TranID']}();
-        var ajaxurl = 'ajax.php',
-        data =  {'action': clickBtnValue};
-        $.post(ajaxurl, data, function (response) {
-            // Response div goes here.
-            alert(\"action performed successfully\");
-        });
-    });
-});
-</script>
-";
+
+
+
+if($_POST['approveButton'])
+{
+    $TranID = $_POST['hiddenData'];
+    $sqlScript = "UPDATE JournalStatus SET TranStatus = 'Approved' WHERE TranID = {$TranID}";
+   // $result = $conn->query($sqlScript);
+
+    //$TranIDQuery = mysqli_query($conn, "SELECT TranID FROM journalEntry order by TranID desc limit 1");
+    $result=$conn->query($sqlScript);
+    if($result){
+        echo "Journal Entry was Successfully Updated!";
+    }
+    else echo "Failed to update journal entry. Contact Support" . "<pre>{$conn->error}</pre>";
+    header("Refresh:0");
+}
+if($_POST['rejectButton'])
+{
+    $TranID = $_POST['hiddenData'];
+    echo "<form method='post' action='updateReason.php' value=''>
+          <input type='text' name='reason' id='reason-field' value='' placeholder='Reason for Rejecting' />
+          <input type=\"submit\" name=\"reasonSubmit\" value=\"Reject\" />
+          <input type='hidden' name='reasonHiddenText' value='{$TranID}' />
+          </form>";
+
 }
 
-if($_SERVER['REQUEST_METHOD'] == "POST" and isset($_POST['approveFunction']))
-{
-    $sqlScript = "UPDATE JournalStatus SET TranStatus = 'Approved' WHERE TranID = " + $TransactionID;
-    $result = $conn->query($sqlScript);
-    header("Refresh:0");
-}
-if($_SERVER['REQUEST_METHOD'] == "POST" and isset($_POST['rejectFunction']))
-{
-    $sqlScript = "UPDATE JournalStatus SET TranStatus = 'Rejected', Reason = " + $reason + "  WHERE TranID = " + $TransactionID;
-    $result = $conn->query($sqlScript);
-    header("Refresh:0");
-}
-function rejectFunction($TransactionID, $reason){
-
-    header("Refresh:0");
-}
 ?>

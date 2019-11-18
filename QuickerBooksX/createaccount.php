@@ -1,4 +1,8 @@
 <?php include('config.php'); ?>
+<style>
+<?php include 'main.css'; ?>
+
+</style>
 
 <!DOCTYPE html>
 <head>
@@ -10,7 +14,7 @@
 <h2>Create an Account</h2>
     <a href="chartofaccounts.php">Back to Chart of Accounts</a><br /><br />
 
-    <form method="post">
+    <form method="post" action="chartofaccounts.php">
     	<label for="accountname">Account Name :</label>
     	<input type="text" name="accountname" id="accountname" required="required" placeholder="Please enter a name"/><br /><br />
     	<label for="accountnumber">Account Number :</label>
@@ -22,7 +26,7 @@
             <?php
             $sql = mysqli_query($conn, "SELECT DISTINCT normalside FROM chartofaccounts order by normalside asc");
             while ($row = $sql->fetch_assoc()){
-                echo "<option value=\": \">" . $row['normalside'] . "</option>";
+                echo "<option value=\"{$row['normalside']} \">" . $row['normalside'] . "</option>";
             }
             ?>
         </select>
@@ -33,7 +37,7 @@
             <?php
             $sql = mysqli_query($conn, "SELECT DISTINCT category FROM chartofaccounts order by category asc");
             while ($row = $sql->fetch_assoc()){
-                echo "<option value=\": \">" . $row['category'] . "</option>";
+                echo "<option value=\"{$row['category']} \">" . $row['category'] . "</option>";
             }
             ?>
         </select>
@@ -44,7 +48,7 @@
             <?php
             $sql = mysqli_query($conn, "SELECT DISTINCT subcategory FROM chartofaccounts order by subcategory asc");
             while ($row = $sql->fetch_assoc()){
-                echo "<option value=\": \">" . $row['subcategory'] . "</option>";
+                echo "<option value=\"{$row['subcategory']} \">" . $row['subcategory'] . "</option>";
             }
             ?>
         </select>
@@ -420,19 +424,17 @@
 
         </script>
         
-    	<label for="dateadded">Date Added :</label>
-    	<input type="text" name="dateadded" id="dateadded" placeholder="00-00-0000"/><br /><br />
     	<label for="userid">Added By :</label>
     	<input type="text" name="userid" id="userid" required="required"/><br /><br />
-    	<label for="order">Order :</label>
-    	<input type="text" name="order" id="order" placeholder="00"/><br /><br />
+    	<label for="aorder">Order :</label>
+    	<input type="text" name="aorder" id="aorder" placeholder="00"/><br /><br />
     	<label for="statement">Statement :</label>
     	<input type="text" name="statement" id="statement"/><br /><br />
-    	
-    	
-    	
+    	<label for="comment">Term :</label>
+    	<input type="text" name="term" id="term"/><br /><br />
     	<label for="comment">Comment :</label>
     	<input type="text" name="comment" id="comment"/><br /><br />
+    	
     	<input type="submit" name="submit" value="Submit">
     </form>
     
@@ -445,47 +447,68 @@
 
     if(isset($_POST["submit"])){
         
-    	$conn = mysqli_connect("localhost", "root", "", "QuickerBooksDB");
+    	// $conn = mysqli_connect("localhost", "root", "", "quickerbooksdb");
+    	$servername = "localhost";
+    	$username = "root";
+    	$password = "";
+    	$dbname = "quickerbooksdb";
+    	// Create connection
+    	$conn = mysqli_connect($servername, $username, $password, $dbname);
+    	
     	// Check connection
     	if ($conn->connect_error) {
     		die("Connection failed: " . $conn->connect_error);
     	}
 
     	//get values from form
-		$accountnumber=$_POST['accountnumber'];
-		$accountname=$_POST['accountname'];
-		$description=$_POST['description'];
-		$normalside=$_POST['normalside'];
-		$category=$_POST['category'];
-		$subcategory=$_POST['subcategory'];
-		$initialbalance=$_POST['initialbalance'];
-		$debit=$_POST['debit'];
-		$credit=$_POST['credit'];
-		$balance=$_POST['balance'];
-		$dateadded=$_POST['dateadded'];
-		$userid=$_POST['userid'];
-		$order=$_POST['order'];
-		$statement=$_POST['statement'];
-		$comment=$_POST['comment'];
+		$accountname= mysqli_real_escape_string($conn, $_POST["accountname"]);
+		$accountnumber= mysqli_real_escape_string($conn, $_POST["accountnumber"]);
+		$description= mysqli_real_escape_string($conn, $_POST["description"]);
+		$normalside= mysqli_real_escape_string($conn, $_POST["normalside"]);
+		$category= mysqli_real_escape_string($conn, $_POST["category"]);
+		$subcategory= mysqli_real_escape_string($conn, $_POST["subcategory"]);
+		$initialbalance= mysqli_real_escape_string($conn, $_POST["initialbalance"]);
+		$debit= mysqli_real_escape_string($conn, $_POST["debit"]);
+		$credit= mysqli_real_escape_string($conn, $_POST["credit"]);
+		$balance= mysqli_real_escape_string($conn, $_POST["balance"]);
+		$dateadded= date("Y-m-d");
+		$userid= mysqli_real_escape_string($conn, $_POST["userid"]);
+		$order= mysqli_real_escape_string($conn, $_POST["aorder"]);
+		$statement= mysqli_real_escape_string($conn, $_POST["statement"]);
+		$comment= mysqli_real_escape_string($conn, $_POST["comment"]);
+		$Term= mysqli_real_escape_string($conn, $_POST["Term"]);
 
 
+/* 		echo trim($initialbalance,"$");
+		echo trim($debit,"$");
+		echo trim($credit,"$");
+		echo trim($balance,"$"); */
+		
 		//insert data into mysql
-		$sql = "INSERT INTO chartofaccounts(accountname, accountnumber, description, normalside, 
-			category, subcategory, initialbalance, debit, credit, balance, dateadded, userid, order, statement, comment)
-			VALUES('$accountname', '$accountnumber', '$description', '$normalside', '$category', '$subcategory', '$initialbalance',
-			'$debit', '$credit', '$balance', '$dateadded', '$userid', '$order', '$statement', '$comment')";
-		 mysqli_query($conn,$sql)
-		 or die(mysql_error());
+		
+		$sql = "INSERT INTO chartofaccounts (accountname, accountnumber, description, normalside, category, subcategory, initialbalance, debit, credit, balance, dateadded, userid, aorder, statement, comment, Term) 
+		VALUES ('$accountname', '$accountnumber', '$description', '$normalside', '$category', '$subcategory', '$initialbalance', '$debit', '$credit', '$balance', '$dateadded', '$userid', '$order', '$statement', '$comment', '$Term')";
+
+
+		if ($conn->query($sql) === TRUE) {
+			echo "New record created successfully";
+		} else {
+			echo "Error: " . $sql . "<br>" . $conn->error;
+		}$conn->close();
+		
+		/* $sql = "INSERT INTO chartofaccounts(accountname, accountnumber, description, normalside, category, subcategory, initialbalance, debit, credit, balance, dateadded, userid, order, statement, comment) 
+		VALUES ('$accountname', '$accountnumber', '$description', '$normalside', '$category', '$subcategory', '$initialbalance', '$debit', '$credit', '$balance', '$dateadded', '$userid', '$order', '$statement', '$comment',  NOW(), 'Pending')";
+		/* 
+		mysqli_query($conn,$sql)or die(mysql_error());
 		 	echo "New account created successfully";
-			echo "<BR>";
-			echo "<a href='chartofaccounts.php'>Back to Chart of Accounts</a>";
-		/* 	if ($conn->query($sql) === TRUE) {
-			echo "New account created successfully";
-			echo "<BR>";
-			echo "<a href='chartofaccounts.php'>Back to main page</a>";
-		} else { echo "ERROR"; } */
-		$conn->close();
+		* /
+			$result = $conn->query($sql);
+			if ($result) {
+			echo "New account created successfully!";
+		} else { echo 'Error! Failed to insert the account'
+                . "<pre>{$conn->error}</pre>"; }
+		$conn->close(); */
 	}
 ?>
 
-    <?php include "Templates/footer.php"; ?>
+    <?php include "templates/footer.php"; ?>
