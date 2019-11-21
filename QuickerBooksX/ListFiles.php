@@ -79,7 +79,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-    <style>
+    <!--<style>
         /* The Modal (background) */
         .modal {
             display: none; /* Hidden by default */
@@ -117,11 +117,13 @@
             text-decoration: none;
             cursor: pointer;
         }
-    </style>
+    </style>-->
 </head>
 <body>
 <?php include('config.php')?>
+
 <?php
+echo "<p><a href='layout.php'>Return Home</a></p>";
 
 
 // Query for a list of all existing files
@@ -155,6 +157,7 @@ if($result /*&& $result2 && $result3*/) {
                     <td><b>Debits</b></td>
                     <td><b>Credits</b></td>
                     <td><b>Status</b></td>
+                    <!--<select value="All Statuses" onchange="updateStatusView()" name="selectStatusView"><option value="All Statuses">All Statuses</option><option value="All Approved">All Approved</option><option value="All Pending">All Pending</option><option value="All Rejected">All Rejected</option></select>-->
                     <td><b>&nbsp;</b></td>
                 </tr>';
 
@@ -204,7 +207,7 @@ if($result /*&& $result2 && $result3*/) {
                 ";
                         $strtype = strval($row['CredOrDeb']);
                         if ($strtype == "Debit"){
-                            echo "<td><form method='post' action='ledger.php' name='ledgerform' id='ledgerform{$ledgercount}'><input type='hidden' name ='LedgerAccount' value='{$row['Account']}'/><input type='hidden' name ='ledgercount' value='{$ledgercount}'/><a onclick=\"document . getElementById('ledgerform{$ledgercount}') . submit();\">{$row['Account']}</a></form></td>";
+                            echo "<td><form method='post' href='ledger.php' name='ledgerform' id='ledgerform{$ledgercount}'><input type='hidden' name ='LedgerAccount' value='{$row['Account']}'/><input type='hidden' name ='ledgercount' value='{$ledgercount}'/><a onclick=\"document . getElementById('ledgerform{$ledgercount}') . submit();\">{$row['Account']}</a></form></td>";
                             $ledgercount++;
                         }
                         else "<td></td>";
@@ -217,11 +220,30 @@ if($result /*&& $result2 && $result3*/) {
                     ";
                          if($row['TranStatus'] == "Pending" /*&& Role = Manager*/){
                              $parameter = $row['TranID'];
-                             echo "<td><form method='post' action='updateStatus.php'>
+                             //action='updateStatus.php'
+                             echo "<td><div name='StatusDiv' id='StatusDiv'><form method='post' action='updateStatus.php' name='UpdateStatus' id='UpdateStatus'>
                                    <input type=\"submit\" name=\"approveButton\" value=\"Approve\" /> 
-                                   <input type=\"submit\" name=\"rejectButton\" value=\"Reject\" /> 
+                                   <!--<a href=\"updateStatus.php?TranID={$row['TranID']}\" value='{$row['TranID']}'>Approve</a>-->
+                                   <input type=\"submit\" name=\"rejectButton\" value=\"Reject\" />
+                                  
                                    <input type=\"hidden\" name=\"hiddenData\" value=\"{$row['TranID']}\" /> 
-                                   </form></td>";
+                                   </form></div><p id=\"demo\"></p></td>
+                                   <script>
+                                    function updateStatus() {
+                                       var txt;
+                                        var reasonInput = prompt(\"Please enter the reason:\", \"\");
+                                        if (reasonInput == null || reasonInput == \"\") {
+                                            txt = \"User cancelled the prompt.\";
+                                        } else {
+                                            
+                                        
+                             
+                                        }
+                                        document.getElementById(\"demo\").innerHTML = txt;
+                                    }
+                                    </script>
+                                   ";
+
                          }
                          else echo "<td>{$row['TranStatus']}: {$row['Reason']}</td>";
 
@@ -291,6 +313,131 @@ else
     }
 </script>
 
+<?php
+if (isset($_GET['approveButton'])) {
+    $TranID = $_GET['hiddenData'];
+    $sqlScript = "UPDATE JournalStatus SET TranStatus = 'Approved' WHERE TranID = {$TranID}";
+    // $result = $conn->query($sqlScript);
 
+    //$TranIDQuery = mysqli_query($conn, "SELECT TranID FROM journalEntry order by TranID desc limit 1");
+    $result=$conn->query($sqlScript);
+    if($result){
+        echo "Journal Entry was Successfully Updated!";
+    }
+    else echo "Failed to update journal entry. Contact Support" . "<pre>{$conn->error}</pre>";
+    header("Refresh:0");
+}
+if (isset($_GET['rejectButton'])) {
+    $TranID = $_GET['hiddenData'];
+    echo "<form method='post' action='updateReason.php' value=''>
+          <input type='text' name='reason' id='reason-field' value='' placeholder='Reason for Rejecting' />
+          <input type=\"submit\" name=\"reasonSubmit\" value=\"Reject\" />
+          <input type='hidden' name='reasonHiddenText' value='{$TranID}' />
+          </form>";
+}
+
+
+function updateReason()
+{
+    define('USER', 'root');
+    define('PASSWORD', '');
+    define('HOST', 'localhost');
+    define('DATABASE', 'QuickerBooksDB');
+
+// connect to database
+    $conn = new mysqli("localhost", "root", "", "QuickerBooksDB");
+
+    if($_POST['approveButton'])
+    {
+        $TranID = $_POST['hiddenData'];
+        $sqlScript = "UPDATE JournalStatus SET TranStatus = 'Approved' WHERE TranID = {$TranID}";
+        // $result = $conn->query($sqlScript);
+
+        //$TranIDQuery = mysqli_query($conn, "SELECT TranID FROM journalEntry order by TranID desc limit 1");
+        $result=$conn->query($sqlScript);
+        if($result){
+            echo "Journal Entry was Successfully Updated!";
+        }
+        else echo "Failed to update journal entry. Contact Support" . "<pre>{$conn->error}</pre>";
+        header("Refresh:0");
+    }
+    if($_POST['rejectButton'])
+    {
+        $TranID = $_POST['hiddenData'];
+        echo "<form method='post' action='updateReason.php' value=''>
+          <input type='text' name='reason' id='reason-field' value='' placeholder='Reason for Rejecting' />
+          <input type=\"submit\" name=\"reasonSubmit\" value=\"Reject\" />
+          <input type='hidden' name='reasonHiddenText' value='{$TranID}' />
+          </form>";
+
+    }
+    /*
+    $html = '';
+    libxml_use_internal_errors(true);
+    $doc = new DOMDocument();
+    $doc->loadHTML($html);
+//get the element you want to append to
+    $descBox = $doc->getElementById('debit1');
+//create the element to append to #element1
+    $appended = $doc->createElement('div', 'This is a test element.');
+//actually append the element
+//  $descBox->appendChild($appended);
+    echo $doc->saveHTML();
+    */
+}
+?>
+
+<script>
+    function SubForm (){
+        var url=$(this).closest('form').attr('action');
+            data=$(this).closest('form').serialize();
+        $.ajax({
+            url:url,
+            type:'post',
+            data:$('#UpdateStatus').serialize(),
+            success:function(){
+                alert("worked");
+            }
+        });
+    }
+</script>
+
+<!--
+
+<iframe width="0" height="0" border="0" name="dummyframe" id="dummyframe"></iframe>
+
+<div class="modal fade" id="modalRejectForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">Reject Journal Entry</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mx-3">
+                <div class="md-form mb-5">
+                    <?php
+/*
+                    echo "<form method='post' action='updateReason.php' target='updateReason.php' value=''>
+                        <input type='text' name='reason' id='reason-field' value='' placeholder='Reason for Rejecting' />
+                        <input type=\"submit\" name=\"reasonSubmit\" value=\"Reject\" />
+                        <input type='hidden' name='reasonHiddenText' value='{$TranID}' />
+                        </form>";
+*/
+                    ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center">
+    <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalRejectForm">Launch
+        Modal Contact Form</a>
+</div>
+
+-->
 
 </body>

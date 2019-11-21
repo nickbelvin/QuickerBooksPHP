@@ -223,8 +223,34 @@
               </p>
             </a>
           </li>
+                <li class="nav-item">
+                    <a href="chartofaccounts.php" class="nav-link">
+                        <i class="nav-icon fas fa-columns"></i>
+                        <p>
+                            Chart of Accounts
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="Journalizing.php" class="nav-link">
+                        <i class="nav-icon fas fa-columns"></i>
+                        <p>
+                            Journalizing
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="ListFiles.php" class="nav-link">
+                        <i class="nav-icon fas fa-columns"></i>
+                        <p>
+                            View Journal
+                        </p>
+                    </a>
+                </li>
+
+
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="trialbalance.php" class="nav-link">
               <i class="nav-icon fas fa-clipboard"></i>
               <p>
                Reports

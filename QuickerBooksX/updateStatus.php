@@ -1,9 +1,17 @@
 <?php include('ListFiles.php'); ?>
+<!DOCTYPE html>
+<head>
+    <title>Update Status</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<body>
 <?php
 
 
 
-if($_POST['approveButton'])
+if(isset($_POST['approveButton']))
 {
     $TranID = $_POST['hiddenData'];
     $sqlScript = "UPDATE JournalStatus SET TranStatus = 'Approved' WHERE TranID = {$TranID}";
@@ -12,12 +20,12 @@ if($_POST['approveButton'])
     //$TranIDQuery = mysqli_query($conn, "SELECT TranID FROM journalEntry order by TranID desc limit 1");
     $result=$conn->query($sqlScript);
     if($result){
-        echo "Journal Entry was Successfully Updated!";
+        echo "Journal Entry was Successfully Updated! Click <a href='ListFiles.php'>Here</a> to refresh the page.";
     }
     else echo "Failed to update journal entry. Contact Support" . "<pre>{$conn->error}</pre>";
-    header("Refresh:0");
+    //header("Refresh:0");
 }
-if($_POST['rejectButton'])
+if(isset($_POST['rejectButton']))
 {
     $TranID = $_POST['hiddenData'];
     echo "<form method='post' action='updateReason.php' value=''>
@@ -29,3 +37,5 @@ if($_POST['rejectButton'])
 }
 
 ?>
+</body>
+</html>
