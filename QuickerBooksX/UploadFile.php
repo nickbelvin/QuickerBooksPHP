@@ -1,8 +1,6 @@
-<!--TEST TWO-->
-
-<?php // include('config.php')?>
+<?php  include('config.php')?>
 <?php //include('Journalizing.php')?>
-<?php include('AddAccountEntry.php') ?>
+<?php //include('AddAccountEntry.php') ?>
 <?php
 // Check if a file has been uploaded
 if(isset($_POST['submit'])) {
@@ -151,106 +149,105 @@ if(isset($_POST['submit'])) {
     }
 
         //Setting TranTypes and adding values to check credits and debits are balanced
-
+    if(true) {
         if (isset($_POST['TranType1'])) {
             $TranType1 = $_POST['TranType1'];
-            if($TranType1 == "Debit"){
+            if ($TranType1 == "Debit") {
                 $debitTotal += $amount1;
-            }
-            else {
+            } else {
                 $creditTotal += $amount1;
             }
         }
         if (isset($_POST['TranType2'])) {
             $TranType2 = $_POST['TranType2'];
-            if($TranType2 == "Debit"){
+            if ($TranType2 == "Debit") {
                 $debitTotal += $amount2;
-            }
-            else {
+            } else {
                 $creditTotal += $amount2;
             }
         }
         if (isset($_POST['TranType3'])) {
             $TranType3 = $_POST['TranType3'];
-            if($TranType3 == "Debit"){
+            if ($TranType3 == "Debit") {
                 $debitTotal += $amount3;
-            }
-            else {
+            } else {
                 $creditTotal += $amount3;
             }
         }
         if (isset($_POST['TranType4'])) {
             $TranType4 = $_POST['TranType4'];
-            if($TranType4 == "Debit"){
+            if ($TranType4 == "Debit") {
                 $debitTotal += $amount4;
             } else $creditTotal += $amount4;
         }
         if (isset($_POST['TranType5'])) {
             $TranType5 = $_POST['TranType5'];
-            if($TranType5 = "Debit"){
+            if ($TranType5 == "Debit") {
                 $debitTotal += $amount5;
             } else $creditTotal += $amount5;
+            print($TranType5);
         }
         if (isset($_POST['TranType6'])) {
             $TranType6 = $_POST['TranType6'];
-            if($TranType6 = "Debit"){
+            if ($TranType6 == "Debit") {
                 $debitTotal += $amount6;
             } else $creditTotal += $amount6;
         }
         if (isset($_POST['TranType7'])) {
             $TranType7 = $_POST['TranType7'];
-            if($TranType7 = "Debit"){
+            if ($TranType7 == "Debit") {
                 $debitTotal += $amount7;
             } else $creditTotal += $amount7;
         }
         if (isset($_POST['TranType8'])) {
             $TranType8 = $_POST['TranType8'];
-            if($TranType8 = "Debit"){
+            if ($TranType8 == "Debit") {
                 $debitTotal += $amount8;
             } else $creditTotal += $amount8;
         }
         if (isset($_POST['TranType9'])) {
             $TranType9 = $_POST['TranType9'];
-            if($TranType9 = "Debit"){
+            if ($TranType9 == "Debit") {
                 $debitTotal += $amount9;
             } else $creditTotal += $amount9;
         }
         if (isset($_POST['TranType10'])) {
             $TranType10 = $_POST['TranType10'];
-            if($TranType10 = "Debit"){
+            if ($TranType10 == "Debit") {
                 $debitTotal += $amount10;
             } else $creditTotal += $amount10;
         }
         if (isset($_POST['TranType11'])) {
             $TranType11 = $_POST['TranType11'];
-            if($TranType11 = "Debit"){
+            if ($TranType11 == "Debit") {
                 $debitTotal += $amount11;
             } else $creditTotal += $amount11;
         }
         if (isset($_POST['TranType12'])) {
             $TranType12 = $_POST['TranType12'];
-            if($TranType12 = "Debit"){
+            if ($TranType12 == "Debit") {
                 $debitTotal += $amount12;
             } else $creditTotal += $amount12;
         }
         if (isset($_POST['TranType13'])) {
             $TranType13 = $_POST['TranType13'];
-            if($TranType13 = "Debit"){
+            if ($TranType13 == "Debit") {
                 $debitTotal += $amount13;
             } else $creditTotal += $amount13;
         }
         if (isset($_POST['TranType14'])) {
             $TranType14 = $_POST['TranType14'];
-            if($TranType14 = "Debit"){
+            if ($TranType14 == "Debit") {
                 $debitTotal += $amount14;
             } else $creditTotal += $amount14;
         }
         if (isset($_POST['TranType15'])) {
             $TranType15 = $_POST['TranType15'];
-            if($TranType15 = "Debit"){
+            if ($TranType15 == "Debit") {
                 $debitTotal += $amount15;
             } else $creditTotal += $amount15;
         }
+    }
 
 
         //setting accounts
@@ -302,16 +299,16 @@ if(isset($_POST['submit'])) {
         }
     }
 
+
     function checkBalanced($creditTotal, $debitTotal){
-        print($creditTotal);
-        print($debitTotal);
+
         if($creditTotal == $debitTotal){
             return true;
         }
         else return false;
     }
 
-    if (true/*checkBalanced($creditTotal, $debitTotal)*/) {
+    if (checkBalanced($creditTotal, $debitTotal)) {
         $query1 = "
             INSERT INTO JournalStatus (
                 `TranID`, `TranStatus`

@@ -240,7 +240,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="ListFiles.php" class="nav-link">
+                    <a href="ListFiles2.php" class="nav-link">
                         <i class="nav-icon fas fa-columns"></i>
                         <p>
                             View Journal

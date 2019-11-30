@@ -79,6 +79,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
+    <script src="tablesorter.mod.js"></script>
     <!--<style>
         /* The Modal (background) */
         .modal {
@@ -118,6 +120,29 @@
             cursor: pointer;
         }
     </style>-->
+    <style>
+         tbody {
+            padding: 10px;
+            border: 1px solid black;
+        }
+        td{
+            border-right: 1px solid black;
+            border-left: 1px solid black;
+        }
+         button {
+             background: none!important;
+             border: none;
+             padding: 0!important;
+             /*optional*/
+             font-family: arial, sans-serif;
+             /*input has OS specific font-family*/
+             color: #069;
+             text-decoration: underline;
+             cursor: pointer;
+         }
+
+    </style>
+
 </head>
 <body>
 <?php include('config.php')?>
@@ -134,6 +159,18 @@ echo "<p><a href='layout.php'>Return Home</a></p>";
 //$sql3 = 'SELECT `TranID`, `TranStatus`, `Reason` from JournalStatus';
 $sql = 'SELECT journalEntry.ID, journalEntry.TranID, journalEntry.Account, journalEntry.CredOrDeb, journalEntry.TranDate, journalEntry.amount, attachment.mime, attachment.size, attachment.data, attachment.name, JournalStatus.TranStatus, JournalStatus.Reason from journalEntry left join (attachment, JournalStatus) on attachment.TranID = journalEntry.TranID AND JournalStatus.TranID = journalEntry.TranID order by TranID DESC, CredOrDeb DESC';
 
+    echo "
+    <script>
+        function updateStatusView(){
+            
+        }
+        
+        $('select').on('change', function() {
+            this.value = \"\";
+        });
+    </script>
+    ";
+
 
 //$result = $conn->query($sql);
 $result = $conn->query($sql);
@@ -149,17 +186,82 @@ if($result /*&& $result2 && $result3*/) {
     else {
 
         // Print the top of a table
-        echo '<table width="100%">
+        echo '
+                <style>
+        #myInput {
+            /*background-image: url(\'/css/searchicon.png\'); /* Add a search icon to input */
+            background-position: 10px 12px; /* Position the search icon */
+            background-repeat: no-repeat; /* Do not repeat the icon image */
+            width: 100%; /* Full-width */
+            font-size: 16px; /* Increase font-size */
+            padding: 12px 20px 12px 40px; /* Add some padding */
+            border: 1px solid #ddd; /* Add a grey border */
+            margin-bottom: 12px; /* Add some space below the input */
+        }
+
+        #myTable {
+            border-collapse: collapse; /* Collapse borders */
+            width: 100%; /* Full-width */
+            border: 1px solid #ddd; /* Add a grey border */
+            font-size: 18px; /* Increase font-size */
+        }
+
+        #myTable th, #myTable td {
+            text-align: left; /* Left-align text */
+            padding: 12px; /* Add padding */
+        }
+
+        #myTable tr {
+            /* Add a bottom border to all table rows */
+            border-bottom: 1px solid #ddd;
+        }
+
+        #myTable tr.header, #myTable tr:hover {
+            /* Add a grey background color to the table header and on hover */
+            background-color: #f1f1f1;
+        }
+    </style>
+    <script>
+        function myFunction() {
+            // Declare variables
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+
+            // Loop through all table rows, and hide those who don\'t match the search query
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+                <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
+                <table width="100%" class="sortable" id="myTable">
+                <thead>
                 <tr>
-                    <td><b>Date</b></td>
-                    <td><b>Accounts</b></td>
-                    <td><b>Reference</b></td>
-                    <td><b>Debits</b></td>
-                    <td><b>Credits</b></td>
-                    <td><b>Status</b></td>
-                    <!--<select value="All Statuses" onchange="updateStatusView()" name="selectStatusView"><option value="All Statuses">All Statuses</option><option value="All Approved">All Approved</option><option value="All Pending">All Pending</option><option value="All Rejected">All Rejected</option></select>-->
-                    <td><b>&nbsp;</b></td>
-                </tr>';
+                    <th width=\'12.5%\' align="center"><b>Date</b></th>
+                    <th align="center" width=\'20%\'><b>Accounts</b></th>
+                    <th align="center" width=\'5%\'><b>Reference</b></th>
+                    <th align="center" width=\'12.5%\'><b>Debits</b></th>
+                    <th align="center" width=\'12.5%\'><b>Credits</b></th>
+                    <th align="center" width=\'12.5%\'><b>Status</b><!--</th>-->
+                    <select value="All Statuses" onchange="updateStatusView()" name="selectStatusView"><option value="All Statuses">All Statuses</option><option value="All Approved">All Approved</option><option value="All Pending">All Pending</option><option value="All Rejected">All Rejected</option></select></th>
+                    <th width=\'12.5%\'><b>&nbsp;</b></th>
+                    <th width=\'12.5%\'><b>&nbsp;</b></th>
+                </tr>
+                </thead>
+                
+                <table>
+                ';
 
         // Print each file
         $rowPrime = 0;
@@ -168,29 +270,31 @@ if($result /*&& $result2 && $result3*/) {
 
 
             if ($row['TranID'] == $rowPrime){
+                $amount = number_format($row['amount'], 2);
                 if ($row['CredOrDeb'] == "Debit"){
+
                     echo "
-                    <tr>
-                        <td></td>
-                        <td><form method='post' action='ledger.php' name='ledgerform' id='ledgerform{$ledgercount}'><input type='hidden' name ='LedgerAccount' value='{$row['Account']}'/><input type='hidden' name ='ledgercount' value='{$ledgercount}'/><a onclick=\"document.getElementById('ledgerform{$ledgercount}').submit();\">{$row['Account']}</a></form></td>
-                        <td></td>
-                        <td>{$row['amount']}</td>
-                        <td></td>
-                        <td></td>
+                    <tr class='expand-child'>
+                        <td width='12.5%'></td>
+                        <td width='20%'><form method='post' action='ledger.php' name='ledgerform' id='ledgerform{$ledgercount}'><input type='hidden' name ='LedgerAccount' value='{$row['Account']}'/><input type='hidden' name ='ledgercount' value='{$ledgercount}'/><a onclick=\"document.getElementById('ledgerform{$ledgercount}').submit();\">{$row['Account']}</a></form></td>
+                        <td width='5%'></td>
+                        <td align=\"right\" width='12.5%'>{$amount}</td>
+                        <td width='12.5%'></td>
+                        <td width='12.5%'></td>
                     </tr>
                     ";
                     $ledgercount++;
                 }
                 else {
                     echo "
-                        <tr>
-                            <td></td>
-                            <td><form method='post' action='ledger.php' name='ledgerform' id='ledgerform{$ledgercount}'><input type='hidden' name ='LedgerAccount' value='{$row['Account']}'/><input type='hidden' name ='ledgercount' value='{$ledgercount}'/><a onclick=\"document . getElementById('ledgerform{$ledgercount}') . submit();\" class=\"tab\">{$row['Account']}</a></form></td>       
-                            <td></td>
-                            <td></td>
-                            <td>{$row['amount']}</td>
-                            <td></td>
-                            <td></td>
+                        <tr class='expand-child'>
+                            <td width='12.5%'></td>
+                            <td width='20%'><form method='post' action='ledger.php' name='ledgerform' id='ledgerform{$ledgercount}'><input type='hidden' name ='LedgerAccount' value='{$row['Account']}'/><input type='hidden' name ='ledgercount' value='{$ledgercount}'/><a onclick=\"document . getElementById('ledgerform{$ledgercount}') . submit();\" class=\"tab\">{$row['Account']}</a></form></td>       
+                            <td width='5%'></td>
+                            <td width='12.5%'></td>
+                            <td align=\"right\" width='12.5%'>{$amount}</td>
+                            <td width='12.5%'></td>
+                            <td width='12.5%'></td>
                         </tr>
                     ";
                     $ledgercount++;
@@ -199,29 +303,32 @@ if($result /*&& $result2 && $result3*/) {
             }
             else {
                 $rowPrime = intval($row['TranID']);
+                $amount = number_format($row['amount'], 2);
                 echo "
-                <tr><td></td></tr>
-                <tr><td></td></tr>
+                <tr><td width='12.5%'></td></tr>
+                <tr><td width='12.5%'></td></tr>
+                </table>
+                <table width=\"100%\">
                 <tr>
-                    <td>{$row['TranDate']}</td>
+                    <td width='12.5%'>{$row['TranDate']}</td>
                 ";
                         $strtype = strval($row['CredOrDeb']);
                         if ($strtype == "Debit"){
-                            echo "<td><form method='post' href='ledger.php' name='ledgerform' id='ledgerform{$ledgercount}'><input type='hidden' name ='LedgerAccount' value='{$row['Account']}'/><input type='hidden' name ='ledgercount' value='{$ledgercount}'/><a onclick=\"document . getElementById('ledgerform{$ledgercount}') . submit();\">{$row['Account']}</a></form></td>";
+                            echo "<td width='20%'><form method='post' action='ledger.php' name='ledgerform' id='ledgerform{$ledgercount}'><input type='hidden' name ='LedgerAccount' value='{$row['Account']}'/><input type='hidden' name ='ledgercount' value='{$ledgercount}'/><button type='submit' onclick=\"document.getElementById('ledgerform{$ledgercount}').submit()>{$row['Account']}</button><!--<a onclick=\"document . getElementById('ledgerform{$ledgercount}') . submit();\">{$row['Account']}</a>--></form></td>";
                             $ledgercount++;
                         }
-                        else "<td></td>";
+                        else "<td width='20%'></td>";
 
                             echo "
                     
-                    <td>{$row['TranID']}</td>
-                    <td>{$row['amount']}</td>
-                    <td></td>
+                    <td align='center' width='5%'>{$row['TranID']}</td>
+                    <td align=\"right\" width='12.5%'>{$amount}</td>
+                    <td width='12.5%'></td>
                     ";
                          if($row['TranStatus'] == "Pending" /*&& Role = Manager*/){
                              $parameter = $row['TranID'];
                              //action='updateStatus.php'
-                             echo "<td><div name='StatusDiv' id='StatusDiv'><form method='post' action='updateStatus.php' name='UpdateStatus' id='UpdateStatus'>
+                             echo "<td width='12.5%'><div name='StatusDiv' id='StatusDiv'><form method='post' action='updateStatus.php' name='UpdateStatus' id='UpdateStatus'>
                                    <input type=\"submit\" name=\"approveButton\" value=\"Approve\" /> 
                                    <!--<a href=\"updateStatus.php?TranID={$row['TranID']}\" value='{$row['TranID']}'>Approve</a>-->
                                    <input type=\"submit\" name=\"rejectButton\" value=\"Reject\" />
@@ -245,15 +352,15 @@ if($result /*&& $result2 && $result3*/) {
                                    ";
 
                          }
-                         else echo "<td>{$row['TranStatus']}: {$row['Reason']}</td>";
+                         else echo "<td width='12.5%'>{$row['TranStatus']}: {$row['Reason']}</td>";
 
                     //<td><a>{$row['TranStatus']}</a></td>
                 echo "
-                        <td><form method='post' action='EditJournal.php'>
+                        <td width='12.5%'><form method='post' action='EditJournal.php'>
                         <input type=\"submit\" name=\"editJournalButton\" value=\"Edit\" />
                         <input type=\"hidden\" name=\"hiddenData\" value=\"{$row['TranID']}\" /> 
                         </form></td>
-                    <td><a href='get_file.php?id={$row['TranID']}'>Download Attachment</a></td>
+                    <td width='12.5%'><a href='get_file.php?id={$row['TranID']}'>Download Attachment</a></td>
                 </tr>
                 ";
 
@@ -262,7 +369,7 @@ if($result /*&& $result2 && $result3*/) {
         }
 
         // Close table
-        echo '</table>';
+        echo '</table></table>';
     }
 
     // Free the result
@@ -405,7 +512,7 @@ function updateReason()
 <!--
 
 <iframe width="0" height="0" border="0" name="dummyframe" id="dummyframe"></iframe>
-
+-->
 <div class="modal fade" id="modalRejectForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
