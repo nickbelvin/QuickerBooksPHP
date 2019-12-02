@@ -79,7 +79,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-    <style>
+    <script src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
+    <script src="tablesorter.mod.js"></script>
+    <!--<style>
         /* The Modal (background) */
         .modal {
             display: none; /* Hidden by default */
@@ -117,11 +119,36 @@
             text-decoration: none;
             cursor: pointer;
         }
+    </style>-->
+    <style>
+         tbody {
+            padding: 10px;
+            border: 1px solid black;
+        }
+        td{
+            border-right: 1px solid black;
+            border-left: 1px solid black;
+        }
+         button {
+             background: none!important;
+             border: none;
+             padding: 0!important;
+             /*optional*/
+             font-family: arial, sans-serif;
+             /*input has OS specific font-family*/
+             color: #069;
+             text-decoration: underline;
+             cursor: pointer;
+         }
+
     </style>
+
 </head>
 <body>
 <?php include('config.php')?>
+
 <?php
+echo "<p><a href='layout.php'>Return Home</a></p>";
 
 
 // Query for a list of all existing files
@@ -131,6 +158,18 @@
 //$sql2 = 'SELECT `TranID`, `mime`, `size`, `data` from attachment';
 //$sql3 = 'SELECT `TranID`, `TranStatus`, `Reason` from JournalStatus';
 $sql = 'SELECT journalEntry.ID, journalEntry.TranID, journalEntry.Account, journalEntry.CredOrDeb, journalEntry.TranDate, journalEntry.amount, attachment.mime, attachment.size, attachment.data, attachment.name, JournalStatus.TranStatus, JournalStatus.Reason from journalEntry left join (attachment, JournalStatus) on attachment.TranID = journalEntry.TranID AND JournalStatus.TranID = journalEntry.TranID order by TranID DESC, CredOrDeb DESC';
+
+    echo "
+    <script>
+        function updateStatusView(){
+            
+        }
+        
+        $('select').on('change', function() {
+            this.value = \"\";
+        });
+    </script>
+    ";
 
 
 //$result = $conn->query($sql);
@@ -147,143 +186,195 @@ if($result /*&& $result2 && $result3*/) {
     else {
 
         // Print the top of a table
-        echo '<table width="100%">
+        echo '
+                <style>
+        #myInput {
+            /*background-image: url(\'/css/searchicon.png\'); /* Add a search icon to input */
+            background-position: 10px 12px; /* Position the search icon */
+            background-repeat: no-repeat; /* Do not repeat the icon image */
+            width: 100%; /* Full-width */
+            font-size: 16px; /* Increase font-size */
+            padding: 12px 20px 12px 40px; /* Add some padding */
+            border: 1px solid #ddd; /* Add a grey border */
+            margin-bottom: 12px; /* Add some space below the input */
+        }
+
+        #myTable {
+            border-collapse: collapse; /* Collapse borders */
+            width: 100%; /* Full-width */
+            border: 1px solid #ddd; /* Add a grey border */
+            font-size: 18px; /* Increase font-size */
+        }
+
+        #myTable th, #myTable td {
+            text-align: left; /* Left-align text */
+            padding: 12px; /* Add padding */
+        }
+
+        #myTable tr {
+            /* Add a bottom border to all table rows */
+            border-bottom: 1px solid #ddd;
+        }
+
+        #myTable tr.header, #myTable tr:hover {
+            /* Add a grey background color to the table header and on hover */
+            background-color: #f1f1f1;
+        }
+    </style>
+    <script>
+        function myFunction() {
+            // Declare variables
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+
+            // Loop through all table rows, and hide those who don\'t match the search query
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+                <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
+                <table width="100%" class="sortable" id="myTable">
+                <thead>
                 <tr>
-                    <td><b>Date</b></td>
-                    <td><b>Accounts</b></td>
-                    <td><b>Reference</b></td>
-                    <td><b>Debits</b></td>
-                    <td><b>Credits</b></td>
-                    <td><b>Status</b></td>
-                    <td><b>&nbsp;</b></td>
-                </tr>';
+                    <th width=\'12.5%\' align="center"><b>Date</b></th>
+                    <th align="center" width=\'20%\'><b>Accounts</b></th>
+                    <th align="center" width=\'5%\'><b>Reference</b></th>
+                    <th align="center" width=\'12.5%\'><b>Debits</b></th>
+                    <th align="center" width=\'12.5%\'><b>Credits</b></th>
+                    <th align="center" width=\'12.5%\'><b>Status</b><!--</th>-->
+                    <select value="All Statuses" onchange="updateStatusView()" name="selectStatusView"><option value="All Statuses">All Statuses</option><option value="All Approved">All Approved</option><option value="All Pending">All Pending</option><option value="All Rejected">All Rejected</option></select></th>
+                    <th width=\'12.5%\'><b>&nbsp;</b></th>
+                    <th width=\'12.5%\'><b>&nbsp;</b></th>
+                </tr>
+                </thead>
+                
+                <table>
+                ';
 
         // Print each file
         $rowPrime = 0;
+        $ledgercount = 0;
         while($row = $result->fetch_assoc()) {
 
 
             if ($row['TranID'] == $rowPrime){
+                $amount = number_format($row['amount'], 2);
                 if ($row['CredOrDeb'] == "Debit"){
+
                     echo "
-                    <tr>
-                        <td></td>
-                        <td>{$row['Account']}</td>
-                        <td></td>
-                        <td>{$row['amount']}</td>
-                        <td></td>
-                        <td></td>
+                    <tr class='expand-child'>
+                        <td width='12.5%'></td>
+                        <td width='20%'><form method='post' action='ledger.php' name='ledgerform' id='ledgerform{$ledgercount}'><input type='hidden' name ='LedgerAccount' value='{$row['Account']}'/><input type='hidden' name ='ledgercount' value='{$ledgercount}'/><a onclick=\"document.getElementById('ledgerform{$ledgercount}').submit();\">{$row['Account']}</a></form></td>
+                        <td width='5%'></td>
+                        <td align=\"right\" width='12.5%'>{$amount}</td>
+                        <td width='12.5%'></td>
+                        <td width='12.5%'></td>
                     </tr>
                     ";
+                    $ledgercount++;
                 }
                 else {
                     echo "
-                        <tr>
-                            <td></td>
-                            <td><p class=\"tab\">{$row['Account']}</p></td>       
-                            <td></td>
-                            <td></td>
-                            <td>{$row['amount']}</td>
-                            <td></td>
-                            <td></td>
+                        <tr class='expand-child'>
+                            <td width='12.5%'></td>
+                            <td width='20%'><form method='post' action='ledger.php' name='ledgerform' id='ledgerform{$ledgercount}'><input type='hidden' name ='LedgerAccount' value='{$row['Account']}'/><input type='hidden' name ='ledgercount' value='{$ledgercount}'/><a onclick=\"document . getElementById('ledgerform{$ledgercount}') . submit();\" class=\"tab\">{$row['Account']}</a></form></td>       
+                            <td width='5%'></td>
+                            <td width='12.5%'></td>
+                            <td align=\"right\" width='12.5%'>{$amount}</td>
+                            <td width='12.5%'></td>
+                            <td width='12.5%'></td>
                         </tr>
                     ";
+                    $ledgercount++;
                 }
 
             }
             else {
                 $rowPrime = intval($row['TranID']);
+                $amount = number_format($row['amount'], 2);
                 echo "
-                <tr><td></td></tr>
-                <tr><td></td></tr>
+                <tr><td width='12.5%'></td></tr>
+                <tr><td width='12.5%'></td></tr>
+                </table>
+                <table width=\"100%\">
                 <tr>
-                    <td>{$row['TranDate']}</td>
+                    <td width='12.5%'>{$row['TranDate']}</td>
                 ";
                         $strtype = strval($row['CredOrDeb']);
                         if ($strtype == "Debit"){
-                            echo "<td>{$row['Account']}</td>";
+                            echo "<td width='20%'><form method='post' action='ledger.php' name='ledgerform' id='ledgerform{$ledgercount}'><input type='hidden' name ='LedgerAccount' value='{$row['Account']}'/><input type='hidden' name ='ledgercount' value='{$ledgercount}'/><button type='submit' onclick=\"document.getElementById('ledgerform{$ledgercount}').submit()>{$row['Account']}</button><!--<a onclick=\"document . getElementById('ledgerform{$ledgercount}') . submit();\">{$row['Account']}</a>--></form></td>";
+                            $ledgercount++;
                         }
-                        else "<td></td>";
+                        else "<td width='20%'></td>";
 
                             echo "
                     
-                    <td>{$row['TranID']}</td>
-                    <td>{$row['amount']}</td>
-                    <td></td>
-                    <td><a>{$row['TranStatus']}</a></td>
-                        <td><a href=''>Edit</a></td>
-                    <td><a href='get_file.php?id={$row['TranID']}'>Download Attachment</a></td>
+                    <td align='center' width='5%'>{$row['TranID']}</td>
+                    <td align=\"right\" width='12.5%'>{$amount}</td>
+                    <td width='12.5%'></td>
+                    ";
+                         if($row['TranStatus'] == "Pending" /*&& Role = Manager*/){
+                             $parameter = $row['TranID'];
+                             //action='updateStatus.php'
+                             echo "<td width='12.5%'><div name='StatusDiv' id='StatusDiv'><form method='post' action='updateStatus.php' name='UpdateStatus' id='UpdateStatus'>
+                                   <input type=\"submit\" name=\"approveButton\" value=\"Approve\" /> 
+                                   <!--<a href=\"updateStatus.php?TranID={$row['TranID']}\" value='{$row['TranID']}'>Approve</a>-->
+                                   <input type=\"submit\" name=\"rejectButton\" value=\"Reject\" />
+                                  
+                                   <input type=\"hidden\" name=\"hiddenData\" value=\"{$row['TranID']}\" /> 
+                                   </form></div><p id=\"demo\"></p></td>
+                                   <script>
+                                    function updateStatus() {
+                                       var txt;
+                                        var reasonInput = prompt(\"Please enter the reason:\", \"\");
+                                        if (reasonInput == null || reasonInput == \"\") {
+                                            txt = \"User cancelled the prompt.\";
+                                        } else {
+                                            
+                                        
+                             
+                                        }
+                                        document.getElementById(\"demo\").innerHTML = txt;
+                                    }
+                                    </script>
+                                   ";
+
+                         }
+                         else echo "<td width='12.5%'>{$row['TranStatus']}: {$row['Reason']}</td>";
+
+                    //<td><a>{$row['TranStatus']}</a></td>
+                echo "
+                        <td width='12.5%'><form method='post' action='EditJournal.php'>
+                        <input type=\"submit\" name=\"editJournalButton\" value=\"Edit\" />
+                        <input type=\"hidden\" name=\"hiddenData\" value=\"{$row['TranID']}\" /> 
+                        </form></td>
+                    <td width='12.5%'><a href='get_file.php?id={$row['TranID']}'>Download Attachment</a></td>
                 </tr>
                 ";
 
 
             }
-
-            /*
-                echo "
-                    <tr>
-                        <td>{$row['name']}</td>
-                        <td>{$row['mime']}</td>
-                        <td>{$row['size']}</td>
-                        <td>{$row['created']}</td>
-                        <td><a href='get_file.php?id={$row['id']}'>Download</a></td>
-                    </tr>";
-                */
-
-            /*
-            echo "
-            <tr>
-                    <td>{$row['TranDate']}</td>
-                    ";
-
-                        if ($row['CredOrDeb'] = "Debit"){
-                            echo "<td>{$row['Account']}</td>";
-                        }
-                        else "<td></td>";
-
-                            echo "
-                    
-                    <td>{$row['TranID']}</td>
-                    <td>{$row['amount']}</td>
-                    <td></td>
-                    <td><a>{$row['TranStatus']}</a></td>
-                        
-                    <td><a href='get_file.php?id={$row['TranID']}'>Download Attachment</a></td>
-                </tr>
-                
-                <tr>
-                    <td></td>
-                    ";
-                        if ($row['CredOrDeb'] = "Credit"){
-                            echo "<td><p class=\"tab\">{$row['Account']}</p></td>";
-                        }
-                        else "<td></td>";
-
-                            echo "
-                            
-                    <td></td>
-                    
-                    <td></td>
-                    ";
-                            if ($row['CredOrDeb'] = "Credit"){
-                                echo "<td>{$row['amount']}</td>";
-                            }
-                            else echo "<td></td>";
-                            echo "
-                    <td></td>
-                    <td><a href=''>Edit</a></td>
-                </tr>
-                <tr></tr>
-                ";
-            */
         }
 
         // Close table
-        echo '</table>';
+        echo '</table></table>';
     }
 
     // Free the result
     $result->free();
+
 }
 else
 {
@@ -292,172 +383,19 @@ else
 }
 
 // Close the mysql connection
-$conn->close();
+//$conn->close();
 ?>
 <?php
+    function editEntry($accountID){
+        $sql = 'SELECT journalEntry.ID, journalEntry.TranID, journalEntry.Account, journalEntry.CredOrDeb, journalEntry.TranDate, journalEntry.amount, attachment.mime, attachment.size, attachment.data, attachment.name, JournalStatus.TranStatus, JournalStatus.Reason from journalEntry left join (attachment, JournalStatus) on attachment.TranID = journalEntry.TranID AND JournalStatus.TranID = journalEntry.TranID order by TranID DESC, CredOrDeb DESC where journalEntry.account = ' + $accountID;
 
-
-
-?>
-<!-- Trigger/Open The Modal -->
-<button id="myBtn">Open Modal</button>
-
-<!-- The Modal -->
-<div id="myModal" class="modal">
-
-    <!-- Modal content -->
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <button id="'Approve">Approve</button><br>
-        <button id="Reject">Reject</button>
-
-    </div>
-
-    <form action="UpdateFile.php" id="updateJournal">
-        <div class="form-element">
-            <label>Credited Account</label>
-
-            <select name="owner">
-                <option value="" disabled selected>Select Account</option>
-                <?php
-                $sql2 = mysqli_query($conn, "SELECT accountname, accountnumber FROM chartofaccounts order by accountnumber asc");
-                while ($row2 = $sql2->fetch_assoc()){
-                    echo "<option value=\": \">" . $row2['accountnumber'] . ": " . $row2['accountname'] . "</option>";
-                }
-                ?>
-            </select>
-
-            <input type="text" name="currency-field" id="currency-field" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" value="" data-type="currency" placeholder="$0.00">
-            <!--jquery for formatting for number field-->
-            <script>
-                // Jquery Dependency
-
-                $("input[data-type='currency']").on({
-                    keyup: function() {
-                        formatCurrency($(this));
-                    },
-                    blur: function() {
-                        formatCurrency($(this), "blur");
-                    }
-                });
-
-
-                function formatNumber(n) {
-                    // format number 1000000 to 1,234,567
-                    return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                }
-
-
-                function formatCurrency(input, blur) {
-                    // appends $ to value, validates decimal side
-                    // and puts cursor back in right position.
-
-                    // get input value
-                    var input_val = input.val();
-
-                    // don't validate empty input
-                    if (input_val === "") { return; }
-
-                    // original length
-                    var original_len = input_val.length;
-
-                    // initial caret position
-                    var caret_pos = input.prop("selectionStart");
-
-                    // check for decimal
-                    if (input_val.indexOf(".") >= 0) {
-
-                        // get position of first decimal
-                        // this prevents multiple decimals from
-                        // being entered
-                        var decimal_pos = input_val.indexOf(".");
-
-                        // split number by decimal point
-                        var left_side = input_val.substring(0, decimal_pos);
-                        var right_side = input_val.substring(decimal_pos);
-
-                        // add commas to left side of number
-                        left_side = formatNumber(left_side);
-
-                        // validate right side
-                        right_side = formatNumber(right_side);
-
-                        // On blur make sure 2 numbers after decimal
-                        if (blur === "blur") {
-                            right_side += "00";
-                        }
-
-                        // Limit decimal to only 2 digits
-                        right_side = right_side.substring(0, 2);
-
-                        // join number by .
-                        input_val = "$" + left_side + "." + right_side;
-
-                    } else {
-                        // no decimal entered
-                        // add commas to number
-                        // remove all non-digits
-                        input_val = formatNumber(input_val);
-                        input_val = "$" + input_val;
-
-                        // final formatting
-                        if (blur === "blur") {
-                            input_val += ".00";
-                        }
-                    }
-
-                    // send updated string to input
-                    input.val(input_val);
-
-                    // put caret back in the right position
-                    var updated_len = input_val.length;
-                    caret_pos = updated_len - original_len + caret_pos;
-                    input[0].setSelectionRange(caret_pos, caret_pos);
-                }
-
-
-
-            </script>
-        </div>
-    </form>
-
-
-
-</div>
-<!--Modal Script-->
-<script>
-    // Get the modal
-    var modal = document.getElementById("myModal");
-
-    // Get the button that opens the modal
-    var btn = document.getElementById("myBtn");
-
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
-
-    // When the user clicks on the button, open the modal
-    btn.onclick = function() {
-        modal.style.display = "block";
-    }
-
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
-        modal.style.display = "none";
-    }
-
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    }
-</script>
-
-<div class=\"form-popup\" id=\"myForm\">
+        echo "
+        
+        <div class=\"form-popup\" id=\"myForm\">
     <form action=\"/action_page.php\" class=\"form-container\">
         <h1>Login</h1>
 
-        <label for=\"email\"><b>Email</b></label>
+        <label for=\"email\"><b>Account</b></label>
         <input type=\"text\" placeholder=\"Enter Email\" name=\"email\" required>
 
         <label for=\"psw\"><b>Password</b></label>
@@ -467,6 +405,11 @@ $conn->close();
         <button type=\"submit\" class=\"btn cancel\" onclick=\"closeForm()\">Close</button>
     </form>
 </div>
+";
+    }
+
+
+?>
 <script>
     function openForm() {
         document.getElementById("myForm").style.display = "block";
@@ -477,6 +420,128 @@ $conn->close();
     }
 </script>
 
+<?php
+if (isset($_GET['approveButton'])) {
+    $TranID = $_GET['hiddenData'];
+    $sqlScript = "UPDATE JournalStatus SET TranStatus = 'Approved' WHERE TranID = {$TranID}";
+    // $result = $conn->query($sqlScript);
+
+    //$TranIDQuery = mysqli_query($conn, "SELECT TranID FROM journalEntry order by TranID desc limit 1");
+    $result=$conn->query($sqlScript);
+    if($result){
+        echo "Journal Entry was Successfully Updated!";
+    }
+    else echo "Failed to update journal entry. Contact Support" . "<pre>{$conn->error}</pre>";
+    header("Refresh:0");
+}
+if (isset($_GET['rejectButton'])) {
+    $TranID = $_GET['hiddenData'];
+    echo "<form method='post' action='updateReason.php' value=''>
+          <input type='text' name='reason' id='reason-field' value='' placeholder='Reason for Rejecting' />
+          <input type=\"submit\" name=\"reasonSubmit\" value=\"Reject\" />
+          <input type='hidden' name='reasonHiddenText' value='{$TranID}' />
+          </form>";
+}
 
 
+function updateReason()
+{
+    define('USER', 'root');
+    define('PASSWORD', '');
+    define('HOST', 'localhost');
+    define('DATABASE', 'QuickerBooksDB');
+
+// connect to database
+    $conn = new mysqli("localhost", "root", "", "QuickerBooksDB");
+
+    if($_POST['approveButton'])
+    {
+        $TranID = $_POST['hiddenData'];
+        $sqlScript = "UPDATE JournalStatus SET TranStatus = 'Approved' WHERE TranID = {$TranID}";
+        // $result = $conn->query($sqlScript);
+
+        //$TranIDQuery = mysqli_query($conn, "SELECT TranID FROM journalEntry order by TranID desc limit 1");
+        $result=$conn->query($sqlScript);
+        if($result){
+            echo "Journal Entry was Successfully Updated!";
+        }
+        else echo "Failed to update journal entry. Contact Support" . "<pre>{$conn->error}</pre>";
+        header("Refresh:0");
+    }
+    if($_POST['rejectButton'])
+    {
+        $TranID = $_POST['hiddenData'];
+        echo "<form method='post' action='updateReason.php' value=''>
+          <input type='text' name='reason' id='reason-field' value='' placeholder='Reason for Rejecting' />
+          <input type=\"submit\" name=\"reasonSubmit\" value=\"Reject\" />
+          <input type='hidden' name='reasonHiddenText' value='{$TranID}' />
+          </form>";
+
+    }
+    /*
+    $html = '';
+    libxml_use_internal_errors(true);
+    $doc = new DOMDocument();
+    $doc->loadHTML($html);
+//get the element you want to append to
+    $descBox = $doc->getElementById('debit1');
+//create the element to append to #element1
+    $appended = $doc->createElement('div', 'This is a test element.');
+//actually append the element
+//  $descBox->appendChild($appended);
+    echo $doc->saveHTML();
+    */
+}
+?>
+
+<script>
+    function SubForm (){
+        var url=$(this).closest('form').attr('action');
+            data=$(this).closest('form').serialize();
+        $.ajax({
+            url:url,
+            type:'post',
+            data:$('#UpdateStatus').serialize(),
+            success:function(){
+                alert("worked");
+            }
+        });
+    }
+</script>
+
+<!--
+
+<iframe width="0" height="0" border="0" name="dummyframe" id="dummyframe"></iframe>
+-->
+<div class="modal fade" id="modalRejectForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">Reject Journal Entry</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mx-3">
+                <div class="md-form mb-5">
+                    <?php
+/*
+                    echo "<form method='post' action='updateReason.php' target='updateReason.php' value=''>
+                        <input type='text' name='reason' id='reason-field' value='' placeholder='Reason for Rejecting' />
+                        <input type=\"submit\" name=\"reasonSubmit\" value=\"Reject\" />
+                        <input type='hidden' name='reasonHiddenText' value='{$TranID}' />
+                        </form>";
+*/
+                    ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center">
+    <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalRejectForm">Launch
+        Modal Contact Form</a>
+</div>
 </body>
