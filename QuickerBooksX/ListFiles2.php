@@ -135,6 +135,9 @@
         }
         tr:nth-child(even) {background-color: #BFBAA1;}
 
+        a{
+            color: blue;
+        }
     </style>
     <style>
         #myInput {
@@ -307,10 +310,18 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="ViewLogs.php" class="nav-link">
                             <i class="nav-icon fas fa-clone"></i>
                             <p>
                                 Event Logs
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="admin/mailbox/email.php" class="nav-link">
+                            <i class="nav-icon far fa-envelope"></i>
+                            <p>
+                                Email
                             </p>
                         </a>
                     </li>
@@ -361,12 +372,12 @@ echo "<p><a href='layout.php'>Return Home</a></p>";
 //$sql = 'SELECT `TranID`, `Account`, `CredOrDeb`, `TranDate`, `amount` from journalEntry left join attachment on journalEntry.TranID = attachment.TranID left join JournalStatus on journalEntry.TranID = JournalStatus.TranID';
 //$sql2 = 'SELECT `TranID`, `mime`, `size`, `data` from attachment';
 //$sql3 = 'SELECT `TranID`, `TranStatus`, `Reason` from JournalStatus';
-$sql = 'SELECT journalEntry.ID, journalEntry.TranID, journalEntry.Account, journalEntry.CredOrDeb, journalEntry.TranDate, journalEntry.amount, attachment.mime, attachment.size, attachment.data, attachment.name, JournalStatus.TranStatus, JournalStatus.Reason from journalEntry left join (attachment, JournalStatus) on attachment.TranID = journalEntry.TranID AND JournalStatus.TranID = journalEntry.TranID order by TranID DESC, CredOrDeb DESC';
-
+$sql = 'SELECT journalEntry.ID, journalEntry.TranID, journalEntry.Account, journalEntry.CredOrDeb, journalEntry.TranDate, journalEntry.amount, attachment.mime, attachment.size, attachment.data, attachment.name, JournalStatus.TranStatus, JournalStatus.Reason, JournalStatus.memo from journalEntry left join (attachment, JournalStatus) on attachment.TranID = journalEntry.TranID AND JournalStatus.TranID = journalEntry.TranID order by TranID DESC, CredOrDeb DESC';
 
 
 //$result = $conn->query($sql);
 $result2 = $conn->query($sql);
+
 //$result2 = $conn->query($sql2);
 //$result3 = $conn->query($sql3);
 
@@ -388,6 +399,7 @@ if($result2 /*&& $result2 && $result3*/) {
                     <th align=\"center\" id='TableHeader'><b>Debits</b></th>
                     <th align=\"center\" id='TableHeader'><b>Credits</b></th>
                     <th align=\"center\" id='TableHeader'><!--Status--><select value=\"All Statuses\" onchange=\"updateStatusView()\" name=\"selectStatusView\" id='selectStatusView'><option value=\"\" disabled selected><b>Status</b></option><option value=\"Approved\">All Approved</option><option value=\"Pending\">All Pending</option><option value=\"Rejected\">All Rejected</option></select></th>
+                    <th align='center' id='TableHeader'><b>Memo</b></th>
                     <th id='TableHeader'><b>&nbsp;</b></th>
                     <th id='TableHeader'><b>&nbsp;</b></th>
                 </tr>
@@ -404,7 +416,7 @@ if($result2 /*&& $result2 && $result3*/) {
         while ($count < $TranMax){
 
 
-            $sql2 = "SELECT journalEntry.ID, journalEntry.TranID, journalEntry.Account, journalEntry.CredOrDeb, journalEntry.TranDate, journalEntry.amount, attachment.mime, attachment.size, attachment.data, attachment.name, JournalStatus.TranStatus, JournalStatus.Reason from journalEntry left join (attachment, JournalStatus) on attachment.TranID = journalEntry.TranID AND JournalStatus.TranID = journalEntry.TranID WHERE journalEntry.TranID = {$count} order by journalEntry.CredOrDeb DESC";
+            $sql2 = "SELECT journalEntry.ID, journalEntry.TranID, journalEntry.Account, journalEntry.CredOrDeb, journalEntry.TranDate, journalEntry.amount, attachment.mime, attachment.size, attachment.data, attachment.name, JournalStatus.TranStatus, JournalStatus.Reason, JournalStatus.memo from journalEntry left join (attachment, JournalStatus) on attachment.TranID = journalEntry.TranID AND JournalStatus.TranID = journalEntry.TranID WHERE journalEntry.TranID = {$count} order by journalEntry.CredOrDeb DESC";
             $result = $conn->query($sql2) or die($conn->error);
 
             //while($row = $result->fetch_assoc()) {
@@ -418,18 +430,18 @@ if($result2 /*&& $result2 && $result3*/) {
                         ";
                     //$accCounter = 0;
                     //$accAmount = $result->num_rows;
-                $sql3 = "SELECT journalEntry.ID, journalEntry.TranID, journalEntry.Account, journalEntry.CredOrDeb, journalEntry.TranDate, journalEntry.amount, attachment.mime, attachment.size, attachment.data, attachment.name, JournalStatus.TranStatus, JournalStatus.Reason from journalEntry left join (attachment, JournalStatus) on attachment.TranID = journalEntry.TranID AND JournalStatus.TranID = journalEntry.TranID WHERE journalEntry.TranID = {$count} order by journalEntry.CredOrDeb DESC";
+                $sql3 = "SELECT journalEntry.ID, journalEntry.TranID, journalEntry.Account, journalEntry.CredOrDeb, journalEntry.TranDate, journalEntry.amount, attachment.mime, attachment.size, attachment.data, attachment.name, JournalStatus.TranStatus, JournalStatus.Reason, JournalStatus.memo from journalEntry left join (attachment, JournalStatus) on attachment.TranID = journalEntry.TranID AND JournalStatus.TranID = journalEntry.TranID WHERE journalEntry.TranID = {$count} order by journalEntry.CredOrDeb DESC";
                 $result3 = $conn->query($sql3) or die($conn->error);
 
                 while($row2 = $result3->fetch_assoc()) {
 
                     if ($row2['CredOrDeb'] == "Debit") {
                         echo "  
-                            <form method='post' action='ledger.php' name='ledgerform' id='ledgerform{$counter}'><input type='hidden' name ='LedgerAccount' value='{$row2['Account']}'/><input type='hidden' name ='ledgercount' value='{$counter}'/><a onclick=\"document . getElementById('ledgerform{$counter}') . submit();\">{$row2['Account']}</a></form><br>
+                            <form method='post' action='ledger.php' name='ledgerform' id='ledgerform{$counter}'><input type='hidden' name ='LedgerAccount' value='{$row2['Account']}'/><input type='hidden' name ='ledgercount' value='{$counter}'/><a onclick=\"document . getElementById('ledgerform{$counter}') . submit();\" style=\"color:blue\">{$row2['Account']}</a></form><br>
                                     ";
                     } else {
                         echo "
-                            <form method='post' action='ledger.php' name='ledgerform' id='ledgerform{$counter}'><input type='hidden' name ='LedgerAccount' value='{$row2['Account']}'/><input type='hidden' name ='ledgercount' value='{$counter}'/><a onclick=\"document . getElementById('ledgerform{$counter}') . submit();\" class=\"tab\">{$row2['Account']}</a></form><br>     
+                            <form method='post' action='ledger.php' name='ledgerform' id='ledgerform{$counter}'><input type='hidden' name ='LedgerAccount' value='{$row2['Account']}'/><input type='hidden' name ='ledgercount' value='{$counter}'/><a onclick=\"document . getElementById('ledgerform{$counter}') . submit();\" class=\"tab\" style=\"color:blue\">{$row2['Account']}</a></form><br>     
                                     ";
                     }
                     //$accCounter++;
@@ -449,7 +461,7 @@ if($result2 /*&& $result2 && $result3*/) {
                   /*  $amountCounter = 0;
                     $amountAmount = $result->num_rows;
                 while ($amountCounter < $amountAmount) {*/
-                $sql4 = "SELECT journalEntry.ID, journalEntry.TranID, journalEntry.Account, journalEntry.CredOrDeb, journalEntry.TranDate, journalEntry.amount, attachment.mime, attachment.size, attachment.data, attachment.name, JournalStatus.TranStatus, JournalStatus.Reason from journalEntry left join (attachment, JournalStatus) on attachment.TranID = journalEntry.TranID AND JournalStatus.TranID = journalEntry.TranID WHERE journalEntry.TranID = {$count} order by journalEntry.CredOrDeb DESC";
+                $sql4 = "SELECT journalEntry.ID, journalEntry.TranID, journalEntry.Account, journalEntry.CredOrDeb, journalEntry.TranDate, journalEntry.amount, attachment.mime, attachment.size, attachment.data, attachment.name, JournalStatus.TranStatus, JournalStatus.Reason, JournalStatus.memo from journalEntry left join (attachment, JournalStatus) on attachment.TranID = journalEntry.TranID AND JournalStatus.TranID = journalEntry.TranID WHERE journalEntry.TranID = {$count} order by journalEntry.CredOrDeb DESC";
                 $result4 = $conn->query($sql2) or die($conn->error);
                     while($row3 = $result4->fetch_assoc()){
                     $amount = number_format($row3['amount'], 2);
@@ -470,7 +482,7 @@ if($result2 /*&& $result2 && $result3*/) {
                 //$amountCounter2 = 0;
 
                 //while ($amountCounter2 < $amountAmount) {
-                $sql5 = "SELECT journalEntry.ID, journalEntry.TranID, journalEntry.Account, journalEntry.CredOrDeb, journalEntry.TranDate, journalEntry.amount, attachment.mime, attachment.size, attachment.data, attachment.name, JournalStatus.TranStatus, JournalStatus.Reason from journalEntry left join (attachment, JournalStatus) on attachment.TranID = journalEntry.TranID AND JournalStatus.TranID = journalEntry.TranID WHERE journalEntry.TranID = {$count} order by journalEntry.CredOrDeb DESC";
+                $sql5 = "SELECT journalEntry.ID, journalEntry.TranID, journalEntry.Account, journalEntry.CredOrDeb, journalEntry.TranDate, journalEntry.amount, attachment.mime, attachment.size, attachment.data, attachment.name, JournalStatus.TranStatus, JournalStatus.Reason, JournalStatus.memo from journalEntry left join (attachment, JournalStatus) on attachment.TranID = journalEntry.TranID AND JournalStatus.TranID = journalEntry.TranID WHERE journalEntry.TranID = {$count} order by journalEntry.CredOrDeb DESC";
                 $result5 = $conn->query($sql2) or die($conn->error);
                     while($row4 = $result5->fetch_assoc()){
                     $amount = number_format($row4['amount'], 2);
@@ -491,7 +503,8 @@ if($result2 /*&& $result2 && $result3*/) {
                 if ($row['TranStatus'] == "Pending" /*&& Role = Manager*/) {
                     $parameter = $row['TranID'];
                     //action='updateStatus.php'
-                    echo "<div name='StatusDiv' id='StatusDiv'>Pending: <form method='post' action='updateStatus.php' name='UpdateStatus' id='UpdateStatus'>
+                    if(intval($_SESSION['user']['role_id']) == 2) {
+                        echo "<div name='StatusDiv' id='StatusDiv'>Pending: <form method='post' action='updateStatus.php' name='UpdateStatus' id='UpdateStatus'>
                                    <input type=\"submit\" name=\"approveButton\" value=\"Approve\" /> 
                                    <!--<a href=\"updateStatus.php?TranID={$row['TranID']}\" value='{$row['TranID']}'>Approve</a>-->
                                    <input type=\"submit\" name=\"rejectButton\" value=\"Reject\" />
@@ -499,15 +512,33 @@ if($result2 /*&& $result2 && $result3*/) {
                                    <input type=\"hidden\" name=\"hiddenData\" value=\"{$row['TranID']}\" /> 
                                    </form>
                                    ";
+                    }
+                    else {
+                        echo "Pending";
+                    }
 
                 } else echo "{$row['TranStatus']}: {$row['Reason']}";
                 echo "
                     </td>
+                    ";
+                    if($row['memo'] != NULL){
+                        echo "<td>{$row['memo']}</td>";
+                    }
+                    else {
+                        echo "<td></td>";
+                    }
+                    echo "
                     <td align='center'>
+                    ";
+                if((intval($_SESSION['user']['role_id']) == 2) || (intval($_SESSION['user']['role_id']) == 3)) {
+                    echo "
                         <form method='post' action='EditJournal.php'>
                         <input type=\"submit\" name=\"editJournalButton\" value=\"Edit\" />
                         <input type=\"hidden\" name=\"hiddenData\" value=\"{$row['TranID']}\" /> 
                         </form>
+                        ";
+                }
+                    echo "
                     </td>
                     <td align='center'><a href='get_file.php?id={$row['TranID']}'>Download Attachment</a></td>
                     </tr>

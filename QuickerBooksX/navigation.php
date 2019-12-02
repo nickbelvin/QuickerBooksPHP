@@ -21,35 +21,6 @@
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-      <!-- Messages Dropdown Menu -->
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-envelope"></i>
-          <span class="badge badge-danger navbar-badge"></span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-         
-            <!-- Message Start -->
-            
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  Inbox
-                  <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">The subject goes here</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Mail</a>
-        </div>
-      </li>
-
       <!-- Notifications Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
@@ -68,15 +39,14 @@
       </li>
      
       <li class="nav-item dropdown">
-      <a class="nav-link" data-toggle="dropdown" href="#">
+      <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#">
       <i class="fas fa-calculator"></i>
  </a>
- <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
- <span class="dropdown-header">Calculator</span> 
-                                </li>
+ 
+</li>
 
-      <li class="nav-item dropdown">
-      <a class="nav-link" data-toggle="dropdown" href="#">
+      <li class="nav-item dropdown" >
+      <a class="nav-link" data-provide="datepicker">
       <i class="fas fa-calendar"></i>
  </a>
  <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
@@ -123,10 +93,10 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-purple elevation-4">
     <!-- Brand Logo -->
-    <a href="#" class="brand-link">
+    <a href="<?php echo BASE_URL . 'layout.php' ?>" class="brand-link">
   
       <img src="../../assets/images/qb.png" alt="Logo" 
-          class="brand-image">
+      <a href="<?php echo BASE_URL . 'layout.php' ?>" class="brand-image">
       <span class="brand-text font-weight-light">QUICKER BOOKS</span>
     </a>
 

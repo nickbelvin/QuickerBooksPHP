@@ -343,7 +343,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Quicker Books</a></li>
-                        <li class="breadcrumb-item active">Accounts</li>
+                        <li class="breadcrumb-item active">Ledger</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -365,18 +365,29 @@
 
 
 <?php
-$accounts = "";
-$ledgercount = $_POST['ledgercount'];
-$accounts = $_POST['LedgerAccount'];
+//$accounts = "";
+
+if(isset($_POST['ledgercount'])) {
+    $ledgercount = $_POST['ledgercount'];
+}
+
+if(isset($_POST['LedgerAccount'])) {
+    $accounts = $_POST['LedgerAccount'];
+}
+else {
+    $accounts = $_GET['accounts'];
+}
+print($accounts);
 $date = date("F jS, Y");
 $sql = "SELECT journalEntry.ID, journalEntry.TranID, journalEntry.Account, journalEntry.CredOrDeb, journalEntry.TranDate, journalEntry.amount, JournalStatus.TranStatus 
-        from journalEntry left join (JournalStatus) on JournalStatus.TranID = journalEntry.TranID where (journalEntry.Account = '{$accounts}' AND JournalStatus.TranStatus = 'Approved') ";
+        from journalEntry left join (JournalStatus) on JournalStatus.TranID = journalEntry.TranID where (journalEntry.Account like '%{$accounts}%' AND JournalStatus.TranStatus = 'Approved') ";
 $balance = 0;
 
 $result = $conn->query($sql);
 //print($accounts);
 // Check if it was successfull
 if($result) {
+
     // Make sure there are some files in there
     if($result->num_rows == 0) {
         echo '<p>There are no entries for this account</p>';
@@ -434,7 +445,7 @@ if($result) {
                 echo "
                     <tr>
                         <td>{$row['TranDate']}</td>
-                        <td>{$row['TranID']}</td>
+                        <td><form method='post' action='ViewSingleJournalEntry.php' name='singleJournalForm'><input type='submit' value='{$row['TranID']}' /><input type='hidden' name='singleJournalTranID' value='{$row['TranID']}' /></form></td>
                         <td></td>
                         <td>{$amount}</td>
                         <td></td>
@@ -464,7 +475,7 @@ if($result) {
                     echo "
                         <tr>
                             <td>{$row['TranDate']}</td>
-                            <td>{$row['TranID']}</td>
+                            <td><form method='post' action='ViewSingleJournalEntry.php' name='singleJournalForm'><input type='submit' value='{$row['TranID']}' /><input type='hidden' name='singleJournalTranID' value='{$row['TranID']}' /></form></td>
                             <td></td>
                             <td></td>
                             <td>{$amount}</td>

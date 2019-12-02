@@ -92,7 +92,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="ViewLogs.php" class="nav-link">
                             <i class="nav-icon fas fa-clone"></i>
                             <p>
                                 Event Logs
@@ -154,7 +154,10 @@ if(isset($_POST['submitButton'])){
             $amount = $temp;
         }
 
-
+        $oldsql = "SELECT (Account, amount) FROM journalEntry WHERE TranID = {$accountIDGet}";
+        $oldResult = $oldsql->fetch_assoc();
+        $oldAccount = $oldResult['Account'];
+        $oldAmount = $oldResult['amount'];
 
         $updateSql = "UPDATE journalEntry SET Account = '{$Account}', CredOrDeb = '{$TranType}', amount = {$amount} WHERE ID = {$accountIDGet}";
         //$updateSql2 = "UPDATE JournalStatus SET Status = 'Pending' WHERE TranID = {$TranID}";
@@ -167,6 +170,12 @@ if(isset($_POST['submitButton'])){
         $updateTranIdsql = "UPDATE JournalStatus SET TranStatus = 'Pending' WHERE TranID = {$TranID}";
         $result2 = $conn->query($updateTranIdsql);
 
+        $oldsql = "SELECT (Account, amount) FROM journalEntry WHERE TranID = {$accountIDGet}";
+
+        $user = $_SESSION['user']['username'];
+        $logQuery = "INSERT INTO journalevents (`category`, `logType`, `logMessage`) VALUES ('Journal', 'UpdateJournal', 'User \"{$user}\" has updated the journal entry with Transaction ID: {$TranID}. NEW: Account - \"{$accountIDGet}\", Amount - \"{$amount}\"   OLD: Account - \"{$oldAccount}\", Amount - \"{$oldAmount}\"')";
+        $logResult = $conn->query($logQuery);
+
         $updatedAccountCount++;
     }
     $transql = "SELECT TranID from journalEntry WHERE ID = {$accountIDGet}";
@@ -175,6 +184,7 @@ if(isset($_POST['submitButton'])){
 
     if ($result) {
         echo '<p>Journal Successfully updated! Click <a href="ListFiles2.php">here</a> to go back</p>';
+
     }
     else echo "An error occurred. Please try again later or contact support." . "<pre>{$conn->error}</pre>";
 }

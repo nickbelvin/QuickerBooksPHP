@@ -1,7 +1,7 @@
 
 <?php include('../../config.php'); ?>
 <?php include(INCLUDE_PATH . '/logic/common_functions.php') ?>
-<?php include(ROOT_PATH . 'admin/users/userLogic.php'); ?>
+<?php include(ROOT_PATH . '/admin/users/userLogic.php'); ?>
 <?php $roles = getAllRoles(); ?>
 
 
@@ -71,16 +71,16 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item has-treeview menu-open">
-            <a href="<?php echo BASE_URL . 'layout.php' ?>" class="nav-link">
+          <li class="nav-item">
+            <a href="../../layout.php" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
               </p>
             </a>
-            </li>
+          </li>
           <li class="nav-item has-treeview menu-open">
-            <a href="<?php echo BASE_URL . 'admin/users/userList.php' ?>"class="nav-link active">
+            <a href="admin/users/userList.php" class="nav-link active">
               <i class="nav-icon fas fa-user-alt"></i>
               <p>
                 Users
@@ -89,7 +89,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="<?php echo BASE_URL . 'admin/users/userList.php' ?>" class="nav-link">
+                <a href="admin/users/userList.php" class="nav-link">
                   <i class="fas fa-user-edit nav-icon"></i>
                   <p>View Users</p>
                 </a>
@@ -101,28 +101,98 @@
                   <p>Add Users</p>
                 </a>
                 <?php endif; ?>
-              </li> 
+              </li>              
+              </ul>
+          </li>
+          
+          <?php if(intval($_SESSION['user']['role_id']) == 2 || intval($_SESSION['user']['role_id']) == 3): ?>
+          <li class="nav-item has-treeview menu">
+                    <a href="../../Journalizing.php" class="nav-link">
+                        <i class="nav-icon fas fa-book"></i> 
+                        <p>
+                            Journalizing
+                          <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="../../Journalizing.php" class="nav-link">
+                        <i class="nav-icon fas fa-book-open"></i>
+                        <p>
+                            Create Journal Entry
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="../../ListFiles2.php" class="nav-link">
+                        <i class="nav-icon fas fa-book-reader"></i>
+                        <p>
+                            View Journal
+                        </p>
+                    </a>
+                </li>
+                </ul>
+              <?php endif; ?>
+          </li>
           <li class="nav-item">
-            <a href="<?php echo BASE_URL . 'admin/accounts/accountsList.php' ?>" class="nav-link">
+            <a href="admin/accounts/accountsList.php" class="nav-link active">
               <i class="nav-icon fas fa-columns"></i>
               <p>
                Accounts
               </p>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
+          <?php if(intval($_SESSION['user']['role_id']) == 2 || intval($_SESSION['user']['role_id']) == 3): ?> 
+          <li class="nav-item has-treeview menu">
+            <a href="" class="nav-link">
               <i class="nav-icon fas fa-clipboard"></i>
               <p>
                Reports
+               <i class="right fas fa-angle-left"></i>
               </p>
             </a>
+			<ul class="nav nav-treeview">
+      <li class="nav-item">
+                <a href="../../admin/reports/balancesheet.php" class="nav-link">
+                  <i class="fas fa-plus nav-icon"></i>
+                  <p>Balance Sheet</p>
+                </a>
+              </li> 
+			<li class="nav-item">
+                <a href="../../admin/reports/retearnings.php" class="nav-link">
+                  <i class="fas fa-plus nav-icon"></i>
+                  <p>Retained Earnings</p>
+                </a>
+              </li> 
+            
+			<li class="nav-item">
+                <a href="../../admin/reports/incomestatement.php" class="nav-link">
+                  <i class="fas fa-plus nav-icon"></i>
+                  <p>Income Statement</p>
+                </a>
+              </li> 
+			<li class="nav-item">
+                <a href="../../admin/reports/trialbalance.php" class="nav-link">
+                  <i class="fas fa-plus nav-icon"></i>
+                  <p>Trial Balance</p>
+                </a>
+              </li>              
+              </ul>
+              <?php endif; ?>
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-clone"></i>
               <p>
                Event Logs
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="../../admin/mailbox/email.php" class="nav-link">
+              <i class="nav-icon far fa-envelope"></i>
+              <p>
+               Email
               </p>
             </a>
           </li>
@@ -290,7 +360,7 @@
   
                 
 <script type="text/javascript" src="assets/js/display_profile_image.js"></script>
-<?php include('../../footer.php') ?>
+<?php include('../../Templates/footer.php') ?>
 
 <script>
   $('#status').on('change','select', function(){

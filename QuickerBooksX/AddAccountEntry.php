@@ -145,7 +145,7 @@
         echo "
             <div class=\"form-element\" id=\"credit1\">
             <label>Account {$currentNumOfAccounts}</label>
-            <select name=\"account{$currentNumOfAccounts}\" id=\"account{$currentNumOfAccounts}\">
+            <select name=\"account{$currentNumOfAccounts}\" id=\"account{$currentNumOfAccounts}\" required>
                 <option value=\"\" disabled selected>Select Account</option>
             ";
 
@@ -156,7 +156,8 @@
                         //pattern="^$\d{1,3}(,\d{3})*(\.\d+)?$"
         echo "
         </select>
-        <input type=\"text\" name=\"amount{$currentNumOfAccounts}\" id=\"currency-field\" value=\"\" data-type=\"currency\" placeholder=\"$0.00\">
+        
+        <input type=\"text\" name=\"amount{$currentNumOfAccounts}\" id=\"currency-field\" value=\"\" data-type=\"currency\" placeholder=\"$0.00\" required>
         <!--jquery for formatting for number field-->
         <script>
             // Jquery Dependency
@@ -245,7 +246,7 @@
             }
 
         </script>
-        <select name=\"TranType{$currentNumOfAccounts}\">
+        <select name=\"TranType{$currentNumOfAccounts}\" required>
             <option value=\"\" disabled selected>Select Type</option>
             <option value=\"Debit\">Debit</option>
             <option value=\"Credit\">Credit</option>
@@ -256,7 +257,8 @@
         $currentNumOfAccounts++;
     }
     echo "
-    <input type=\"file\" name=\"uploaded_file\"><br>
+    <input type='text' name='description' placeholder='Memo(optional)'/><br>
+    <input type=\"file\" name=\"uploaded_file\" required><br>
     <input type=\"submit\" value=\"Submit\" formaction=\"UploadFile.php\" name=\"submit[]\">
     </div>
 </form>

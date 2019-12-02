@@ -150,7 +150,7 @@ if(isset($_POST['approveButton']))
         while($row=$result2->fetch_assoc()){
 
             //seperate account number from full account name as shown in journal
-            $accounts = $row['account'];
+            $accounts = $row['Account'];
             $temp = preg_replace("/[^0-9]/", "", strval($accounts) );
             $accountnum = intval($temp);
 
@@ -188,6 +188,8 @@ if(isset($_POST['approveButton']))
                 $result4 = $conn->query($updateDebitSql);
 
             }
+
+
             if ($row['CredOrDeb'] == "Credit"){
                 if($row2['category'] == "Liabilities" || "Revenues" || "Equity"){
                     if($row['CredOrDeb'] == "Debit"){
@@ -219,10 +221,15 @@ if(isset($_POST['approveButton']))
         }
 
         echo "Journal Entry was Successfully Updated! Click <a href='ListFiles2.php'>Here</a> to go back to the journal.";
+        $user = $_SESSION['user']['username'];
+        $logQuery = "INSERT INTO journalevents (`category`, `logType`, `logMessage`) VALUES ('Journal', 'JournalApprove', 'User \"{$user}\" has approved the journal entry with Transaction ID: {$TranID}.')";
+        $logResult = $conn->query($logQuery);
     }
     else echo "Failed to update journal entry. Contact Support" . "<pre>{$conn->error}</pre>";
     //header("Refresh:0");
 }
+
+
 if(isset($_POST['rejectButton']))
 {
     $TranID = $_POST['hiddenData'];

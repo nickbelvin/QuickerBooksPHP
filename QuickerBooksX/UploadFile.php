@@ -22,7 +22,7 @@ if(isset($_POST['submit'])) {
     $creditTotal = 0;
     $debitTotal = 0;
 
-
+        $memo = $_POST['description'];
 
         //setting amounts to correct format for sql
     if (true) {
@@ -309,13 +309,29 @@ if(isset($_POST['submit'])) {
     }
 
     if (checkBalanced($creditTotal, $debitTotal)) {
-        $query1 = "
+        $user = $_SESSION['user']['username'];
+        $logQuery = "INSERT INTO journalevents (`category`, `logType`, `logMessage`) VALUES ('Journal', 'NewEntry', 'User \"{$user}\" has created a new journal entry with Transaction ID: {$TranID}.')";
+        $logResult = $conn->query($logQuery);
+
+        if(isset($_POST['description'])){
+            $query1 = "
+            INSERT INTO JournalStatus (
+                `TranID`, `TranStatus`, `memo`
+            )
+            VALUES (
+                '{$TranID}', 'Pending', '{$memo}'
+            )";
+        }
+        else {
+
+            $query1 = "
             INSERT INTO JournalStatus (
                 `TranID`, `TranStatus`
             )
             VALUES (
                 '{$TranID}', 'Pending'
             )";
+        }
 
         $query2 = "
             INSERT INTO attachment (

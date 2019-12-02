@@ -148,7 +148,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="ViewLogs.php" class="nav-link">
                             <i class="nav-icon fas fa-clone"></i>
                             <p>
                                 Event Logs
@@ -198,6 +198,9 @@
         $result = $conn->query($sqlScript);
         if($result){
             echo "Journal Entry was Successfully Updated! Click <a href='ListFiles2.php'>Here</a> to refresh the page.";
+            $user = $_SESSION['user']['username'];
+            $logQuery = "INSERT INTO journalevents (`category`, `logType`, `logMessage`) VALUES ('Journal', 'JournalReject', 'User \"{$user}\" has rejected the journal entry with Transaction ID: {$TranID}. The reason was \"{$reason}\".')";
+            $logResult = $conn->query($logQuery);
         }
         else echo "Failed to update journal entry. Contact Support" . "<pre>{$conn->error}</pre>";
         //header('Location:' . BASE_URL . 'ListFiles.php');

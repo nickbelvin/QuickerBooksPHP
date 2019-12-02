@@ -20,3 +20,8 @@
   <link rel="stylesheet" href="Templates/Dashboard/plugins/summernote/summernote-bs4.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <link rel="stylesheet" href="../../Templates/Dashboard/plugins/Responsive-Math-Calculator-jQuery/assets/css/style.css">
+  <link rel="stylesheet" href="../.../Templates/Dashboard/plugins/chart.js/Chart.css">
+  
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
