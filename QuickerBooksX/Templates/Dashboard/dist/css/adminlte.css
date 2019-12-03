@@ -18392,6 +18392,7 @@ html.maximized-card {
   background: #ffffff;
   display: -ms-flexbox;
   display: flex;
+  display: inline;
   margin-bottom: 1rem;
   min-height: 80px;
   padding: .5rem;

@@ -106,8 +106,14 @@ if (count($errors) === 0) {
   $sql = "INSERT INTO users SET role_id=?, username=?, fname=?, lname=?,  email=?, status=?, phone=?, password=?, profile_picture=?, dob=?";
   $result = modifyRecord($sql, 'isssssssss', [$role_id, $username, $fname, $lname,  $email, $status, $phone, $password, $profile_picture, $dob]);
 
+
   if($result){
+
     $_SESSION['success_msg'] = "User account created successfully";
+      $user = $_SESSION['user']['username'];
+      $logQuery = "INSERT INTO journalevents (`category`, `logType`, `logMessage`) VALUES ('Users', 'UserCreate', 'User \"{$user}\" has created a new user with username: {$username}.')";
+      $logResult = $conn->query($logQuery);
+
     header("location: " . BASE_URL . "admin/users/userList.php");
     exit(0);
   } else {
@@ -155,6 +161,10 @@ function deleteUser($user_id) {
 global $conn;
 $sql = "DELETE FROM users WHERE id=?";
 $result = modifyRecord($sql, 'i', [$user_id]);
+
+    $user = $_SESSION['user']['username'];
+    $logQuery = "INSERT INTO journalevents (`category`, `logType`, `logMessage`) VALUES ('Users', 'UserDelete', 'User \"{$user}\" has deleted user: \"{$user_id}\".')";
+    $logResult = $conn->query($logQuery);
 
 if ($result) {
   $_SESSION['success_msg'] = "User deleted!!";

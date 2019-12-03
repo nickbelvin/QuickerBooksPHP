@@ -1,292 +1,360 @@
-<?php include "Templates/header.php"; ?>
+<?php include('config.php'); ?>
+<?php include(INCLUDE_PATH . '/logic/common_functions.php') ?>
+<?php include(ROOT_PATH . '/admin/users/userLogic.php'); ?>
+
 
 
 <!DOCTYPE html>
 <html>
-<head>
-    <ul>
-        <li><a href="trialbalance.php" name="trialbalanceLink">Trial Balance</a></li>
-        <li><a href="incomestatement.php" name="incomestatementLink">Income Statement</a></li>
-        <li><a href="balancesheet.php" name="balancesheetLink">Balance Sheet</a></li>
-        <li><a href="retainedearnings.php" name="retainedearningsLink">Retained Earnings</a></li>
-        <li><a href="index.php" name="home">Return Home</a></li>
-
-    </ul>
-    <<style>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>BALANCE SHEET :: QUICKER BOOKS</title>
+    <?php include('header.php') ?>
+	  
+	  
+    <style>
         body {margin:0;}
-
-        ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background-color: #333;
-            position: fixed;
-            top: 0;
-            width: 100%;
-        }
-
-        li {
-            float: left;
-        }
-
-        li a {
-            display: block;
-            color: white;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-        }
-
-        li a:hover:not(.active) {
-            background-color: #111;
-        }
-
-        .active {
-            background-color: #4CAF50;
-        }
-        .balance-sheet {
-            width: 90%;
+       
+        .income-statement {
+            width: 70%;
             margin: auto;
-            margin-top: 2rem;
+            margin-top: 0rem;
             border: 1px solid #ccc;
             border-radius: 10px;
         }
 
         .title-heading {
-            background-color: lightBlue;
+            background-color: #6f42c1;
             border-radius: 5px;
-            color: white;
+            color: whitesmoke;
             margin-bottom: 20px;
-            padding: 10px;
-            font: 15px arial, sans-serif;
-
+            padding: 0px;
         }
 
-        .balance-sheet .main-heading {
+        .income-statement .income-statement-main-heading {
             font-size: 18px;
-            margin-top: 1rem;
-            color: black;
-            font: 15px arial, sans-serif;
+            margin-top: 0rem;
 
         }
 
-        .data-heading {
+        .income-statement .business-name {
+            font-size: 26px;
+            margin-top: 0rem;
+        }
+
+        .income-statement .as-of-date {
+            font-size: 16px;
+            margin-top: 1rem;
+        }
+
+        .income-statement-heading {
             margin-top: 0px;
             margin-left: 50px;
             font-size: 20px;
-            color: blue;
+            color: #BA55D3;
             text-decoration: underline;
+            text-align:left;
+           
+
         }
 
-        .data-subheading {
-            padding-left: 30px;
+        .accountNameCol {
+            width: 80%;
         }
 
-        .data-total {
-            text-decoration: underline overline;
-            font-weight: 600;
+        .debitCol,
+        .creditCol {
+            min-width: 10rem;
         }
 
-        .data-row {
-            padding-left: 45px;
+        .subtotal {
+            text-decoration: overline underline;
         }
 
-        .balance-sheet .business-name {
-            font-size: 26px;
-            margin-top: 1rem;
-            color: black;
+        .total {
+            text-decoration: overline;
+            padding-bottom: 1px;
+            border-bottom: double 5px;
         }
 
-        .balance-sheet .as-of-date {
-            font-size: 16px;
-            margin-top: 1rem;
-            color: black;
-        }
-
-        .balance-sheet-table {
+        .income-statement-table {
             width: 90%;
         }
-        tr:nth-child(even) {background-color: #f2f2f2;
-        }
-    </style>
-</head>
 
-<body>
-<div style="padding:20px;margin-top:30px;height:100;"></div>
-<div class="overflow-container col-md-9 col-sm-8 col-xs-12">
-    <div class="balance-sheet" style="">
-        <div class="text-center title-heading">
-            <div class="business-name" align = "center">Addams &amp; Family Inc.</div>
-            <div class="main-heading" align = "center">Balance Sheet</div>
-            <div class="as-of-date " align = "center"><?php echo "<p align=center>For the Period Ending " . date("F jS, Y") . "<br></p>"; ?></div>
-        </div>
-        <div class="tableWrapper">
-            <table class="table balance-sheet-table">
-                <thead>
-                <tr>
-                    <th class="accountNameCol"></th>
-                    <th class="debitCol"></th>
-                    <th class="creditCol">Total Amount</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr></tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="data-heading">Assets</div>
-        <div class="tableWrapper">
-            <table class="balance-sheet-table">
-                <tbody>
-                <tr>
-                    <td class="data-subheading accountNameCol"><label>Non-current Assets</label></td>
-                    <td class="debitCol" align="right"></td>
-                    <td class="creditCol" align="right">$9,300.00</td>
-                </tr>
-                <tr>
-                    <td class="data-row accountNameCol">Office Equipment (Also Store Equipment)</td>
-                    <td class="debitCol" align="right">$9,300.00</td>
-                    <td class="creditCol" align="right"></td>
-                </tr>
-                <tr>
-                    <td class="data-subheading accountNameCol"><label>Current Assets</label></td>
-                    <td class="debitCol" align="right"></td>
-                    <td class="creditCol" align="right">$23,925.00</td>
-                </tr>
-                <tr>
-                    <td class="data-row accountNameCol">Cash</td>
-                    <td class="debitCol" align="right">$8,875.00</td>
-                    <td class="creditCol" align="right"></td>
-                </tr>
-                <tr>
-                    <td class="data-row accountNameCol">Accounts Receivable</td>
-                    <td class="debitCol" align="right">$3,450.00</td>
-                    <td class="creditCol" align="right"></td>
-                </tr>
-                <tr>
-                    <td class="data-row accountNameCol">Raw Materials</td>
-                    <td class="debitCol" align="right">$800.00</td>
-                    <td class="creditCol" align="right"></td>
-                </tr>
-                <tr>
-                    <td class="data-row accountNameCol">Supplies (Specialty Items like Medical, Bicycle, Tailoring, etc.)</td>
-                    <td class="debitCol" align="right">$2,000.00</td>
-                    <td class="creditCol" align="right"></td>
-                </tr>
-                <tr>
-                    <td class="data-row accountNameCol">Prepaid Card</td>
-                    <td class="debitCol" align="right">$2,500.00</td>
-                    <td class="creditCol" align="right"></td>
-                </tr>
-                <tr>
-                    <td class="data-row accountNameCol">Prepaid Insurance</td>
-                    <td class="debitCol" align="right">$1,800.00</td>
-                    <td class="creditCol" align="right"></td>
-                </tr>
-                <tr>
-                    <td class="data-row accountNameCol">Prepaid Rent</td>
-                    <td class="debitCol" align="right">$4,500.00</td>
-                    <td class="creditCol" align="right"></td>
-                </tr>
-                <tr>
-                    <td class="data-subheading accountNameCol"><label>Total Assets</label></td>
-                    <td class="debitCol" align="right"></td>
-                    <td class="data-total creditCol" align="right">$33,225.00</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="data-heading">Equity &amp; Liabilities</div>
-        <div class="tableWrapper">
-            <table class="balance-sheet-table">
-                <tbody>
-                <tr>
-                    <td class="data-subheading accountNameCol"><label>Owners Equity</label></td>
-                    <td class="debitCol" align="right"></td>
-                    <td class="creditCol" align="right">$25,925.00</td>
-                </tr>
-                <tr>
-                    <td class="data-row accountNameCol">John Addams, Capital</td>
-                    <td class="debitCol" align="right">$20,250.00</td>
-                    <td class="creditCol" align="right"></td>
-                </tr>
-                <tr>
-                    <td class="data-row accountNameCol">Income Estimation</td>
-                    <td class="debitCol" align="right">$5,675.00</td>
-                    <td class="creditCol" align="right"></td>
-                </tr>
-                <tr></tr>
-                <tr></tr>
-                <tr>
-                    <td class="data-subheading accountNameCol"><label>Current Liabilities</label></td>
-                    <td class="debitCol" align="right"></td>
-                    <td class="creditCol" align="right">$4,000.00</td>
-                </tr>
-                <tr>
-                    <td class="data-row accountNameCol">Accounts Payable (Also Vouchers Payable)</td>
-                    <td class="debitCol" align="right">$1,000.00</td>
-                    <td class="creditCol" align="right"></td>
-                </tr>
-                <tr>
-                    <td class="data-row accountNameCol">Unearned Subscription Revenue (Also Unearned Service/Ticket Revenue, Unearned Repair Fees)</td>
-                    <td class="debitCol" align="right">$3,000.00</td>
-                    <td class="creditCol" align="right"></td>
-                </tr>
-                <tr>
-                    <td class="data-subheading accountNameCol"><label>Total Equity & Liabilities</label></td>
-                    <td class="debitCol" align="right"></td>
-                    <td class="data-total creditCol" align="right">$29,925.00</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+        .income-statement th,
+        td {
+            padding: 8px;
+        }
+        }
+        tr:nth-child(even) {background-color: #f2f2f2;
+}
+    </style>
+
+
+
+  </head>
+  
+  <body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+<?php include('navigation.php') ?>
+
+
+<!-- Sidebar Menu -->
+<nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+          <li class="nav-item">
+            <a href="layout.php" class="nav-link">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Dashboard
+              </p>
+            </a>
+          </li>
+          <li class="nav-item has-treeview menu-open">
+            <a href="admin/users/userList.php" class="nav-link">
+              <i class="nav-icon fas fa-user-alt"></i>
+              <p>
+                Users
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="admin/users/userList.php" class="nav-link">
+                  <i class="fas fa-user-edit nav-icon"></i>
+                  <p>View Users</p>
+                </a>
+              </li>
+              <?php if(intval($_SESSION['user']['role_id']) == 1): ?>
+              <li class="nav-item">
+                <a href="admin/users/userForm.php" class="nav-link">
+                  <i class="fas fa-user-edit nav-icon"></i>
+                  <p>Add Users</p>
+                </a>
+                <?php endif; ?>
+              </li>              
+              </ul>
+          </li>
+          <li class="nav-item">
+            <a href="admin/accounts/accountsList.php" class="nav-link">
+              <i class="nav-icon fas fa-columns"></i>
+              <p>
+               Accounts
+              </p>
+            </a>
+          </li>
+          <li class="nav-item has treeview">
+            <a href="admin/reports/balancesheet.php" class="nav-link active">
+              <i class="nav-icon fas fa-clipboard"></i>
+              <p>
+               Reports
+               <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+          </li>
+			<ul class="nav nav-treeview">
+      <li class="nav-item">
+                <a href="admin/reports/balancesheet.php" class="nav-link active">
+                  <i class="fas fa-plus nav-icon"></i>
+                  <p>Balance Sheet</p>
+                </a>
+              </li> 
+			<li class="nav-item">
+                <a href="admin/reports/retearnings.php" class="nav-link">
+                  <i class="fas fa-plus nav-icon"></i>
+                  <p>Retained Earnings</p>
+                </a>
+              </li> 
+			<li class="nav-item">
+                <a href="admin/reports/incomestatement.php" class="nav-link">
+                  <i class="fas fa-plus nav-icon"></i>
+                  <p>Income Statement</p>
+                </a>
+              </li> 
+			<li class="nav-item">
+                <a href="admin/reports/trialbalance.php" class="nav-link">
+                  <i class="fas fa-plus nav-icon"></i>
+                  <p>Trial Balance</p>
+                </a>
+              </li>              
+              </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-clone"></i>
+              <p>
+               Event Logs
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="admin/mailbox/email.php" class="nav-link">
+              <i class="nav-icon far fa-envelope"></i>
+              <p>
+               Email
+              </p>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
     </div>
-</div>
-<?php
-$conn = mysqli_connect("localhost", "root", "", "QuickerBooksDB");
-// Check connection
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Balance Sheet</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="layout.php">Quicker Books</a></li>
+              <li class="breadcrumb-item active">Balance Sheet</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+    <!---------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+      <div style="padding:20px;margin-top:30px;height:100px;"></div>
+<div class="overflow-container col-md-9 col-sm-8 col-xs-12">
+<div class="income-statement" style="">
+            <div class="text-center title-heading">
+                <div class="business-name" align = "center">Addams & Family Inc.</div>
+                <div class="income-statement-main-heading" align = "center">Balance Sheet</div>
+                <div class="as-of-date " align = "center"><?php echo "<p align=center>For the Period Ending " . date("F jS, Y") . "<br></p>"; ?></div>
+            </div>
+
+            <div class="tableWrapper">
+                <table class="table income-statement-table">
+                    <thead>
+                        <tr>
+                            <th class="accountNameCol"></th>
+                            <th class="debitCol"></th>
+                            <th class="creditCol">Total Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="income-statement-heading" align = "">Assets</div>
+            <div class="tableWrapper">
+                <table class="income-statement-table">
+                <?php
+
+//$conn = mysqli_connect("localhost", "root", "", "QuickerBooksDB");
+                $conn = mysqli_connect("remotemysql.com", "tKROkoSDOO", "yGpAbKvSmu", "tKROkoSDOO");
+
+                // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-$sql = "SELECT balance from chartofaccounts";
-$sql = "SELECT * from chartofaccounts WHERE category = 'Assets'";
-$sql = "SELECT * from chartofaccounts WHERE category = 'Equity'";
-$sql = "SELECT * from chartofaccounts WHERE category = 'Liability'";
+
+$sql = "SELECT * from chartofaccounts WHERE category ='Assets' AND balance <> '0'";
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
-// output data of each row
-    while($row = $result->fetch_assoc()) {
-        echo "<tr><td>" . $row["category"]. "</rd><td>" . $row["accountname"].  "</td><td>";
+    $totalassets = 0.00;
+    $dollarsign = 0;
+    while ($row = mysqli_fetch_assoc($result)) { ?>
+        <tbody>
+            <tr>
+                <td align="left"><?php echo $row["accountname"]; ?></td>
+                <td align="right"><?php if ($row["debit"] != 0) {
+                                                echo "$" . number_format($row["balance"],2);
+                                            } ?></td>
+                <td align="left"><?php if ($row["credit"] != 0) {
+                                                echo "$" . number_format($row["balance"],2);
+                                            } ?></td>
+            </tr>
+
+    <?php
+            $totalassets = $row["balance"] + $totalassets;
+        }
+    } else {
+        echo "0 results";
     }
-//echo "</table>";
-}
-
-// $sql = "SELECT * from chartofaccounts WHERE category = 'Equity'";
-// $result = $conn->query($sql);
-// if ($result->num_rows > 0) {
-// // output data of each row
-// while($row = $result->fetch_assoc()) {
-// echo "<tr><td>" . $row["category"]. "</rd><td>" . $row["accountname"]. "</td><td>";
-// }
-// //echo "</table>";
-// } else { echo "0 results"; }
-
-// $sql = "SELECT * from chartofaccounts WHERE category = 'Liability'";
-// $result = $conn->query($sql);
-// if ($result->num_rows > 0) {
-// // output data of each row
-// while($row = $result->fetch_assoc()) {
-// echo "<tr><td>" . $row["category"]. "</rd><td>" . $row["accountname"]. "</td><td>";
-// }
-// //echo "</table>";
-// } else { echo "0 results"; }
-$conn->close();
 
 
 
-?>
+    ?>
+    <tr>
+        <td> Assets Total</td>
+        <td></td>
+        <td class = "subtotal" align="right"><?php print "$" . number_format ($totalassets, 2) ?> </td>
+    </tr>
+        </tbody>
+                </table>
+            </div>
 
-</body>
+
+            <div class="income-statement-heading">Equity & Liability</div>
+            <div class="tableWrapper">
+                <table class="income-statement-table">
+                <?php
+
+
+
+$sql = "SELECT * from chartofaccounts 
+WHERE category = 'Liabilities' 
+AND balance <> '0' OR category = 'Equity' AND balance <> '0'";
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+    $totalel = 0.00;
+    $dollarsign = 0;
+    while ($row = mysqli_fetch_assoc($result)) { ?>
+        <tbody>
+            <tr>
+                <td align="left"><?php echo $row["accountname"]; ?></td>
+                <td align="left"><?php if ($row["debit"] != 0) {
+                                                echo "$" . number_format($row["balance"],2);
+                                            } ?></td>
+                <td align="right"><?php if ($row["credit"] != 0) {
+                                                echo "$" . number_format($row["balance"],2);
+                                            } ?></td>
+            </tr>
+
+    <?php
+            $totalel = $row["balance"] + $totalel;
+        }
+    } else {
+        echo "0 results";
+    }
+    $conn->close();
+
+
+
+    ?>
+    <tr>
+        <td> Equity & Liability Total</td>
+        <td></td>
+        <td class = "subtotal" align="right"><?php print "$" . number_format ($totalel, 2) ?> </td>
+    </tr>
+        </tbody>
+                </table>
+            
+    </div>
+
+    
+</div>
+</div>
+      </div>
+    </div>
+  </div>
+  <?php include('../../footer.php') ?>
+  </body>
 </html>
-<?php //include "Templates/footer.php"; ?>
