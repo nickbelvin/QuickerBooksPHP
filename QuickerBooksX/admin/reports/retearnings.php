@@ -32,24 +32,24 @@
         }
         .income-statement .income-statement-main-heading {
             font-size: 18px;
-            margin-top: 1rem;
-            color: black;
+            margin-top: 0rem;
+            color: white;
         }
         .income-statement .business-name {
             font-size: 26px;
-            margin-top: 1rem;
-            color: black;
+            margin-top: 0rem;
+            color: white;
         }
         .income-statement .as-of-date {
             font-size: 16px;
-            margin-top: 1rem;
-            color: black;
+            margin-top: 0rem;
+            color: white;
         }
         .income-statement-heading {
             margin-top: 0px;
             margin-left: 50px;
             font-size: 20px;
-            color: blue;
+            color: #6f42c1;
             text-decoration: underline;
             text-align:left;
         }
@@ -75,9 +75,24 @@
         td {
             padding: 8px;
         }
-        }
+        
         tr:nth-child(even) {background-color: #f2f2f2;
         }
+        .print {
+  display: block;
+  width: 5%;
+  border: none;
+  background-color: #6f42c1;
+  color: white;
+  padding: 15px 10px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+  position:absolute;
+  left: 915px;
+  top: 175px;
+
+}
     </style>
 
     
@@ -88,6 +103,13 @@
   
   <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
+<script>
+function printDiv() { 
+            document.getElementById("print").style.display = "none";
+            window.print();
+            document.getElementById("print").style.display = "";
+        } 
+</script>
 <?php include('../../navigation.php') ?>
 
 
@@ -246,7 +268,7 @@
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
-
+    <button class = "print" id = "print" onclick="printDiv()">Print</button>
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
@@ -276,6 +298,7 @@
       <div class="tableWrapper">
         <?php 
         $beginningbalance = 0;
+$sql = "SELECT balance from chartofaccounts WHERE balance < '0' ";
         ?>
         <table class="income-statement-table">
           <tbody>
@@ -289,7 +312,8 @@
             </tr>
             <tr>
               <td class="subjectTitle">Less Drawings</td>
-              <td class="amount" align="right"><label>$0.00</label></td>
+               
+              <td class="amount" align="right"><label><?php echo "(". number_format($_SESSION["lessincome"],2). ")"?></label></td>
             </tr>
             <tr>
               <td class="subjectTitle">Ending Balance</td>

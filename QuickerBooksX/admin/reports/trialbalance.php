@@ -19,9 +19,9 @@
         }
     
         .income-statement {
-            width: 90%;
+            width: 70%;
             margin: auto;
-            margin-top: 2rem;
+            margin-top: 0rem;
             border: 1px solid #ccc;
             border-radius: 10px;
         }
@@ -30,22 +30,22 @@
             border-radius: 5px;
             color: whitesmoke;
             margin-bottom: 20px;
-            padding: 10px;
+            padding: 0px;
         }
         .income-statement .income-statement-main-heading {
             font-size: 18px;
-            margin-top: 1rem;
-            color: black;
+            margin-top: 0rem;
+            color: white;
         }
         .income-statement .business-name {
             font-size: 26px;
-            margin-top: 1rem;
-            color: black;
+            margin-top: 0rem;
+            color: white;
         }
         .income-statement .as-of-date {
             font-size: 16px;
-            margin-top: 1rem;
-            color: black;
+            margin-top: 0rem;
+            color: white;
         }
         .income-statement-heading {
             margin-top: 0px;
@@ -56,28 +56,32 @@
             text-align:left;
         }
         .accountNameCol {
-            width: 80%;
+            width: 55%;
         }
-        .debitCol,
+        /* .debitCol,
         .creditCol {
-            min-width: 10rem;
-        }
+            min-width: 5rem;
+        } */
         .subtotal {
             text-decoration: overline underline;
         }
         .total {
             text-decoration: overline;
+            text-decoration: overline;
             padding-bottom: 1px;
             border-bottom: double 5px;
         }
         .income-statement-table {
-            width: 90%;
+            width: 100%;
+            border-left: 1px black;
         }
         .income-statement th,
         td {
             padding: 8px;
+            border-left: 1px black;
+
         }
-        }
+        
         tr:nth-child(even) {background-color: #f2f2f2;
         }
 .doubleUnderline {
@@ -86,14 +90,43 @@
     border-bottom: double 5px;
 width: 30px;
 }
+.print {
+  display: block;
+  width: 5%;
+  border: none;
+  background-color: #6f42c1;
+  color: white;
+  padding: 20px 0px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+  position:absolute;
+  left: 915px;
+  top: 140px;
+
+}
     </style>
 
 
 
 
   </head>
-  
+
+
+
   <body class="hold-transition sidebar-mini layout-fixed">
+  <script>
+function printDiv() { 
+            document.getElementById("print").style.display = "none";
+            window.print();
+            document.getElementById("print").style.display = "";
+
+
+
+        } 
+</script>
+  
+
 <div class="wrapper">
 <?php include('../../navigation.php') ?>
 
@@ -253,11 +286,11 @@ width: 30px;
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
-
+    <button class = "print" id="print" onclick="printDiv()">Print</button>
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
-    <div style="padding:20px;margin-top:30px;height:100;"></div>
+    <div style="padding:60px;margin-top:30px;height:100;"></div>
     <div class="container col-md-9 col-sm-8 col-xs-12">
         <div class="income-statement" style="">
             <div class="text-center title-heading">
@@ -271,7 +304,7 @@ width: 30px;
                     <thead>
                         <tr>
                             <th class="accountnumberCol">Acount Number</th>
-                            <th class="accountNameCol" align = "center">Account Name</th>
+                            <th class="accountNameCol" align = "right">Account Name</th>
                             <th class="debitCol">Debit</th>
                             <th class="creditCol"> Credit</th>
                         </tr>
@@ -285,32 +318,27 @@ width: 30px;
                 <table class="income-statement-table">
                  <?php
 
-//$conn = mysqli_connect("localhost", "root", "", "QuickerBooksDB");
-                 $conn = mysqli_connect("remotemysql.com", "tKROkoSDOO", "yGpAbKvSmu", "tKROkoSDOO");
-
-                 // Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 $sql = "SELECT accountnumber, accountname, debit, credit from chartofaccounts 
 WHERE balance <> '0'
 AND accountname != 'Retained Earnings'";
+$sql2 = "SELECT balance from chartofaccounts WHERE balance < '0' ";
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
     $totaldebit = 0.00;
     $totalcredit = 0.00;
     $dollarsign = 0;
+    $lessincome = 0;
     while ($row = mysqli_fetch_assoc($result)) { ?>
         <tbody>
             <tr>
                 <td align="left">
                     <a href="../../ledger.php?accounts=<?php echo $row["accountnumber"] . ": " . $row['accountname']; ?>"><?php echo $row["accountnumber"]; ?></a></td>
                 <td align="left"><?php echo $row["accountname"]; ?></td>
-                <td align="right"><?php if ($row["debit"] != 0.00) {
+                <td align="left"><?php if ($row["debit"] != 0.00) {
                                                 echo "$" . number_format($row["debit"],2);
                                             } ?></td>
-                <td align="right"><?php if ($row["credit"] != 0.00 ) {
+                <td style="text-align:right"><?php if ($row["credit"] != 0.00 ) {
                                                 echo "$" . number_format($row["credit"],2);
                                             } ?></td>
             </tr>
@@ -318,6 +346,8 @@ if ($result->num_rows > 0) {
     <?php
             $totaldebit = $row["debit"] + $totaldebit;
             $totalcredit = $row["credit"] + $totalcredit;
+            $_SESSION["lessincome"] = $sql2 + $lessincome;
+        
         }
     } else {
         echo "0 results";

@@ -34,33 +34,33 @@
         }
         .income-statement .income-statement-main-heading {
             font-size: 18px;
-            margin-top: 1rem;
-            color: black;
+            margin-top: 0rem;
+            color: white;
         }
         .income-statement .business-name {
             font-size: 26px;
-            margin-top: 1rem;
-            color: black;
+            margin-top: 0rem;
+            color: white;
         }
         .income-statement .as-of-date {
             font-size: 16px;
-            margin-top: 1rem;
-            color: black;
+            margin-top: 0rem;
+            color: white;
         }
         .income-statement-heading {
             margin-top: 0px;
             margin-left: 50px;
             font-size: 20px;
-            color: blue;
+            color: #6f42c1;
             text-decoration: underline;
             text-align:left;
         }
         .accountNameCol {
-            width: 80%;
+            width: 62%;
         }
-        .debitCol,
-        .creditCol {
-            min-width: 10rem;
+        .debitCol
+       {
+            width: 55%;
         }
         .subtotal {
             text-decoration: overline underline;
@@ -71,15 +71,30 @@
             border-bottom: double 5px;
         }
         .income-statement-table {
-            width: 90%;
+            width: 100%;
         }
         .income-statement th,
         td {
             padding: 8px;
         }
-        }
+        
         tr:nth-child(even) {background-color: #f2f2f2;
         }
+        .print {
+  display: block;
+  width: 5%;
+  border: none;
+  background-color: #6f42c1;
+  color: white;
+  padding: 15px 10px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+  position:absolute;
+  left: 915px;
+  top: 175px;
+
+}
     </style>
 
 
@@ -87,6 +102,14 @@
   </head>
   
   <body class="hold-transition sidebar-mini layout-fixed">
+  <script>
+function printDiv() { 
+            document.getElementById("print").style.display = "none";
+            window.print();
+            document.getElementById("print").style.display = "";
+
+        } 
+</script>
 <div class="wrapper">
 <?php include('../../navigation.php') ?>
 
@@ -247,7 +270,7 @@
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
-
+    <button class = "print" id = "print" onclick="printDiv()">Print</button>
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
@@ -265,6 +288,7 @@
                     <thead>
                         <tr>
                             <th class="accountNameCol"></th>
+                            <th> Amount</th>
                             <th class="debitCol"></th>
                             <th class="creditCol">Total Amount</th>
                         </tr>
@@ -279,13 +303,6 @@
                 <table class="income-statement-table">
                 <?php
 
-//$conn = mysqli_connect("localhost", "root", "", "QuickerBooksDB");
-                $conn = mysqli_connect("remotemysql.com", "tKROkoSDOO", "yGpAbKvSmu", "tKROkoSDOO");
-
-                // Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 $sql = "SELECT * from chartofaccounts WHERE category ='Revenue'";
 $result = $conn->query($sql);
@@ -296,10 +313,10 @@ if ($result->num_rows > 0) {
         <tbody>
             <tr>
                 <td align="left"><?php echo $row["accountname"]; ?></td>
-                <td align="right"><?php if ($row["debit"] != 0.00) {
+                <!-- <td align="left"><?php if ($row["debit"] != 0.00) {
                                                 echo "$" . number_format($row["balance"],2);
-                                            } ?></td>
-                <td align="left"><?php if ($row["credit"] != 0.00) {
+                                            } ?></td> -->
+                <td align="center"><?php if ($row["credit"] != 0.00) {
                                                 echo "$" . number_format($row["balance"],2);
                                             } ?></td>
             </tr>
@@ -340,13 +357,13 @@ if ($result->num_rows > 0) {
     while ($row = mysqli_fetch_assoc($result)) { ?>
         <tbody>
             <tr>
-                <td align="left"><?php echo $row["accountname"]; ?></td>
+                <td align=""><?php echo $row["accountname"]; ?></td>
                 <td align="left"><?php if ($row["debit"] != 0.00) {
                                                 echo "" . number_format($row["balance"],2);
                                             } ?></td>
-                <td align="right"><?php if ($row["credit"] != 0.00) {
+                <!-- <td align="right"><?php if ($row["credit"] != 0.00) {
                                                 echo "" . number_format($row["balance"],2);
-                                            } ?></td>
+                                            } ?></td> -->
             </tr>
 
     <?php
@@ -366,7 +383,7 @@ if ($result->num_rows > 0) {
     <tr>
         <td> Expenses Total</td>
         <td></td>
-        <td class = "subtotal" align="right"><?php echo "(" . number_format ($totalexpenses, 2) ?> </td>
+        <td class = "subtotal" align="right"><?php echo "(" . number_format ($totalexpenses, 2).")" ?> </td>
     </tr>
         </tbody>
                 </table>
