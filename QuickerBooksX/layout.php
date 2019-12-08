@@ -1,6 +1,24 @@
 <?php
   session_start();
 ?>
+<<<<<<< Updated upstream
+=======
+<?php
+$da = getDebtAssetRatio();
+$de = getDebtEquityRatio();
+$inc = getNetIncome();
+$exp = getTotalExpenses();
+$rev = getTotalRevenue();
+$total_entries = getTotalEntries();
+$pend_entries = getPendingEntries();
+$asset_turnover = getAssetTurnover();
+$asset_ret = getAssetReturn();
+$eq_ret = getEquityReturn();
+$cash_turnover = getCashTurnover();
+$profit = getNetProfitMargin();
+?>
+
+>>>>>>> Stashed changes
 
 <!DOCTYPE html>
 <html>
@@ -140,6 +158,7 @@
 </span>
               
               <!-- Menu Footer-->
+<<<<<<< Updated upstream
               <div class="dropdown-divider"></div>
               <a href="#" class="dropdown-item">
                   <a href="#" class="btn btn-default btn-flat">Profile</a>
@@ -152,6 +171,16 @@
                                 
 
 
+=======
+              <div class="dropdown-footer"></div>
+             
+                  <a href="#" class="btn btn-primary">Profile</a>
+                  
+                
+                <a href="logout.php" class="btn btn-primary">Sign out</a>
+                  
+</li>
+>>>>>>> Stashed changes
  </ul>
   </nav>
   <!-- /.navbar -->
@@ -161,8 +190,13 @@
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
   
+<<<<<<< Updated upstream
       <img src="assets/images/qb.png" alt="Logo" 
           class="brand-image">
+=======
+      <img src="assets/images/qb.png" alt="Logo"
+      <a href="layout.php" class="brand-image">
+>>>>>>> Stashed changes
       <span class="brand-text font-weight-light">QUICKER BOOKS</span>
     </a>
 
@@ -304,6 +338,7 @@
                   Ratios go here.
                  </p>
               </div>
+<<<<<<< Updated upstream
             </div>
 
           </div>
@@ -370,6 +405,401 @@
 <script type="text/javascript">
             $(function () {
                 $('#datetimepicker1').datetimepicker();
+=======
+              <!-- /.info-box-content -->
+            </div>           
+            <!-- /.info-box -->
+            <div class="info-box">
+            <span class=""><input type="number" value="<?php echo $cash_turnover ?>" class="dial"></span>
+              <div class="info-box-content">
+                <span class="info-box-text-bold">Cash Turnover</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            
+          </div>
+          <!-- /.col -->
+
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+                            <span class=""><input type="text" value="<?php echo $qr ?>" class="dial"></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Quick Ratio</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                        <div class="info-box">
+                            <span class=""><input type="number" value="<?php echo $asset_turnover ?>" class="dial"></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text"></span>
+                                <span class="info-box-text-bold">Asset Turnover</span>
+                            </div>
+                            </div>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+                            <span class=""><input type="number" value="<?php echo $da ?>" class="dial"></span>
+                            <div class="info-box-content">
+                                Debt to Asset Ratio
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                        <div class="info-box">
+                            <span class=""><input type="number" value="<?php echo $asset_ret ?>" class="dial"></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text"></span>
+                                <span class="info-box-text-bold">Return on Assets</span>
+                            </div>
+                            </div>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+                            <span class=""><input type="number" value="<?php echo $de ?>" class="dial"></span>
+                            <div class="info-box-content">
+                                Debt to Equity Ratio
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                        <div class="info-box">
+                            <span class=""><input type="number" value="<?php echo $eq_ret ?>" class="dial"></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text-bold">Return on Equity</span>
+                            </div>
+                            </div>
+                    </div>
+                    <!-- /.col -->
+                    </div>
+
+            <!-- Info Boxes Style 2 -->
+            <div class="info-box mb-3">
+              <span class="info-box-icon"><i class="fas fa-table"></i></span>
+              <div class="info-box-content">
+                <span class="info-box-text">Total Journal Entries</span>
+                <span class="info-box-number"><?php echo $total_entries ?></span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+            <div class="info-box mb-3">
+              <span class="info-box-icon"><i class="fas fa-book-open"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">
+                <?php if(intval($_SESSION['user']['role_id']) == 2): ?>
+                    <a href = "ListFiles2.php"> <?php endif; ?>Pending Entries</a>
+                </span>
+                <span class="info-box-number"><?php echo $pend_entries ?></span>
+              </div>
+              <!-- /.info-box-content -->
+             
+            </div>
+            <!-- /.info-box -->
+                    </div>
+            
+                    <div class="row">
+                    <div class="col-md-3 col-sm-6 col-12">
+              
+                        <div class="small-box bg-warning">
+                            <div class="inner">
+                                <h3><?php echo number_format($profit,2) ?></h3>
+                                <p>Net Profit Margin</p>
+                            </div>
+                            </div>
+
+                   
+                        <div class="small-box bg-danger">
+                            <div class="inner">
+                                <h3>$<?php echo number_format($exp) ?></h3>
+                                <p> Net Expenditure</p>
+                            </div>
+                       </div>
+
+                        <div class="small-box bg-success">
+                            <div class="inner">
+                                <h3>$<?php echo  number_format($rev) ?></h3>
+                                <p>Net Revenue</p>
+                            </div>
+                     </div>
+
+                        <div class="small-box bg-info">
+                            <div class="inner">
+                                <h3>$<?php echo  number_format($inc) ?></h3>
+                                <p>Net Income</p>
+                            </div>
+                       </div>
+                    </div>
+                    
+
+
+                  <div class="col-md-8">
+                    <div class="chart">
+                      <!--  Chart Canvas -->
+                      <canvas id="bar-chart" height="180" style="height: 180px;"></canvas>
+                    </div>
+                    <!-- /.chart-responsive -->
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+   
+                  
+
+                </div>
+            </div>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar ">
+            <!-- Control sidebar content goes here -->
+            <!-- Calculator -->
+
+            <div class="calc-main">
+                <div class="panel panel-default">
+                    <div class="panel-heading" id="results-window">
+                        <h1 id="result"></h1>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <button id="button-1" class="btn number" value="1">
+                                    <h1>1</h1>
+                                </button>
+                            </div>
+                            <div class="col-xs-3">
+                                <button id="button-2" class="btn number" value="2">
+                                    <h1>2</h1>
+                                </button>
+                            </div>
+                            <div class="col-xs-3">
+                                <button id="button-3" class="btn number" value="3">
+                                    <h1>3</h1>
+                                </button>
+                            </div>
+                            <div class="col-xs-3">
+                                <button id="button-plus" class="btn operator" value="+">
+                                    <h1>+</h1>
+                                </button>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <button id="button-4" class="btn number" value="4">
+                                    <h1>4</h1>
+                                </button>
+                            </div>
+                            <div class="col-xs-3">
+                                <button id="button-5" class="btn number" value="5">
+                                    <h1>5</h1>
+                                </button>
+                            </div>
+                            <div class="col-xs-3">
+                                <button id="button-6" class="btn number" value="6">
+                                    <h1>6</h1>
+                                </button>
+                            </div>
+                            <div class="col-xs-3">
+                                <button id="button-minus" class="btn operator" value="-">
+                                    <h1>&minus;</h1>
+                                </button>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <button id="button-7" class="btn number" value="7">
+                                    <h1>7</h1>
+                                </button>
+                            </div>
+                            <div class="col-xs-3">
+                                <button id="button-8" class="btn number" value="8">
+                                    <h1>8</h1>
+                                </button>
+                            </div>
+                            <div class="col-xs-3">
+                                <button id="button-9" class="btn number" value="9">
+                                    <h1>9</h1>
+                                </button>
+                            </div>
+                            <div class="col-xs-3">
+                                <button id="button-multiply" class="btn operator" value="*">
+                                    <h1>&times;</h1>
+                                </button>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <button id="button-0" class="btn number" value="0">
+                                    <h1>0</h1>
+                                </button>
+                            </div>
+                            <div class="col-xs-3">
+                                <button id="button-." class="btn number" value=".">
+                                    <h1>.</h1>
+                                </button>
+                            </div>
+                            <div class="col-xs-3">
+                                <button id="button-divide" class="btn operator" value="/">
+                                    <h1>&divide;</h1>
+                                </button>
+                            </div>
+                            <div class="col-xs-3">
+                                <button id="button-power" class="btn operator" value="^">
+                                    <h1>^</h1>
+                                </button>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-xs-2"></div>
+                            <div class=" col-xs-5">
+                                <button id="button-clear" class="btn btn-default clear" value="clear">
+                                    <h1>clear</h1>
+                                </button>
+                            </div>
+                            <div class="col-xs-5">
+                                <button id="button-equal" class="btn equal" value="=">
+                                    <h1>=</h1>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </aside>
+        <!-- /.control-sidebar -->
+
+        <!-- Main Footer -->
+
+        <!-- ./wrapper -->
+
+
+
+        <!-- jQuery -->
+        <script src="Templates/Dashboard/plugins/jquery/jquery.min.js"></script>
+        <!-- jQuery UI 1.11.4 -->
+        <script src="Templates/Dashboard/plugins/jquery-ui/jquery-ui.min.js"></script>
+        <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+        <script>
+            $.widget.bridge('uibutton', $.ui.button)
+        </script>
+        <!-- Bootstrap 4 -->
+        <script src="Templates/Dashboard/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- ChartJS -->
+        <script src="Templates/Dashboard/plugins/chart.js/Chart.min.js"></script>
+        <!-- Sparkline -->
+        <script src="Templates/Dashboard/plugins/sparklines/sparkline.js"></script>
+        <!-- JQVMap -->
+        <script src="Templates/Dashboard/plugins/jqvmap/jquery.vmap.min.js"></script>
+        <script src="Templates/Dashboard/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+        <!-- jQuery Knob Chart -->
+        <script src="Templates/Dashboard/plugins/jquery-knob/jquery.knob.min.js"></script>
+        <!-- daterangepicker -->
+        <script src="Templates/Dashboard/plugins/moment/moment.min.js"></script>
+        <script src="Templates/Dashboard/plugins/daterangepicker/daterangepicker.js"></script>
+        <!-- Tempusdominus Bootstrap 4 -->
+        <script src="Templates/Dashboard/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+        <!-- Summernote -->
+        <script src="Templates/Dashboard/plugins/summernote/summernote-bs4.min.js"></script>
+        <!-- Date Picker -->
+        <script src="Templates/Dashboard/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
+        <!-- overlayScrollbars -->
+        <script src="Templates/Dashboard/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+        <!-- AdminLTE App -->
+        <script src="Templates/Dashboard/dist/js/adminlte.js"></script>
+
+        <script src="Templates/Dashboard/plugins/jquery/jquery.js"></script>
+
+        <script src="Templates/Dashboard/plugins/Responsive-Math-Calculator-jQuery/assets/javascript/calc.js"></script>
+        <script src="Templates/Dashboard/plugins/jquery-knob/jquery.knob.min.js"></script>
+
+        <script>
+               
+                $(document).ready(function() {   
+                    changehandler();
+            }); 
+
+             
+    function changehandler() {
+      var val =  $(".dial").val(); 
+      if (val > 1) {
+        $(".dial").knob ({
+                readOnly: true,
+                dynamicDraw: true,
+                cursor: false,
+                skin: "tron",
+                fgColor: "green",
+                bgColor: "#F2f2f2",          
+            });
+      }
+      
+       if (val < 1) { 
+          $(".dial").knob({
+                readOnly: true,
+                dynamicDraw: true,
+                cursor: false,
+                skin: "tron",
+                fgColor: "red",
+                bgColor: "#F2f2f2",          
+            });
+      }
+      
+       if (val == 1) {
+        $(".dial").knob({
+                readOnly: true,
+                dynamicDraw: true,
+                cursor: false,
+                skin: "tron",
+                fgColor: "yellow",
+                bgColor: "#F2f2f2",          
+            });
+      }
+    }
+        </script>
+
+
+        <script type = "text/javascript">
+            new Chart(document.getElementById("bar-chart"), {
+                type: 'bar',
+                data: {
+                    labels: ["Income", "Expenses"],
+                    datasets: [
+                        {
+                            label: "Profit and Loss",
+                            backgroundColor: ["#303C6C", "red"],
+                            data: ["<?php echo $inc ?>", "<?php echo $exp ?>"]
+
+                        }
+                    ]
+                },
+                options: {
+                    legend: { display: false },
+                    title: {
+                        display: true,
+                        text: 'Income and Expenditure Chart'
+                    },
+                    scales: {
+                        yAxes: [{
+                            display: true,
+                            ticks: {
+                                beginAtZero: true   // minimum value will be 0.
+                            }
+                        }]
+                    }
+                    
+
+
+                }
+>>>>>>> Stashed changes
             });
         </script>
 
