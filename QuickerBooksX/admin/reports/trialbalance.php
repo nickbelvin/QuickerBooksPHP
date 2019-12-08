@@ -346,7 +346,10 @@ if ($result->num_rows > 0) {
     <?php
             $totaldebit = $row["debit"] + $totaldebit;
             $totalcredit = $row["credit"] + $totalcredit;
-            $_SESSION["lessincome"] = $sql2 + $lessincome;
+            $sql2result = $conn->query($sql2);
+            $row8 = $sql2result->fetch_assoc();
+            $value = $row8['balance'];
+            $_SESSION["lessincome"] = $value + $lessincome;
         
         }
     } else {
