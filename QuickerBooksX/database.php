@@ -7,7 +7,9 @@ define('DATABASE', 'QuickerBooksDB');
 
 
 // connect to database
-$conn = new mysqli("localhost", "root", "", "QuickerBooksDB");
+//$conn = new mysqli("localhost", "root", "", "QuickerBooksDB");
+$conn = new mysqli("remotemysql.com", "tKROkoSDOO", "yGpAbKvSmu", "tKROkoSDOO");
+
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);

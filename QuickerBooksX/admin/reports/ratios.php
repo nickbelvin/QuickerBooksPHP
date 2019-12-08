@@ -150,7 +150,9 @@ function getQuickRatio(){
         $total_assets = getTotalAssets();
         $total_liabilities = getTotalLiabilities();
         $da_ratio = $total_liabilities/$total_assets;
+
         return number_format($da_ratio, 2);
+
         }
     
         function getDebtEquityRatio(){
@@ -158,7 +160,9 @@ function getQuickRatio(){
             $total_equity = getTotalEquity();
             $total_liabilities = getTotalLiabilities();
             $de_ratio = $total_liabilities/$total_equity;
+
             return number_format($de_ratio, 2);
+
             }
 
             function getNetIncome(){
@@ -168,6 +172,7 @@ function getQuickRatio(){
                 $net_income = $total_revenue - $total_expenses;
                 return $net_income;
                 }
+
 
                 function getPendingEntries(){
                     global $conn;
@@ -234,5 +239,6 @@ function getQuickRatio(){
                     return $margin;
                 }
                 
+
 
     ?>

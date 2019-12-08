@@ -1,9 +1,5 @@
-<?php
-    if(!isset($_SESSION)) 
-    { 
-        session_start(); 
-    } 
-?>
+<?php include('config.php'); ?>
+
 
 <!DOCTYPE html>
 <html>
@@ -11,8 +7,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>QUICKER BOOKS</title>
-  <!-- Tell the browser to be responsive to screen width -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+   <!-- Tell the browser to be responsive to screen width -->
+   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="Templates/Dashboard/plugins/fontawesome-free/css/all.min.css">
   <!-- Ionicons -->
@@ -31,6 +27,11 @@
   <link rel="stylesheet" href="Templates/Dashboard/plugins/daterangepicker/daterangepicker.css">
   <!-- summernote -->
   <link rel="stylesheet" href="Templates/Dashboard/plugins/summernote/summernote-bs4.css">
+ <!-- Date Picker -->
+  <link rel="stylesheet" href="Templates/Dashboard/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.css">
+
+  <link rel="stylesheet" href="Templates/Dashboard/plugins/chart.js/Chart.css">
+  <link rel="stylesheet" href="Templates/Dashboard/plugins/Responsive-Math-Calculator-jQuery/assets/css/style.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -60,38 +61,9 @@
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-      <!-- Messages Dropdown Menu -->
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-envelope"></i>
-          <span class="badge badge-danger navbar-badge"></span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-         
-            <!-- Message Start -->
-            
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  Inbox
-                  <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">The subject goes here</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Mail</a>
-        </div>
-      </li>
-
       <!-- Notifications Dropdown Menu -->
       <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
+        <a class="nav-link" href="#" data-toggle="dropdown">
           <i class="far fa-question-circle"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
@@ -107,20 +79,19 @@
       </li>
      
       <li class="nav-item dropdown">
-      <a class="nav-link" data-toggle="dropdown" href="#">
+      <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#">
       <i class="fas fa-calculator"></i>
  </a>
- <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
- <span class="dropdown-header">Calculator</span> 
-                                </li>
+ 
+</li>
 
-      <li class="nav-item dropdown">
-      <a class="nav-link" data-toggle="datetimepicker"  data-target="#datetimepicker1">
-      <i class="fas fa-calendar" id="datetimepicker1" data-target-input="nearest"></i>
+      <li class="nav-item dropdown" >
+      <a class="nav-link" data-provide="datepicker">
+      <i class="fas fa-calendar"></i>
  </a>
  <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
- <span class="dropdown-header">Calendar</span> 
-                                </li>
+ <span class="dropdown-header">Calendar</span>                            
+</li>
     
     <!-- User Account Menu -->
     <li class="user-menu">
@@ -150,11 +121,7 @@
                 <a href="#" class="dropdown-item">
                 <a href="logout.php" class="btn btn-default btn-flat">Sign out</a>
                   </a>
-          </li>
-
-                                
-
-
+</li>
  </ul>
   </nav>
   <!-- /.navbar -->
@@ -162,10 +129,10 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-purple elevation-4">
     <!-- Brand Logo -->
-    <a href="index.php" class="brand-link">
+    <a href="layout.html" class="brand-link">
   
       <img src="assets/images/qb.png" alt="Logo" 
-          class="brand-image">
+      <a href="layout.html" class="brand-image">
       <span class="brand-text font-weight-light">QUICKER BOOKS</span>
     </a>
 
@@ -187,14 +154,14 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="layout.php" class="nav-link active">
+            <a href="layout.php" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
               </p>
             </a>
           </li>
-          <li class="nav-item has-treeview menu-open">
+          <li class="nav-item has-treeview menu">
             <a href="admin/users/userList.php" class="nav-link">
               <i class="nav-icon fas fa-user-alt"></i>
               <p>
@@ -217,28 +184,97 @@
                 </a>
                 <?php endif; ?>
               </li> 
+              </ul>
+          </li>
 
+          <?php if(intval($_SESSION['user']['role_id']) == 2 || intval($_SESSION['user']['role_id']) == 3): ?>
+          <li class="nav-item has-treeview menu">
+                    <a href="Journalizing.php" class="nav-link">
+                        <i class="nav-icon fas fa-book"></i> 
+                        <p>
+                            Journalizing
+                          <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="Journalizing.php" class="nav-link active">
+                        <i class="nav-icon fas fa-book-open"></i>
+                        <p>
+                            Create Journal Entry
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="ListFiles.php" class="nav-link">
+                        <i class="nav-icon fas fa-book-open"></i>
+                        <p>
+                            View Journal
+                        </p>
+                    </a>
+                </li>
+                </ul>
+              <?php endif; ?>
+          </li>
           <li class="nav-item">
-            <a href="chartofaccounts.php" class="nav-link">
+            <a href="admin/accounts/accountsList.php" class="nav-link active">
               <i class="nav-icon fas fa-columns"></i>
               <p>
-               Chart of Accounts
+               Accounts
               </p>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
+
+          <?php if(intval($_SESSION['user']['role_id']) == 2 || intval($_SESSION['user']['role_id']) == 3): ?> 
+          <li class="nav-item has-treeview menu">
+            <a href="admin/reports/balancesheet.php" class="nav-link">
               <i class="nav-icon fas fa-clipboard"></i>
               <p>
                Reports
+               <i class="right fas fa-angle-left"></i>
               </p>
             </a>
+			<ul class="nav nav-treeview">
+      <li class="nav-item">
+                <a href="admin/reports/balancesheet.php" class="nav-link">
+                  <i class="fas fa-plus nav-icon"></i>
+                  <p>Balance Sheet</p>
+                </a>
+              </li> 
+			<li class="nav-item">
+                <a href="admin/reports/retearnings.php" class="nav-link">
+                  <i class="fas fa-plus nav-icon"></i>
+                  <p>Retained Earnings</p>
+                </a>
+              </li> 
+			<li class="nav-item">
+                <a href="admin/reports/incomestatement.php" class="nav-link">
+                  <i class="fas fa-plus nav-icon"></i>
+                  <p>Income Statement</p>
+                </a>
+              </li> 
+			<li class="nav-item">
+                <a href="admin/reports/trialbalance.php" class="nav-link">
+                  <i class="fas fa-plus nav-icon"></i>
+                  <p>Trial Balance</p>
+                </a>
+              </li>              
+              </ul>
+              <?php endif; ?>
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-clone"></i>
               <p>
                Event Logs
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="admin/mailbox/email.php" class="nav-link">
+              <i class="nav-icon far fa-envelope"></i>
+              <p>
+               Email
               </p>
             </a>
           </li>
@@ -249,6 +285,7 @@
     <!-- /.sidebar -->
   </aside>
 
+
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -256,13 +293,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Create an Account</h1>
+            <h1 class="m-0 text-dark">Create Account</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Quicker Books</a></li>
-              <li class="breadcrumb-item"><a href="#">Chart of Accounts</a></li>
-              <li class="breadcrumb-item active">Create an Account</li>
+              <li class="breadcrumb-item"><a href="layout.php">Quicker Books</a></li>
+              <li class="breadcrumb-item active">Create Account</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -270,14 +306,10 @@
     </div>
     <!-- /.content-header -->
 
-<?php include('config.php'); ?>
 
-<!DOCTYPE html>
-<head>
-    <title>Add an Account</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <meta charset="UTF-8" name="viewport" content="width-device-width, initial-scale=1"/>
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+
+
+
 <!--     <style>
 input[type=text], select {
   width: 100%;
@@ -310,15 +342,14 @@ div {
   padding: 20px;
 }
 </style> -->
-</head>
-<body>
-    <a href="chartofaccounts.php">Back to Chart of Accounts</a><br /><br />
 
-    <form method="post" action="chartofaccounts.php">
+
+
+    <form method="post" action="createaccount.php">
     	<label for="accountname">Account Name :</label>
     	<input type="text" name="accountname" id="accountname" required="required" placeholder="Please enter a name"/><br /><br />
     	<label for="accountnumber">Account Number :</label>
-    	<input type="text" name="accountnumber" id="accountnumber" required="required" placeholder="00000000"/><br /><br />
+    	<input type="text" name="accountnumber" id="accountnumber" required="required" placeholder="000000"/><br /><br />
     	<label for="description">Description :</label>
     	<input type="text" name="description" id="description" placeholder="Please enter a description"/><br /><br />
     	<label for="normalside">Normal Side :</label>
@@ -726,12 +757,10 @@ div {
         
     	<label for="userid">Added By :</label>
     	<input type="text" name="userid" id="userid" required="required"/><br /><br />
-    	<label for="aorder">Order :</label>
-    	<input type="text" name="aorder" id="aorder" placeholder="00"/><br /><br />
+    	<label for="order">Order :</label>
+    	<input type="text" name="order" id="order" placeholder="00"/><br /><br />
     	<label for="statement">Statement :</label>
     	<input type="text" name="statement" id="statement"/><br /><br />
-    	<label for="comment">Term :</label>
-    	<input type="text" name="term" id="term"/><br /><br />
     	<label for="comment">Comment :</label>
     	<input type="text" name="comment" id="comment"/><br /><br />
     	
@@ -748,7 +777,7 @@ div {
     if(isset($_POST["submit"])){
         
     	
-    	$conn = mysqli_connect("localhost", "root", "", "quickerbooksdb");
+    	global $conn;
     	// Check connection
     	if ($conn->connect_error) {
     		die("Connection failed: " . $conn->connect_error);
@@ -767,10 +796,9 @@ div {
 		$balance= mysqli_real_escape_string($conn, $_POST["balance"]);
 		$dateadded= date("Y-m-d");
 		$userid= mysqli_real_escape_string($conn, $_POST["userid"]);
-		$order= mysqli_real_escape_string($conn, $_POST["aorder"]);
+		$order= mysqli_real_escape_string($conn, $_POST["order"]);
 		$statement= mysqli_real_escape_string($conn, $_POST["statement"]);
 		$comment= mysqli_real_escape_string($conn, $_POST["comment"]);
-		$Term= mysqli_real_escape_string($conn, $_POST["Term"]);
 
 
 /* 		echo trim($initialbalance,"$");
@@ -780,8 +808,8 @@ div {
 		
 		//insert data into mysql
 		
-		$sql = "INSERT INTO chartofaccounts (accountname, accountnumber, description, normalside, category, subcategory, initialbalance, debit, credit, balance, dateadded, userid, aorder, statement, comment, Term) 
-		VALUES ('$accountname', '$accountnumber', '$description', '$normalside', '$category', '$subcategory', '$initialbalance', '$debit', '$credit', '$balance', '$dateadded', '$userid', '$order', '$statement', '$comment', '$Term')";
+		$sql = "INSERT INTO chartofaccounts (accountname, accountnumber, description, normalside, category, subcategory, initialbalance, debit, credit, balance, dateadded, userid, order, statement, comment) 
+		VALUES ('$accountname', '$accountnumber', '$description', '$normalside', '$category', '$subcategory', '$initialbalance', '$debit', '$credit', '$balance', '$dateadded', '$userid', '$order', '$statement', '$comment')";
 
 
 		if ($conn->query($sql) === TRUE) {
@@ -805,4 +833,173 @@ div {
 	}
 ?>
 
-    <?php include "templates/footer.php"; ?>
+ <!-- Control Sidebar -->
+ <aside class="control-sidebar ">
+    <!-- Control sidebar content goes here -->  
+    <!-- Calculator -->
+                      
+ <div class="calc-main">
+  <div class="panel panel-default">
+    <div class="panel-heading" id="results-window">
+      <h1 id="result"></h1>
+    </div>
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-xs-3">
+          <button id="button-1" class="btn number" value="1">
+          <h1>1</h1>
+          </button>
+        </div>
+        <div class="col-xs-3">
+          <button id="button-2" class="btn number" value="2">
+          <h1>2</h1>
+          </button>
+        </div>
+        <div class="col-xs-3">
+          <button id="button-3" class="btn number" value="3">
+          <h1>3</h1>
+          </button>
+        </div>
+        <div class="col-xs-3">
+          <button id="button-plus" class="btn operator" value="+">
+          <h1>+</h1>
+          </button>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-xs-3">
+          <button id="button-4" class="btn number" value="4">
+          <h1>4</h1>
+          </button>
+        </div>
+        <div class="col-xs-3">
+          <button id="button-5" class="btn number" value="5">
+          <h1>5</h1>
+          </button>
+        </div>
+        <div class="col-xs-3">
+          <button id="button-6" class="btn number" value="6">
+          <h1>6</h1>
+          </button>
+        </div>
+        <div class="col-xs-3">
+          <button id="button-minus" class="btn operator" value="-">
+          <h1>&minus;</h1>
+          </button>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-xs-3">
+          <button id="button-7" class="btn number" value="7">
+          <h1>7</h1>
+          </button>
+        </div>
+        <div class="col-xs-3">
+          <button id="button-8" class="btn number" value="8">
+          <h1>8</h1>
+          </button>
+        </div>
+        <div class="col-xs-3">
+          <button id="button-9" class="btn number" value="9">
+          <h1>9</h1>
+          </button>
+        </div>
+        <div class="col-xs-3">
+          <button id="button-multiply" class="btn operator" value="*">
+          <h1>&times;</h1>
+          </button>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-xs-3">
+          <button id="button-0" class="btn number" value="0">
+          <h1>0</h1>
+          </button>
+        </div>
+        <div class="col-xs-3">
+          <button id="button-." class="btn number" value=".">
+          <h1>.</h1>
+          </button>
+        </div>
+        <div class="col-xs-3">
+          <button id="button-divide" class="btn operator" value="/">
+          <h1>&divide;</h1>
+          </button>
+        </div>
+        <div class="col-xs-3">
+          <button id="button-power" class="btn operator" value="^">
+          <h1>^</h1>
+          </button>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-xs-2"></div>
+        <div class=" col-xs-5">
+          <button id="button-clear" class="btn btn-default clear" value="clear">
+          <h1>clear</h1>
+          </button>
+        </div>
+        <div class="col-xs-5">
+          <button id="button-equal" class="btn equal" value="=">
+          <h1>=</h1>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>  
+ 
+
+  </aside>
+  <!-- /.control-sidebar -->
+
+  <!-- Main Footer -->
+
+<!-- ./wrapper -->
+
+
+
+<!-- jQuery -->
+<script src="Templates/Dashboard/plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="Templates/Dashboard/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="Templates/Dashboard/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- ChartJS -->
+<script src="Templates/Dashboard/plugins/chart.js/Chart.min.js"></script>
+<!-- Sparkline -->
+<script src="Templates/Dashboard/plugins/sparklines/sparkline.js"></script>
+<!-- JQVMap -->
+<script src="Templates/Dashboard/plugins/jqvmap/jquery.vmap.min.js"></script>
+<script src="Templates/Dashboard/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+<!-- jQuery Knob Chart -->
+<script src="Templates/Dashboard/plugins/jquery-knob/jquery.knob.min.js"></script>
+<!-- daterangepicker -->
+<script src="Templates/Dashboard/plugins/moment/moment.min.js"></script>
+<script src="Templates/Dashboard/plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="Templates/Dashboard/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Summernote -->
+<script src="Templates/Dashboard/plugins/summernote/summernote-bs4.min.js"></script>
+<!-- Date Picker -->
+<script src="Templates/Dashboard/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
+<!-- overlayScrollbars -->
+<script src="Templates/Dashboard/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- AdminLTE App -->
+<script src="Templates/Dashboard/dist/js/adminlte.js"></script>
+
+<script src="Templates/Dashboard/plugins/jquery/jquery.js"></script>
+
+<script src="Templates/Dashboard/plugins/Responsive-Math-Calculator-jQuery/assets/javascript/calc.js"></script>
+<script src="Templates/Dashboard/plugins/jquery-knob/jquery.knob.min.js"></script>
+</body>
+</html>
+

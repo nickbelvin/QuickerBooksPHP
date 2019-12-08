@@ -1,12 +1,22 @@
 <?php
 session_start(); // start session
+/*
 define('USER', 'root');
 define('PASSWORD', '');
 define('HOST', 'localhost');
 define('DATABASE', 'QuickerBooksDB');
+*/
+//online mysql database info. user:tKROkoSDOO , password: yGpAbKvSmu  ,  host: remotemysql.com  ,  database: tKROkoSDOO
+
+    define('USER', 'tKROkoSDOO');
+    define('PASSWORD', 'yGpAbKvSmu');
+    define('HOST', 'remotemysql.com');
+    define('DATABASE', 'tKROkoSDOO');
+
 
 // connect to database
-$conn = new mysqli("localhost", "root", "", "QuickerBooksDB");
+//$conn = new mysqli("localhost", "root", "", "QuickerBooksDB");
+$conn = new mysqli("remotemysql.com", "tKROkoSDOO", "yGpAbKvSmu", "tKROkoSDOO");
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);

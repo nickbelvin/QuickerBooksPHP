@@ -116,7 +116,9 @@ function sortTable(n) {
 
 <?php
 
-$conn = mysqli_connect("localhost", "root", "", "QuickerBooksDB");
+//$conn = mysqli_connect("localhost", "root", "", "QuickerBooksDB");
+$conn = mysqli_connect("remotemysql.com", "tKROkoSDOO", "yGpAbKvSmu", "tKROkoSDOO");
+
 // Check connection
 if ($conn->connect_error) {
 die("Connection failed: " . $conn->connect_error);
@@ -162,4 +164,3 @@ $conn->close();
 </ul>
 </body>
 </html>
-<?php include "Templates/footer.php"; ?>

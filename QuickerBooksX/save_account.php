@@ -12,7 +12,7 @@
 		$credit = $_POST['credit'];
 		$comment = $_POST['comment'];
 
-		mysqli_query($conn, "INSERT INTO chartofaccounts(accountnumber, accountname, description, normalside, category, subcategory, debit, credit, comment) 
+		mysqli_query($conn, "INSERT INTO chartofaccounts2(accountnumber, accountname, description, normalside, category, subcategory, debit, credit, comment) 
 		 VALUES('$accountnumber', '$accountname', '$description', '$normalside', '$category', '$subcategory', '$debit', '$credit' '$comment')") or die(mysqli_error());
 
 		header("location: chartofaccounts.php");
