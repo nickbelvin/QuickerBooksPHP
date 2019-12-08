@@ -480,7 +480,7 @@ if($result2 /*&& $result2 && $result3*/) {
                     //$accAmount = $result->num_rows;
                 $sql3 = "SELECT journalEntry.ID, journalEntry.TranID, journalEntry.Account, journalEntry.CredOrDeb, journalEntry.TranDate, journalEntry.amount, attachment.mime, attachment.size, attachment.data, attachment.name, JournalStatus.TranStatus, JournalStatus.Reason, JournalStatus.memo from journalEntry left join (attachment, JournalStatus) on attachment.TranID = journalEntry.TranID AND JournalStatus.TranID = journalEntry.TranID WHERE journalEntry.TranID = {$count} order by journalEntry.CredOrDeb DESC";
                 $result3 = $conn->query($sql3) or die($conn->error);
-                
+
                 while($row2 = $result3->fetch_assoc()) {
 
                     if ($row2['CredOrDeb'] == "Debit") {

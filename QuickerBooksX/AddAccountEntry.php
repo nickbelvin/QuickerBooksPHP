@@ -174,7 +174,7 @@
         echo "
             <div class=\"form-element\" id=\"credit1\">
             <label>Account {$currentNumOfAccounts}</label>
-            <select name=\"account{$currentNumOfAccounts}\" id=\"account{$currentNumOfAccounts}\">
+            <select name=\"account{$currentNumOfAccounts}\" id=\"account{$currentNumOfAccounts}\" required>
                 <option value=\"\" disabled selected>Select Account</option>
             ";
 
@@ -185,7 +185,8 @@
                         //pattern="^$\d{1,3}(,\d{3})*(\.\d+)?$"
         echo "
         </select>
-        <input type=\"text\" name=\"amount{$currentNumOfAccounts}\" id=\"currency-field\" value=\"\" data-type=\"currency\" placeholder=\"$0.00\">
+        
+        <input type=\"text\" name=\"amount{$currentNumOfAccounts}\" id=\"currency-field\" value=\"\" data-type=\"currency\" placeholder=\"$0.00\" required>
         <!--jquery for formatting for number field-->
         <script>
             // Jquery Dependency
@@ -274,41 +275,27 @@
             }
 
         </script>
-        <select name=\"TranType{$currentNumOfAccounts}\">
+        <select name=\"TranType{$currentNumOfAccounts}\" required>
             <option value=\"\" disabled selected>Select Type</option>
             <option value=\"Debit\">Debit</option>
             <option value=\"Credit\">Credit</option>
         </select>
-        <input type=\"button\" id=\"addAccount{$currentNumOfAccounts}\" value='Add Account' onclick='' class=\"btn btn-primary btn-block\"/>
+        <!--<input type=\"button\" id=\"addAccount{$currentNumOfAccounts}\" value='Add Account' onclick='' class=\"btn btn-primary btn-block\"/>-->
     </div>
         ";
         $currentNumOfAccounts++;
     }
     echo "
-    <input type=\"file\" name=\"uploaded_file\"><br>
+    <input type='text' name='description' placeholder='Memo(optional)'/><br>
+    <input type=\"file\" name=\"uploaded_file\" required><br>
     <input type=\"submit\" value=\"Submit\" formaction=\"UploadFile.php\" name=\"submit[]\">
     </div>
 </form>
 ";
 
 ?>
+        </div>
+    </div>
+</div>
+</body>
 
-<script>
-    submitForms = function(){
-        document.forms["addAccount1"].submit();
-        document.forms["addAccount2"].submit();
-        document.forms["addAccount3"].submit();
-        document.forms["addAccount4"].submit();
-        document.forms["addAccount5"].submit();
-        document.forms["addAccount6"].submit();
-        document.forms["addAccount7"].submit();
-        document.forms["addAccount8"].submit();
-        document.forms["addAccount9"].submit();
-        document.forms["addAccount10"].submit();
-        document.forms["addAccount11"].submit();
-        document.forms["addAccount12"].submit();
-        document.forms["addAccount13"].submit();
-        document.forms["addAccount14"].submit();
-        document.forms["addAccount15"].submit();
-    }
-</script>

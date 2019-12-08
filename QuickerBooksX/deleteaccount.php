@@ -12,6 +12,10 @@ $accountnumber = $_GET['accountnumber'];
 // delete the entry
 $result = mysqli_query($conn, "DELETE FROM chartofaccounts WHERE accountnumber=$accountnumber") or die(mysqli_error());
 
+    $user = $_SESSION['user']['username'];
+    $logQuery = "INSERT INTO journalevents (`category`, `logType`, `logMessage`) VALUES ('COA', 'AccountDelete', 'User \"{$user}\" has deleted Account: {$accountnumber}.')";
+    $logResult = $conn->query($logQuery);
+
 // redirect back to the view page
 header("Location: chartofaccounts.php");
 }else
