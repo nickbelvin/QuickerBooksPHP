@@ -1,8 +1,29 @@
 <?php include('ListFiles.php')?>
 <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="Templates/Dashboard/plugins/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Tempusdominus Bbootstrap 4 -->
+    <link rel="stylesheet" href="Templates/Dashboard/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="Templates/Dashboard/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- JQVMap -->
+    <link rel="stylesheet" href="Templates/Dashboard/plugins/jqvmap/jqvmap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="Templates/Dashboard/dist/css/adminlte.min.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="Templates/Dashboard/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="Templates/Dashboard/plugins/daterangepicker/daterangepicker.css">
+    <!-- summernote -->
+    <link rel="stylesheet" href="Templates/Dashboard/plugins/summernote/summernote-bs4.css">
+    <!-- Date Picker -->
+    <link rel="stylesheet" href="Templates/Dashboard/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.css">
+
+    <link rel="stylesheet" href="Templates/Dashboard/plugins/chart.js/Chart.css">
+    <link rel="stylesheet" href="Templates/Dashboard/plugins/Responsive-Math-Calculator-jQuery/assets/css/style.css">
 
     <script>
         // Jquery Dependency
@@ -96,14 +117,24 @@
 
 <?php
 
-$ledgercount = $_POST['ledgercount'];
-$accounts = $_POST['LedgerAccount'];
+if(isset($_POST['ledgercount'])) {
+    $ledgercount = $_POST['ledgercount'];
+}
+
+if(isset($_POST['LedgerAccount'])) {
+    $accounts = $_POST['LedgerAccount'];
+}
+else {
+    $accounts = $_GET['accounts'];
+}
+//print($accounts);
+$date = date("F jS, Y");
 $sql = "SELECT journalEntry.ID, journalEntry.TranID, journalEntry.Account, journalEntry.CredOrDeb, journalEntry.TranDate, journalEntry.amount, JournalStatus.TranStatus 
         from journalEntry left join (JournalStatus) on JournalStatus.TranID = journalEntry.TranID where (journalEntry.Account = '{$accounts}' AND JournalStatus.TranStatus = 'Approved') ";
 $balance = 0;
 
 $result = $conn->query($sql);
-print($accounts);
+//print($accounts);
 // Check if it was successfull
 if($result) {
     // Make sure there are some files in there

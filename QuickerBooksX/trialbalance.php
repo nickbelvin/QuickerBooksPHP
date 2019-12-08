@@ -91,6 +91,9 @@
         }
         tr:nth-child(even) {background-color: #f2f2f2;
         }
+        table {
+          border: 1px solid black;
+        }
     </style>
 </head>
 <body>

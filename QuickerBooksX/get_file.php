@@ -14,8 +14,8 @@ if(isset($_GET['id'])) {
         // Fetch the file information
         $query = "
             SELECT `mime`, `name`, `size`, `data`
-            FROM `file`
-            WHERE `id` = {$id}";
+            FROM `attachment`
+            WHERE `TranID` = {$id}";
         $result = $conn->query($query);
 
         if($result) {
