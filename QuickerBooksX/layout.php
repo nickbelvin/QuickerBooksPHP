@@ -6,13 +6,23 @@ $cr = getCurrentRatio();
 <?php
 $qr = getQuickRatio();
 ?>
+
 <?php
 $da = getDebtAssetRatio();
 $de = getDebtEquityRatio();
 $inc = getNetIncome();
 $exp = getTotalExpenses();
 $rev = getTotalRevenue();
+
+$total_entries = getTotalEntries();
+$pend_entries = getPendingEntries();
+$asset_turnover = getAssetTurnover();
+$asset_ret = getAssetReturn();
+$eq_ret = getEquityReturn();
+$cash_turnover = getCashTurnover();
+$profit = getNetProfitMargin();
 ?>
+
 
 
 <!DOCTYPE html>
@@ -130,14 +140,23 @@ $rev = getTotalRevenue();
                 </p>
 </span>             
               <!-- Menu Footer-->
-              <div class="dropdown-footer"></div>
-             
+
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item">
+
                   <a href="#" class="btn btn-default btn-flat">Profile</a>
                   
                 
                 <a href="logout.php" class="btn btn-default btn-flat">Sign out</a>
-                  
-</li>
+
+                  </a>
+          </li>
+
+                                
+
+
+
+
  </ul>
   </nav>
   <!-- /.navbar -->
@@ -147,8 +166,11 @@ $rev = getTotalRevenue();
     <!-- Brand Logo -->
     <a href="layout.php" class="brand-link">
   
+
       <img src="assets/images/qb.png" alt="Logo" 
-      <a href="layout.php" class="brand-image">
+
+          class="brand-image">
+
       <span class="brand-text font-weight-light">QUICKER BOOKS</span>
     </a>
 
@@ -341,7 +363,7 @@ $rev = getTotalRevenue();
               <div class="info-box-content">
                 <span class="info-box-text-bold">Current Ratio</span>
               </div>
-              <!-- /.info-box-content -->
+
             </div>
             <!-- /.info-box -->
           </div>
@@ -454,6 +476,69 @@ $rev = getTotalRevenue();
             </div>
             <!-- /.content -->
         </div>
+
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+    <div class="p-3">
+      <h5>Help</h5>
+      <p>Sidebar content</p>
+    </div>
+  </aside>
+  <!-- /.control-sidebar -->
+
+  <!-- Main Footer -->
+
+<!-- ./wrapper -->
+
+
+
+<!-- jQuery -->
+<script src="Templates/Dashboard/plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="Templates/Dashboard/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="Templates/Dashboard/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- ChartJS -->
+<script src="Templates/Dashboard/plugins/chart.js/Chart.min.js"></script>
+<!-- Sparkline -->
+<script src="Templates/Dashboard/plugins/sparklines/sparkline.js"></script>
+<!-- JQVMap -->
+<script src="Templates/Dashboard/plugins/jqvmap/jquery.vmap.min.js"></script>
+<script src="Templates/Dashboard/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+<!-- jQuery Knob Chart -->
+<script src="Templates/Dashboard/plugins/jquery-knob/jquery.knob.min.js"></script>
+<!-- daterangepicker -->
+<script src="Templates/Dashboard/plugins/moment/moment.min.js"></script>
+<script src="Templates/Dashboard/plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="Templates/Dashboard/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Summernote -->
+<script src="Templates/Dashboard/plugins/summernote/summernote-bs4.min.js"></script>
+<!-- overlayScrollbars -->
+<script src="Templates/Dashboard/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- AdminLTE App -->
+<script src="Templates/Dashboard/dist/js/adminlte.js"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="Templates/Dashboard/dist/js/pages/dashboard.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="Templates/Dashboard/dist/js/demo.js"></script>
+
+<script type="text/javascript">
+            $(function () {
+                $('#datetimepicker1').datetimepicker();
+
         <!-- /.content-wrapper -->
 
         <!-- Control Sidebar -->
@@ -625,21 +710,49 @@ $rev = getTotalRevenue();
         <script src="Templates/Dashboard/plugins/jquery-knob/jquery.knob.min.js"></script>
 
         <script>
-            $(".dial").knob({
-                readOnly: true,
-                fgColor: "green",
-                bgColor: "#F2f2f2",
-                angleOffset: "-125",
-                angleArc: "250",
-                skin: "tron",
-                rotation:  "anticlockwise",
-                width: "150",
-                thickness: 0.2
-            });
 
-            $(document.body).on('click', 'button#change', function(){
-                $("input.dial").val('80%');
-            })
+               
+                $(document).ready(function() {   
+                    changehandler();
+            }); 
+
+             
+    function changehandler() {
+      var val =  $(".dial").val(); 
+      if (val > 1) {
+        $(".dial").knob ({
+                readOnly: true,
+                dynamicDraw: true,
+                cursor: false,
+                skin: "tron",
+                fgColor: "green",
+                bgColor: "#F2f2f2",          
+            });
+      }
+      
+       if (val < 1) { 
+          $(".dial").knob({
+                readOnly: true,
+                dynamicDraw: true,
+                cursor: false,
+                skin: "tron",
+                fgColor: "red",
+                bgColor: "#F2f2f2",          
+            });
+      }
+      
+       if (val == 1) {
+        $(".dial").knob({
+                readOnly: true,
+                dynamicDraw: true,
+                cursor: false,
+                skin: "tron",
+                fgColor: "yellow",
+                bgColor: "#F2f2f2",          
+            });
+      }
+    }
+
         </script>
 
 
@@ -661,9 +774,22 @@ $rev = getTotalRevenue();
                     legend: { display: false },
                     title: {
                         display: true,
-                        text: 'Profit and Loss'
+
+                        text: 'Income and Expenditure Chart'
+                    },
+                    scales: {
+                        yAxes: [{
+                            display: true,
+                            ticks: {
+                                beginAtZero: true   // minimum value will be 0.
+                            }
+                        }]
                     }
+                    
+
+
                 }
+
             });
 
         </script>
