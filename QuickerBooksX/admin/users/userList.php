@@ -12,7 +12,19 @@
   <?php include('../../header.php') ?>
 
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../../DataTables/datatables.css">
+<script type="text/javascript" charset="utf8" src="../../DataTables/datatables.js"></script>
 
+<script>
+        //adding table formatting things
+        $(document).ready( function () {
+            
+            $('#myTable').dataTable();
+            
+            
+        });
+    </script>
  
 </head>
 
@@ -198,7 +210,8 @@
     </a>
     <br> <br>
     <?php if (isset($users)): ?>
-      <table align="left" class="table table-bordered">
+
+      <table align="left" class="table table-bordered" id='myTable'>
         <thead>
           <tr>
             <th></th>

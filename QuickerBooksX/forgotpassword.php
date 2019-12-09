@@ -1,4 +1,5 @@
-<?php include(INCLUDE_PATH . '/logic/common_functions.php') ?>
+<?php include('includes/logic/common_functions.php') ?>
+
 <?php
 // variable declaration. These variables will be used in the form
 $user_id = 0;
@@ -57,3 +58,42 @@ function saveQuestions($user_id) {
         $isEditing = true;
     }
 }
+?>
+
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<form name="frmForgot" id="frmForgot" method="post" onSubmit="return validate_forgot();">
+<br>
+<body style ="background-color:#2B1F50;">
+<h3><center>Forgot Password?</center></h3>
+	<?php if(!empty($success_message)) { ?>
+	<div class="success_message">
+	<?php echo $success_message; ?></div>
+	<?php } ?>
+
+	<div id="validation-message">
+		<?php if(!empty($error_message)) { ?>
+	<?php echo $error_message; ?>
+	<?php } ?>
+	</div>	
+	<div class="field-group">
+		<center>
+			<h6>Enter your email below to find your password</h6>
+		<div><input type="text" name="user-email" id="user-email" class="input-field" placeholder = "Email"></div>
+		</center>
+	</div>
+	<div class="field-group">
+		<br>
+		<center>
+		<div><input type="submit" name="forgot-password" id="forgot-password" value="Submit" class="form-submit-button"></div>
+		</center>
+	</div>	
+		</body>
+</form>
+<style> 
+body{
+	color: white;
+	font-family: "Verdana";
+}
+</style>

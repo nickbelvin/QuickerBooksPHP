@@ -317,7 +317,7 @@ if ($result->num_rows > 0) {
         <tbody>
             <tr>
                 <td align="left"><?php echo $row["accountname"]; ?></td>
-                <td align="left"><?php if ($row["debit"] != 0) {
+                <td align="left"><?php if ($row["debit"] OR $row['credit'] != 0) {
                                             if($row["balance"] < 0.00){
                                             echo "(" . number_format($row["balance"],2).")";
 
@@ -326,7 +326,7 @@ if ($result->num_rows > 0) {
                                             } ?></td>
                                             
                 <td align="right"><?php if ($row["credit"] != 0) {
-                                                echo "$" . number_format($row["balance"],2);
+                                                //echo "$" . number_format($row["balance"],2);
                                             } ?></td>
             </tr>
 
