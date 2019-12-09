@@ -65,7 +65,7 @@ function saveQuestions($user_id) {
 integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <form name="frmForgot" id="frmForgot" method="post" onSubmit="return validate_forgot();">
 <br>
-<body style ="background-color:#2B1F50;">
+<body >
 <h3><center>Forgot Password?</center></h3>
 	<?php if(!empty($success_message)) { ?>
 	<div class="success_message">
