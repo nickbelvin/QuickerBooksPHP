@@ -1,5 +1,6 @@
 <?php  
- $connect = mysqli_connect("localhost", "root", "", "QuickerBooksDB");
+ //$connect = mysqli_connect("localhost", "root", "", "QuickerBooksDB");
+ $connect = mysqli_connect("remotemysql.com", "tKROkoSDOO", "yGpAbKvSmu", "tKROkoSDOO");
  if(!empty($_POST))  
  {  
       $output = '';  

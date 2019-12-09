@@ -1,5 +1,6 @@
 <?php
-    mysqli_connect("localhost", "root", "") or die("Error connecting to database: ".mysqli_error());
+    //mysqli_connect("localhost", "root", "") or die("Error connecting to database: ".mysqli_error());
+    mysqli_connect("remotemysql.com", "tKROkoSDOO", "yGpAbKvSmu", "tKROkoSDOO") or die("Error connecting to database: ".mysqli_error());
     /*
         localhost - it's location of the mysql server, usually localhost
         root - your username
@@ -8,7 +9,7 @@
         if connection fails it will stop loading the page and display an error
     */
      
-    mysqli_select_db("QuickerBooksDB") or die(mysqli_error());
+    mysqli_select_db("tKROkoSDOO") or die(mysqli_error());
     /* tutorial_search is the name of database we've created */
 ?>
  

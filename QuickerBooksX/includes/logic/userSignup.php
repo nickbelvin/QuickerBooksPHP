@@ -106,7 +106,7 @@ if (isset($_POST['signup_btn'])) {
 				<p>Username: '.$username.' </p>
 				<p>Date of Birth:  '.$dob.'  </p>
 				<p>Please click on the button below to verify the account.</p>
-				<a href="http://localhost/qb/verification.php?token=' . $token . '">Verify user account</a>
+				<a href="http://quickerbooks.us-east-2.elasticbeanstalk.com/verification.php?token=' . $token . '">Verify user account</a>
 				</div>
 			</body>
 			</html>';
