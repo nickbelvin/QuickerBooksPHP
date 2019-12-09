@@ -344,12 +344,12 @@
 
                             if ($row2['CredOrDeb'] == "Debit") {
                                 echo "  
-                            <form method='post' action='ledger.php' name='ledgerform' id='ledgerform{$counter}'><input type='hidden' name ='LedgerAccount' value='{$row2['Account']}'/><input type='hidden' name ='ledgercount' value='{$counter}'/><a onclick=\"document . getElementById('ledgerform{$counter}') . submit();\">{$row2['Account']}</a></form><br>
+                            <form method='post' action='ledger.php' name='ledgerform' id='ledgerform{$counter}'><input type='hidden' name ='LedgerAccount' value='{$row2['Account']}'/><input type='hidden' name ='ledgercount' value='{$counter}'/><a onclick=\"document . getElementById('ledgerform{$counter}') . submit();\" style=\"color:blue\">{$row2['Account']}</a></form><br>
                                     ";
                             } else {
                                 echo "
                                 
-                            <form method='post' action='ledger.php' name='ledgerform' id='ledgerform{$counter}'><input type='hidden' name ='LedgerAccount' value='{$row2['Account']}'/><input type='hidden' name ='ledgercount' value='{$counter}'/><a onclick=\"document . getElementById('ledgerform{$counter}') . submit();\" class=\"tab\" style=\"padding-left: 45px;\">{$row2['Account']}</a></form><br>     
+                            <form method='post' action='ledger.php' name='ledgerform' id='ledgerform{$counter}'><input type='hidden' name ='LedgerAccount' value='{$row2['Account']}'/><input type='hidden' name ='ledgercount' value='{$counter}'/><a onclick=\"document . getElementById('ledgerform{$counter}') . submit();\" class=\"tab\" style=\"padding-left: 45px; color:blue;\" >{$row2['Account']}</a></form><br>     
                                     ";
                             }
                             //$accCounter++;
@@ -358,7 +358,24 @@
 
                         echo "
                         </td>
-                        <td align='center'>{$row['TranID']}</td>
+                        <td align='center'>
+                        ";
+                        $counted = 1;
+                        $sql6 = "SELECT journalEntry.ID, journalEntry.TranID, journalEntry.Account, journalEntry.CredOrDeb, journalEntry.TranDate, journalEntry.amount, attachment.mime, attachment.size, attachment.data, attachment.name, JournalStatus.TranStatus, JournalStatus.Reason, JournalStatus.memo from journalEntry left join (attachment, JournalStatus) on attachment.TranID = journalEntry.TranID AND JournalStatus.TranID = journalEntry.TranID WHERE journalEntry.TranID = {$TranID} order by journalEntry.CredOrDeb DESC";
+                        $result6 = $conn->query($sql6) or die($conn->error);
+                        
+                        while($row6 = $result6->fetch_assoc()) {
+                            $temp = preg_replace("/[^0-9]/", "", strval($row6['Account']) );
+                            $accountnum = intval($temp);
+                            echo "<form method='post' action='ledger.php?accounts={$row6['Account']}'><input type='hidden' value='{$accountnum}'/><a onclick=\"document . getElementById('ledgerform{$counted}') . submit();\" style=\"color:blue\">{$accountnum}</a></form><br>
+                            ";
+                            //print($row6['Account']);
+                            $counted ++;
+                        }
+                        //{$row['TranID']}
+
+                        echo "
+                        </td>
                         <td align='right'>
                         ";
 

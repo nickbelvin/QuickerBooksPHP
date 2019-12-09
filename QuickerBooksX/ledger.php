@@ -257,7 +257,7 @@
     </style>-->
     <?php include('header.php') ?>
     <style>
-        .referenceButton {
+        .referenceButton input{
   background: none!important;
   border: none;
   padding: 0!important;
@@ -269,6 +269,20 @@
   cursor: pointer;
 }
     </style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="DataTables/datatables.css">
+<script type="text/javascript" charset="utf8" src="DataTables/datatables.js"></script>
+
+<script>
+        //adding table formatting things
+        $(document).ready( function () {
+            
+            //$('#myTable').dataTable();
+            
+            
+        });
+    </script>
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -438,14 +452,17 @@ if($result) {
                     <div class=\"as-of-date\" align = \"center\"><p align=center>For the Period Ending: {$date} <br></p></div>
                 </div>
                 <table width=\"100%\" id=\"myTable\">
+                <thead>
                 <tr>
-                    <td><b>Date</b></td>
-                    <td><b>Reference</b></td>
-                    <td><b>Memo</b></td>
-                    <td><b>Debits</b></td>
-                    <td><b>Credits</b></td>
-                    <td><b>Balance</b></td>
-                </tr>";
+                    <th><b>Date</b></th>
+                    <th><b>Reference</b></th>
+                    <th><b>Memo</b></th>
+                    <th><b>Debits</b></th>
+                    <th><b>Credits</b></th>
+                    <th><b>Balance</b></th>
+                </tr>
+                </thead>
+                <tbody>";
 
         // Print each file
         $temp = preg_replace("/[^0-9]/", "", strval($accounts) );
@@ -478,14 +495,16 @@ if($result) {
                     }
                     $amount = number_format($row['amount'], 2);
                     $balanceFormat = number_format($balance, 2);
-                echo "
+                    $page = floor((intval($row['TranID']) / 10) + 1);
+                    
+                    echo "
                     <tr>
                         <td>{$row['TranDate']}</td>
-                        <td><form method='post' action='ViewSingleJournalEntry.php' name='singleJournalForm'><input type='submit' class='referenceNumber' value='{$row['TranID']}' /><input type='hidden' name='singleJournalTranID' value='{$row['TranID']}' /></form></td>
+                        <td align='center'><form method='post' action='ViewSingleJournalEntry.php' name='singleJournalForm'><input type='submit' class='referenceNumber' value='J{$page}' style='background: none!important; border: none; padding: 0!important; font-family: arial, sans-serif; color: #069; text-decoration: underline; cursor: pointer;' /><input type='hidden' name='singleJournalTranID' value='{$row['TranID']}' /></form></td>
                         <td></td>
-                        <td>{$amount}</td>
+                        <td align='right'>{$amount}</td>
                         <td></td>
-                        <td>{$balanceFormat}</td>
+                        <td align='right'>{$balanceFormat}</td>
                     </tr>
                     ";
                 }
@@ -508,21 +527,23 @@ if($result) {
                     }
                     $amount = number_format($row['amount'], 2);
                     $balanceFormat = number_format($balance, 2);
+                    $page = floor((intval($row['TranID']) / 10) + 1);
+                    
                     echo "
                         <tr>
                             <td>{$row['TranDate']}</td>
-                            <td><form method='post' action='ViewSingleJournalEntry.php' name='singleJournalForm'><input type='submit' value='{$row['TranID']}' /><input type='hidden' name='singleJournalTranID' value='{$row['TranID']}' /></form></td>
+                            <td align='center'><form method='post' action='ViewSingleJournalEntry.php' name='singleJournalForm'><input type='submit' value='J{$page}' style='background: none!important; border: none; padding: 0!important; font-family: arial, sans-serif; color: #069; text-decoration: underline; cursor: pointer;' /><input type='hidden' name='singleJournalTranID' value='{$row['TranID']}' /></form></td>
                             <td></td>
                             <td></td>
-                            <td>{$amount}</td>
-                            <td>{$balanceFormat}</td>
+                            <td align='right'>{$amount}</td>
+                            <td align='right'>{$balanceFormat}</td>
                         </tr>
                         ";
                 }
         }
 
         // Close table
-        echo '</table>';
+        echo '</tbody></table>';
     }
     echo '<p>Click <a href="ListFiles2.php">here</a> to go back</p>';
 
