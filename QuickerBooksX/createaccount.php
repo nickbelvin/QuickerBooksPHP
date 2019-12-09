@@ -4,36 +4,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>QUICKER BOOKS</title>
-   <!-- Tell the browser to be responsive to screen width -->
-   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="Templates/Dashboard/plugins/fontawesome-free/css/all.min.css">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- Tempusdominus Bbootstrap 4 -->
-  <link rel="stylesheet" href="Templates/Dashboard/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
-  <!-- iCheck -->
-  <link rel="stylesheet" href="Templates/Dashboard/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-  <!-- JQVMap -->
-  <link rel="stylesheet" href="Templates/Dashboard/plugins/jqvmap/jqvmap.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="Templates/Dashboard/dist/css/adminlte.min.css">
-  <!-- overlayScrollbars -->
-  <link rel="stylesheet" href="Templates/Dashboard/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
-  <!-- Daterange picker -->
-  <link rel="stylesheet" href="Templates/Dashboard/plugins/daterangepicker/daterangepicker.css">
-  <!-- summernote -->
-  <link rel="stylesheet" href="Templates/Dashboard/plugins/summernote/summernote-bs4.css">
- <!-- Date Picker -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>QUICKER BOOKS</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="Templates/Dashboard/plugins/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Tempusdominus Bbootstrap 4 -->
+    <link rel="stylesheet" href="Templates/Dashboard/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="Templates/Dashboard/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- JQVMap -->
+    <link rel="stylesheet" href="Templates/Dashboard/plugins/jqvmap/jqvmap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="Templates/Dashboard/dist/css/adminlte.min.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="Templates/Dashboard/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="Templates/Dashboard/plugins/daterangepicker/daterangepicker.css">
+    <!-- summernote -->
+    <link rel="stylesheet" href="Templates/Dashboard/plugins/summernote/summernote-bs4.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+	<!-- Date Picker -->
   <link rel="stylesheet" href="Templates/Dashboard/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.css">
 
   <link rel="stylesheet" href="Templates/Dashboard/plugins/chart.js/Chart.css">
   <link rel="stylesheet" href="Templates/Dashboard/plugins/Responsive-Math-Calculator-jQuery/assets/css/style.css">
-  <!-- Google Font: Source Sans Pro -->
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -129,10 +134,10 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-purple elevation-4">
     <!-- Brand Logo -->
-    <a href="layout.html" class="brand-link">
+    <a href="layout.php" class="brand-link">
   
       <img src="assets/images/qb.png" alt="Logo" 
-      <a href="layout.html" class="brand-image">
+      <a href="layout.php" class="brand-image">
       <span class="brand-text font-weight-light">QUICKER BOOKS</span>
     </a>
 
@@ -306,43 +311,9 @@
     </div>
     <!-- /.content-header -->
 
-
-
-
-
-<!--     <style>
-input[type=text], select {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-input[type=submit] {
-  width: 100%;
-  background-color: #4CAF50;
-  color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-input[type=submit]:hover {
-  background-color: #45a049;
-}
-
-div {
-  border-radius: 5px;
-  background-color: #f2f2f2;
-  padding: 20px;
-}
-</style> -->
-
+        <!-- Main content -->
+        <div class="content">
+            <div class="container-fluid">
 
 
     <form method="post" action="createaccount.php">
@@ -384,97 +355,6 @@ div {
             ?>
         </select>
         <br /><br />
-    	<label for="initialbalance">Initial Balance :</label>
-    	<!-- <input type="text" name="initialbalance" id="initialbalance" placeholder="0.00"/><br /><br /> -->
-    	<input type="text" name="initialbalance" id="initialbalance" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" value="" data-type="currency" placeholder="$0.00"><br /><br />
-        <!--jquery for formatting for number field-->
-        <script>
-            // Jquery Dependency
-
-            $("input[data-type='currency']").on({
-                keyup: function() {
-                    formatCurrency($(this));
-                },
-                blur: function() {
-                    formatCurrency($(this), "blur");
-                }
-            });
-
-
-            function formatNumber(n) {
-                // format number 1000000 to 1,234,567
-                return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-            }
-
-
-            function formatCurrency(input, blur) {
-                // appends $ to value, validates decimal side
-                // and puts cursor back in right position.
-
-                // get input value
-                var input_val = input.val();
-
-                // don't validate empty input
-                if (input_val === "") { return; }
-
-                // original length
-                var original_len = input_val.length;
-
-                // initial caret position
-                var caret_pos = input.prop("selectionStart");
-
-                // check for decimal
-                if (input_val.indexOf(".") >= 0) {
-
-                    // get position of first decimal
-                    // this prevents multiple decimals from
-                    // being entered
-                    var decimal_pos = input_val.indexOf(".");
-
-                    // split number by decimal point
-                    var left_side = input_val.substring(0, decimal_pos);
-                    var right_side = input_val.substring(decimal_pos);
-
-                    // add commas to left side of number
-                    left_side = formatNumber(left_side);
-
-                    // validate right side
-                    right_side = formatNumber(right_side);
-
-                    // On blur make sure 2 numbers after decimal
-                    if (blur === "blur") {
-                        right_side += "00";
-                    }
-
-                    // Limit decimal to only 2 digits
-                    right_side = right_side.substring(0, 2);
-
-                    // join number by .
-                    input_val = "$" + left_side + "." + right_side;
-
-                } else {
-                    // no decimal entered
-                    // add commas to number
-                    // remove all non-digits
-                    input_val = formatNumber(input_val);
-                    input_val = "$" + input_val;
-
-                    // final formatting
-                    if (blur === "blur") {
-                        input_val += ".00";
-                    }
-                }
-
-                // send updated string to input
-                input.val(input_val);
-
-                // put caret back in the right position
-                var updated_len = input_val.length;
-                caret_pos = updated_len - original_len + caret_pos;
-                input[0].setSelectionRange(caret_pos, caret_pos);
-            }
-
-        </script>
         
     	<label for="debit">Debit :</label>
     	<!-- <input type="text" name="debit" id="debit" placeholder="0.00"/><br /><br /> -->
@@ -661,106 +541,16 @@ div {
             }
 
         </script>
-        
-    	<label for="balance">Balance :</label>
-    	<!-- <input type="text" name="balance" id="balance" placeholder="0.00"/><br /><br /> -->
-    	<input type="text" name="balance" id="balance" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" value="" data-type="currency" placeholder="$0.00"><br /><br />
-
-    	<!--jquery for formatting for number field-->
-        <script>
-            // Jquery Dependency
-
-            $("input[data-type='currency']").on({
-                keyup: function() {
-                    formatCurrency($(this));
-                },
-                blur: function() {
-                    formatCurrency($(this), "blur");
-                }
-            });
-
-
-            function formatNumber(n) {
-                // format number 1000000 to 1,234,567
-                return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-            }
-
-
-            function formatCurrency(input, blur) {
-                // appends $ to value, validates decimal side
-                // and puts cursor back in right position.
-
-                // get input value
-                var input_val = input.val();
-
-                // don't validate empty input
-                if (input_val === "") { return; }
-
-                // original length
-                var original_len = input_val.length;
-
-                // initial caret position
-                var caret_pos = input.prop("selectionStart");
-
-                // check for decimal
-                if (input_val.indexOf(".") >= 0) {
-
-                    // get position of first decimal
-                    // this prevents multiple decimals from
-                    // being entered
-                    var decimal_pos = input_val.indexOf(".");
-
-                    // split number by decimal point
-                    var left_side = input_val.substring(0, decimal_pos);
-                    var right_side = input_val.substring(decimal_pos);
-
-                    // add commas to left side of number
-                    left_side = formatNumber(left_side);
-
-                    // validate right side
-                    right_side = formatNumber(right_side);
-
-                    // On blur make sure 2 numbers after decimal
-                    if (blur === "blur") {
-                        right_side += "00";
-                    }
-
-                    // Limit decimal to only 2 digits
-                    right_side = right_side.substring(0, 2);
-
-                    // join number by .
-                    input_val = "$" + left_side + "." + right_side;
-
-                } else {
-                    // no decimal entered
-                    // add commas to number
-                    // remove all non-digits
-                    input_val = formatNumber(input_val);
-                    input_val = "$" + input_val;
-
-                    // final formatting
-                    if (blur === "blur") {
-                        input_val += ".00";
-                    }
-                }
-
-                // send updated string to input
-                input.val(input_val);
-
-                // put caret back in the right position
-                var updated_len = input_val.length;
-                caret_pos = updated_len - original_len + caret_pos;
-                input[0].setSelectionRange(caret_pos, caret_pos);
-            }
-
-        </script>
-        
-    	<label for="userid">Added By :</label>
-    	<input type="text" name="userid" id="userid" required="required"/><br /><br />
-    	<label for="order">Order :</label>
-    	<input type="text" name="order" id="order" placeholder="00"/><br /><br />
     	<label for="statement">Statement :</label>
-    	<input type="text" name="statement" id="statement"/><br /><br />
+    	    	<select name="statement">
+            <?php
+            $sql = mysqli_query($conn, "SELECT DISTINCT statement FROM chartofaccounts order by statement asc");
+            while ($row = $sql->fetch_assoc()){
+                echo "<option value=\"{$row['statement']} \">" . $row['statement'] . "</option>";
+            }
+            ?>
+                    </select>
+            <br /><br />
     	<label for="comment">Comment :</label>
     	<input type="text" name="comment" id="comment"/><br /><br />
     	
@@ -808,8 +598,8 @@ div {
 		
 		//insert data into mysql
 		
-		$sql = "INSERT INTO chartofaccounts (accountname, accountnumber, description, normalside, category, subcategory, initialbalance, debit, credit, balance, dateadded, userid, order, statement, comment) 
-		VALUES ('$accountname', '$accountnumber', '$description', '$normalside', '$category', '$subcategory', '$initialbalance', '$debit', '$credit', '$balance', '$dateadded', '$userid', '$order', '$statement', '$comment')";
+		$sql = "INSERT INTO chartofaccounts (accountname, accountnumber, description, normalside, category, subcategory, debit, credit, dateadded, statement, comment) 
+		VALUES ('$accountname', '$accountnumber', '$description', '$normalside', '$category', '$subcategory', '$debit', '$credit', '$dateadded', '$statement', '$comment')";
 
 
 		if ($conn->query($sql) === TRUE) {

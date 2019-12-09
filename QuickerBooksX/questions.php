@@ -13,7 +13,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
     <!-- Custome styles -->
-    <link rel="stylesheet" href="../../assets/css/style.css">
+    <!--<link rel="stylesheet" href="../../assets/css/style.css">-->
     <style type="text/css">
     .wthree-field button.btn {
     background: #fc636b;
