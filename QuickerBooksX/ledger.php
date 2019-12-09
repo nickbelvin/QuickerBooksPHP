@@ -255,7 +255,7 @@
         tr:nth-child(even) {background-color: #f2f2f2;
         }
     </style>-->
-    <?php include('header.php') ?>
+
     <style>
         .referenceButton {
   background: none!important;

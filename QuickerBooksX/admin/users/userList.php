@@ -65,7 +65,7 @@
                     </li>
 
                     <?php if(intval($_SESSION['user']['role_id']) == 2 || intval($_SESSION['user']['role_id']) == 3): ?>
-                    <li class="nav-item has-treeview menu">
+                    <li class="nav-item has-treeview menu-open">
                         <a href="../../Journalizing.php" class="nav-link">
                             <i class="nav-icon fas fa-book"></i>
                             <p>
@@ -103,7 +103,7 @@
                     </li>
 
                     <?php if(intval($_SESSION['user']['role_id']) == 2 || intval($_SESSION['user']['role_id']) == 3): ?>
-                    <li class="nav-item has-treeview menu">
+                    <li class="nav-item has-treeview menu-open">
                         <a href="" class="nav-link">
                             <i class="nav-icon fas fa-clipboard"></i>
                             <p>

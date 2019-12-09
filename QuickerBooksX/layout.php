@@ -144,10 +144,10 @@ $profit = getNetProfitMargin();
               <div class="dropdown-divider"></div>
               <a href="#" class="dropdown-item">
 
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
+                  <a href="#" class="btn btn-primary btn-flat">Profile</a>
                   
                 
-                <a href="logout.php" class="btn btn-default btn-flat">Sign out</a>
+                <a href="logout.php" class="btn btn-primary btn-flat">Sign out</a>
 
                   </a>
           </li>
@@ -333,52 +333,64 @@ $profit = getNetProfitMargin();
     </aside>
 
     <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <div class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">Dashboard</h1>
-                    </div><!-- /.col -->
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Quicker Books</a></li>
-                            <li class="breadcrumb-item active">Dashboard</li>
-                        </ol>
-                    </div><!-- /.col -->
-                </div><!-- /.row -->
-            </div><!-- /.container-fluid -->
-        </div>
-        <!-- /.content-header -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Dashboard</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Quicker Books</a></li>
+              <li class="breadcrumb-item active">Dashboard</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
 
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
-      
-      <div class="row">
-          <div class="col-md-3 col-sm-6 col-12">
+        <div class="row">
+                <div class="col-md-3 col-sm-6 col-12">
             <div class="info-box">
             <span class=""><input type="number" value="<?php echo $cr ?>" class="dial"></span>
               <div class="info-box-content">
                 <span class="info-box-text-bold">Current Ratio</span>
               </div>
-
-            </div>
+            </div>           
             <!-- /.info-box -->
+            <div class="info-box">
+            <span class=""><input type="number" value="<?php echo $cash_turnover ?>" class="dial"></span>
+              <div class="info-box-content">
+                <span class="info-box-text-bold">Cash Turnover</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            
           </div>
           <!-- /.col -->
 
-
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
-                            <span class=""><input type="number" value="<?php echo $qr ?>" class="dial"></span>
+                            <span class=""><input type="text" value="<?php echo $qr ?>" class="dial"></span>
                             <div class="info-box-content">
                                 <span class="info-box-text">Quick Ratio</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
                         <!-- /.info-box -->
+                        <div class="info-box">
+                            <span class=""><input type="number" value="<?php echo $asset_turnover ?>" class="dial"></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text"></span>
+                                <span class="info-box-text-bold">Asset Turnover</span>
+                            </div>
+                            </div>
                     </div>
                     <!-- /.col -->
                     <div class="col-md-3 col-sm-6 col-12">
@@ -390,6 +402,13 @@ $profit = getNetProfitMargin();
                             <!-- /.info-box-content -->
                         </div>
                         <!-- /.info-box -->
+                        <div class="info-box">
+                            <span class=""><input type="number" value="<?php echo $asset_ret ?>" class="dial"></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text"></span>
+                                <span class="info-box-text-bold">Return on Assets</span>
+                            </div>
+                            </div>
                     </div>
                     <!-- /.col -->
                     <div class="col-md-3 col-sm-6 col-12">
@@ -401,144 +420,93 @@ $profit = getNetProfitMargin();
                             <!-- /.info-box-content -->
                         </div>
                         <!-- /.info-box -->
+                        <div class="info-box">
+                            <span class=""><input type="number" value="<?php echo $eq_ret ?>" class="dial"></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text-bold">Return on Equity</span>
+                            </div>
+                            </div>
                     </div>
                     <!-- /.col -->
+                    </div>
 
+            <!-- Info Boxes Style 2 -->
+            <div class="info-box mb-3">
+              <span class="info-box-icon"><i class="fas fa-table"></i></span>
+              <div class="info-box-content">
+                <span class="info-box-text">Total Journal Entries</span>
+                <span class="info-box-number"><?php echo $total_entries ?></span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+            <div class="info-box mb-3">
+              <span class="info-box-icon"><i class="fas fa-book-open"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">
+                <?php if(intval($_SESSION['user']['role_id']) == 2): ?>
+                    <a href = "ListFiles2.php"> <?php endif; ?>Pending Entries</a>
+                </span>
+                <span class="info-box-number"><?php echo $pend_entries ?></span>
+              </div>
+              <!-- /.info-box-content -->
+             
+            </div>
+            <!-- /.info-box -->
+                    </div>
+            
+                    <div class="row">
                     <div class="col-md-3 col-sm-6 col-12">
+              
+                        <div class="small-box bg-warning">
+                            <div class="inner">
+                                <h3><?php echo number_format($profit,2) ?></h3>
+                                <p>Net Profit Margin</p>
+                            </div>
+                            </div>
+
+                   
                         <div class="small-box bg-danger">
                             <div class="inner">
-                                <h3>$<?php echo $exp ?></h3>
-                                <p>Expenditure</p>
+                                <h3>$<?php echo number_format($exp) ?></h3>
+                                <p> Net Expenditure</p>
                             </div>
-                        </div>
+                       </div>
 
                         <div class="small-box bg-success">
                             <div class="inner">
-                                <h3>$<?php echo $rev ?></h3>
-                                <p>Revenue</p>
+                                <h3>$<?php echo  number_format($rev) ?></h3>
+                                <p>Net Revenue</p>
                             </div>
-                        </div>
+                     </div>
 
                         <div class="small-box bg-info">
                             <div class="inner">
-                                <h3>$<?php echo $inc ?></h3>
+                                <h3>$<?php echo  number_format($inc) ?></h3>
                                 <p>Net Income</p>
                             </div>
-                        </div>
+                       </div>
                     </div>
+                    
 
-                    <div class="col-sm-9">
 
-                        <div class ="card">
-                            <canvas id="bar-chart" width="500" height="300"></canvas>
-                        </div>
+                  <div class="col-md-8">
+                    <div class="chart">
+                      <!--  Chart Canvas -->
+                      <canvas id="bar-chart" height="180" style="height: 180px;"></canvas>
                     </div>
-
-          <!--why is this even here?-->
-                    <div class="card">
-
-
-                        <!-- TradingView Widget BEGIN -->
-                        <!--<div class="tradingview-widget-container">
-                            <div id="tradingview_a3d86"></div>
-                            <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/symbols/NASDAQ-AAPL/" rel="noopener" target="_blank"><span class="blue-text">AAPL Chart</span></a> by TradingView</div>
-                            <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
-                            <script type="text/javascript">
-                                new TradingView.widget(
-                                    {
-                                        "width": 1150,
-                                        "height": 610,
-                                        "symbol": "NASDAQ:AAPL",
-                                        "interval": "D",
-                                        "timezone": "America/New_York",
-                                        "theme": "Light",
-                                        "style": "1",
-                                        "locale": "en",
-                                        "toolbar_bg": "#f1f3f6",
-                                        "enable_publishing": false,
-                                        "allow_symbol_change": true,
-                                        "calendar": true,
-                                        "news": [
-                                            "headlines"
-                                        ],
-                                        "container_id": "tradingview_a3d86"
-                                    }
-                                );
-                            </script>
-                        </div>-->
-                        <!-- TradingView Widget END -->
-
-                    </div>
-
-
+                    <!-- /.chart-responsive -->
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+   
+                  
 
                 </div>
             </div>
             <!-- /.content -->
         </div>
-
-        <!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
-
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-    <div class="p-3">
-      <h5>Help</h5>
-      <p>Sidebar content</p>
-    </div>
-  </aside>
-  <!-- /.control-sidebar -->
-
-  <!-- Main Footer -->
-
-<!-- ./wrapper -->
-
-
-
-<!-- jQuery -->
-<script src="Templates/Dashboard/plugins/jquery/jquery.min.js"></script>
-<!-- jQuery UI 1.11.4 -->
-<script src="Templates/Dashboard/plugins/jquery-ui/jquery-ui.min.js"></script>
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
-  $.widget.bridge('uibutton', $.ui.button)
-</script>
-<!-- Bootstrap 4 -->
-<script src="Templates/Dashboard/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- ChartJS -->
-<script src="Templates/Dashboard/plugins/chart.js/Chart.min.js"></script>
-<!-- Sparkline -->
-<script src="Templates/Dashboard/plugins/sparklines/sparkline.js"></script>
-<!-- JQVMap -->
-<script src="Templates/Dashboard/plugins/jqvmap/jquery.vmap.min.js"></script>
-<script src="Templates/Dashboard/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
-<!-- jQuery Knob Chart -->
-<script src="Templates/Dashboard/plugins/jquery-knob/jquery.knob.min.js"></script>
-<!-- daterangepicker -->
-<script src="Templates/Dashboard/plugins/moment/moment.min.js"></script>
-<script src="Templates/Dashboard/plugins/daterangepicker/daterangepicker.js"></script>
-<!-- Tempusdominus Bootstrap 4 -->
-<script src="Templates/Dashboard/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
-<!-- Summernote -->
-<script src="Templates/Dashboard/plugins/summernote/summernote-bs4.min.js"></script>
-<!-- overlayScrollbars -->
-<script src="Templates/Dashboard/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-<!-- AdminLTE App -->
-<script src="Templates/Dashboard/dist/js/adminlte.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="Templates/Dashboard/dist/js/pages/dashboard.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="Templates/Dashboard/dist/js/demo.js"></script>
-
-<script type="text/javascript">
-            $(function () {
-                $('#datetimepicker1').datetimepicker();
-
         <!-- /.content-wrapper -->
 
         <!-- Control Sidebar -->
@@ -710,7 +678,6 @@ $profit = getNetProfitMargin();
         <script src="Templates/Dashboard/plugins/jquery-knob/jquery.knob.min.js"></script>
 
         <script>
-
                
                 $(document).ready(function() {   
                     changehandler();
@@ -752,7 +719,6 @@ $profit = getNetProfitMargin();
             });
       }
     }
-
         </script>
 
 
@@ -774,7 +740,6 @@ $profit = getNetProfitMargin();
                     legend: { display: false },
                     title: {
                         display: true,
-
                         text: 'Income and Expenditure Chart'
                     },
                     scales: {
@@ -789,13 +754,8 @@ $profit = getNetProfitMargin();
 
 
                 }
-
             });
-
         </script>
-
-        <script src="Templates/Dashboard/plugins/chart.js/Chart.js"></script>
-
 
 </body>
 </html>

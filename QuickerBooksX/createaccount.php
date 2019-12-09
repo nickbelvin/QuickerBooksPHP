@@ -116,10 +116,10 @@
               <!-- Menu Footer-->
               <div class="dropdown-divider"></div>
               <a href="#" class="dropdown-item">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
+                  <a href="#" class="btn btn-primary btn-flat">Profile</a>
                   </a>
                 <a href="#" class="dropdown-item">
-                <a href="logout.php" class="btn btn-default btn-flat">Sign out</a>
+                <a href="logout.php" class="btn btn-primary btn-flat">Sign out</a>
                   </a>
 </li>
  </ul>
@@ -188,7 +188,7 @@
           </li>
 
           <?php if(intval($_SESSION['user']['role_id']) == 2 || intval($_SESSION['user']['role_id']) == 3): ?>
-          <li class="nav-item has-treeview menu">
+          <li class="nav-item has-treeview menu-open">
                     <a href="Journalizing.php" class="nav-link">
                         <i class="nav-icon fas fa-book"></i> 
                         <p>
@@ -198,7 +198,7 @@
                     </a>
                 <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a href="Journalizing.php" class="nav-link active">
+                    <a href="Journalizing.php" class="nav-link">
                         <i class="nav-icon fas fa-book-open"></i>
                         <p>
                             Create Journal Entry
@@ -263,7 +263,7 @@
               <?php endif; ?>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="ViewLogs.php" class="nav-link">
               <i class="nav-icon fas fa-clone"></i>
               <p>
                Event Logs

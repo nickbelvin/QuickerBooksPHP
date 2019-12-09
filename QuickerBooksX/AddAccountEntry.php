@@ -115,19 +115,27 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="ViewLogs.php" class="nav-link">
                             <i class="nav-icon fas fa-clone"></i>
                             <p>
                                 Event Logs
                             </p>
                         </a>
                     </li>
-                </ul>
-    </nav>
-    <!-- /.sidebar-menu -->
-</div>
-<!-- /.sidebar -->
-</aside>
+                    <li class="nav-item">
+            <a href="admin/mailbox/email.php" class="nav-link">
+              <i class="nav-icon far fa-envelope"></i>
+              <p>
+               Email
+              </p>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -141,7 +149,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Quicker Books</a></li>
-                        <li class="breadcrumb-item active">Accounts</li>
+                        <li class="breadcrumb-item active">Add Entry</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->

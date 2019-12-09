@@ -119,10 +119,10 @@ if(true){
               <!-- Menu Footer-->
               <div class="dropdown-divider"></div>
               <a href="#" class="dropdown-item">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
+                  <a href="#" class="btn btn-primary btn-flat">Profile</a>
                   </a>
                 <a href="#" class="dropdown-item">
-                <a href="logout.php" class="btn btn-default btn-flat">Sign out</a>
+                <a href="logout.php" class="btn btn-primaryt btn-flat">Sign out</a>
                   </a>
 </li>
  </ul>
@@ -164,7 +164,7 @@ if(true){
               </p>
             </a>
           </li>
-          <li class="nav-item has-treeview menu">
+          <li class="nav-item has-treeview menu-open">
             <a href="admin/users/userList.php" class="nav-link">
               <i class="nav-icon fas fa-user-alt"></i>
               <p>
@@ -191,7 +191,7 @@ if(true){
           </li>
 
           <?php if(intval($_SESSION['user']['role_id']) == 2 || intval($_SESSION['user']['role_id']) == 3): ?>
-          <li class="nav-item has-treeview menu">
+          <li class="nav-item has-treeview menu-open">
                     <a href="Journalizing.php" class="nav-link active">
                         <i class="nav-icon fas fa-book"></i> 
                         <p>
@@ -229,7 +229,7 @@ if(true){
           </li>
 
           <?php if(intval($_SESSION['user']['role_id']) == 2 || intval($_SESSION['user']['role_id']) == 3): ?> 
-          <li class="nav-item has-treeview menu">
+          <li class="nav-item has-treeview menu-open">
             <a href="admin/reports/balancesheet.php" class="nav-link">
               <i class="nav-icon fas fa-clipboard"></i>
               <p>
