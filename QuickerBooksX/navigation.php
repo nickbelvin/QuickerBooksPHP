@@ -76,10 +76,10 @@
               <!-- Menu Footer-->
               <div class="dropdown-divider"></div>
               <a href="#" class="dropdown-item">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
+                  <a href="#" class="btn btn-primary btn-flat">Profile</a>
                   </a>
                 <a href="#" class="dropdown-item">
-                  <a href="<?php echo BASE_URL . 'logout.php' ?>" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="<?php echo BASE_URL . 'logout.php' ?>" class="btn btn-primary btn-flat">Sign out</a>
                   </a>
           </li>
 
@@ -95,7 +95,7 @@
     <!-- Brand Logo -->
     <a href="<?php echo BASE_URL . 'layout.php' ?>" class="brand-link">
   
-      <img src="../../assets/images/qb.png" alt="Logo" 
+      <img src="../../assets/images/qb.png" alt="Logo"
       <a href="<?php echo BASE_URL . 'layout.php' ?>" class="brand-image">
       <span class="brand-text font-weight-light">QUICKER BOOKS</span>
     </a>

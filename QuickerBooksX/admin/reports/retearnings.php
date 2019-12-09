@@ -113,6 +113,7 @@ function printDiv() {
 <?php include('../../navigation.php') ?>
 
 
+
 <!-- Sidebar Menu -->
 <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
@@ -127,7 +128,7 @@ function printDiv() {
             </a>
           </li>
           <li class="nav-item has-treeview menu-open">
-            <a href="admin/users/userList.php" class="nav-link">
+            <a href="../../admin/users/userList.php" class="nav-link">
               <i class="nav-icon fas fa-user-alt"></i>
               <p>
                 Users
@@ -136,14 +137,14 @@ function printDiv() {
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="admin/users/userList.php" class="nav-link">
+                <a href="../../admin/users/userList.php" class="nav-link">
                   <i class="fas fa-user-edit nav-icon"></i>
                   <p>View Users</p>
                 </a>
               </li>
               <?php if(intval($_SESSION['user']['role_id']) == 1): ?>
               <li class="nav-item">
-                <a href="admin/users/userForm.php" class="nav-link">
+                <a href="../../admin/users/userForm.php" class="nav-link">
                   <i class="fas fa-user-edit nav-icon"></i>
                   <p>Add Users</p>
                 </a>
@@ -153,7 +154,7 @@ function printDiv() {
           </li>
           
           <?php if(intval($_SESSION['user']['role_id']) == 2 || intval($_SESSION['user']['role_id']) == 3): ?>
-          <li class="nav-item has-treeview menu">
+          <li class="nav-item has-treeview menu-open">
                     <a href="../../Journalizing.php" class="nav-link">
                         <i class="nav-icon fas fa-book"></i> 
                         <p>
@@ -182,7 +183,7 @@ function printDiv() {
               <?php endif; ?>
           </li>
           <li class="nav-item">
-            <a href="admin/accounts/accountsList.php" class="nav-link">
+            <a href="../../admin/accounts/accountsList.php" class="nav-link">
               <i class="nav-icon fas fa-columns"></i>
               <p>
                Accounts
@@ -190,7 +191,7 @@ function printDiv() {
             </a>
           </li>
           <?php if(intval($_SESSION['user']['role_id']) == 2 || intval($_SESSION['user']['role_id']) == 3): ?> 
-          <li class="nav-item has-treeview menu">
+          <li class="nav-item has-treeview menu-open">
             <a href="" class="nav-link active">
               <i class="nav-icon fas fa-clipboard"></i>
               <p>
@@ -198,6 +199,7 @@ function printDiv() {
                <i class="right fas fa-angle-left"></i>
               </p>
             </a>
+          <!--</li>-->
 			<ul class="nav nav-treeview">
       <li class="nav-item">
                 <a href="../../admin/reports/balancesheet.php" class="nav-link">
@@ -227,7 +229,7 @@ function printDiv() {
               <?php endif; ?>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="../../ViewLogs.php" class="nav-link">
               <i class="nav-icon fas fa-clone"></i>
               <p>
                Event Logs

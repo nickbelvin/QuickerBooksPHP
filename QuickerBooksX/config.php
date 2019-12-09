@@ -25,8 +25,10 @@ if ($conn->connect_error) {
  // define global constants
  define ('ROOT_PATH', realpath(dirname(__FILE__))); // path to the root folder
  define ('INCLUDE_PATH', realpath(dirname(__FILE__) . '/includes' )); // Path to includes folder
+
  //define('BASE_URL', 'http://192.168.64.7//QuickerBooksPHP/QuickerBooksPHP/QuickerBooksX/'); // the home url of the website
  define('BASE_URL', 'http://quickerbooks.us-east-2.elasticbeanstalk.com/'); // the home url of the website
+
 
  function getMultipleRecords($sql, $types = null, $params = []) {
   global $conn;
