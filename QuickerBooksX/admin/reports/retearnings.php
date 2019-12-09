@@ -298,10 +298,60 @@ function printDiv() {
         </table>
       </div>
       <div class="tableWrapper">
-        <?php 
-        $beginningbalance = 0;
-$sql = "SELECT balance from chartofaccounts WHERE balance < '0' ";
-        ?>
+        
+        
+      <?php
+
+$sql = "SELECT * from chartofaccounts WHERE category ='Revenue'";
+$result = $conn->query($sql);
+
+$totalrevenue = 0.00;
+$beginningbalance = 0.00;
+$dollarsign = 0;
+while ($row = mysqli_fetch_assoc($result)) { ?>
+
+
+<?php
+$totalrevenue = $row["balance"] + $totalrevenue;
+// $_SESSION["totalrev"] = $totalrevenue["totalrev"];
+}
+
+?>
+<?php
+
+$sql = "SELECT * from chartofaccounts WHERE category ='Expenses'";
+$result = $conn->query($sql);
+
+$totalexpenses = 0.00;
+$dollarsign = 0;
+while ($row = mysqli_fetch_assoc($result)) { ?>
+
+
+<?php
+$totalexpenses = $row["balance"] + $totalexpenses;
+$netincome = $totalrevenue - $totalexpenses;
+
+// $_SESSION["totalrev"] = $totalrevenue["totalrev"];
+}
+
+?>
+<?php
+
+$sql = "SELECT * from chartofaccounts WHERE balance <'0'";
+$result = $conn->query($sql);
+
+$lessincome = 0.00;
+$dollarsign = 0;
+while ($row = mysqli_fetch_assoc($result)) { ?>
+
+
+<?php
+$lessincome = $row["balance"] + $lessincome;
+
+// $_SESSION["totalrev"] = $totalrevenue["totalrev"];
+}
+
+?>
         <table class="income-statement-table">
           <tbody>
             <tr>
@@ -310,16 +360,16 @@ $sql = "SELECT balance from chartofaccounts WHERE balance < '0' ";
             </tr>
             <tr>
               <td class="subjectTitle">Net Income</td>
-              <td class="amount" align="right"><label><?php  echo "$" . number_format($_SESSION["netinc"],2)?></label></td>
+              <td class="amount" align="right"><label><?php  echo "$" . number_format($netincome,2)?></label></td>
             </tr>
             <tr>
               <td class="subjectTitle">Less Drawings</td>
                
-              <td class="amount" align="right"><label><?php echo "(". number_format($_SESSION["lessincome"],2). ")"?></label></td>
+              <td class="amount" align="right"><label><?php echo "(". number_format(abs($lessincome),2). ")"?></label></td>
             </tr>
             <tr>
               <td class="subjectTitle">Ending Balance</td>
-              <td class="amount" align="right"><label class="total"><?php echo "$" . number_format($beginningbalance + $_SESSION["netinc"],2)?></label></td>
+              <td class="amount" align="right"><label class="total"><?php echo "$" . number_format(($beginningbalance + $netincome + $lessincome),2)?></label></td>
             </tr>
           </tbody>
                 </table>

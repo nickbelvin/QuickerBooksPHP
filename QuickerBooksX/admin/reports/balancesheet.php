@@ -319,7 +319,7 @@ if ($result->num_rows > 0) {
                 <td align="left"><?php echo $row["accountname"]; ?></td>
                 <td align="left"><?php if ($row["debit"] OR $row['credit'] != 0) {
                                             if($row["balance"] < 0.00){
-                                            echo "(" . number_format($row["balance"],2).")";
+                                            echo "(" . number_format(abs($row["balance"]),2).")";
 
                                             }else{
                                                echo "$" . number_format($row["balance"],2);
