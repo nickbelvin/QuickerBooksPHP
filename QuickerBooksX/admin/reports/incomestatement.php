@@ -333,7 +333,8 @@ if ($result->num_rows > 0) {
 
     ?>
     <tr>
-        <td> Revenue Total</td>
+      
+        <td><b> Revenue Total</b></td>
         <td></td>
         <td class = "subtotal" align="right"><?php print "$" . number_format ($totalrevenue, 2) ?> </td>
     </tr>
@@ -381,7 +382,7 @@ if ($result->num_rows > 0) {
 
     ?>
     <tr>
-        <td> Expenses Total</td>
+        <td> <b>Expenses Total</b></td>
         <td></td>
         <td class = "subtotal" align="right"><?php echo "(" . number_format ($totalexpenses, 2).")" ?> </td>
     </tr>

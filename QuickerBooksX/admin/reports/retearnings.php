@@ -356,16 +356,16 @@ $lessincome = $row["balance"] + $lessincome;
           <tbody>
             <tr>
               <td class="subjectTitle">Beginning Balance</td>
-              <td class="amount" align="right"><label><?php echo "$" . number_format($beginningbalance,2)?></label></td>
+              <td class="amount" align="right"><?php echo "$" . number_format($beginningbalance,2)?></td>
             </tr>
             <tr>
               <td class="subjectTitle">Net Income</td>
-              <td class="amount" align="right"><label><?php  echo "$" . number_format($netincome,2)?></label></td>
+              <td class="amount" align="right"><?php  echo "$" . number_format($netincome,2)?></td>
             </tr>
             <tr>
               <td class="subjectTitle">Less Drawings</td>
                
-              <td class="amount" align="right"><label><?php echo "(". number_format(abs($lessincome),2). ")"?></label></td>
+              <td class="amount" align="right"><?php echo "(". number_format(abs($lessincome),2). ")"?></td>
             </tr>
             <tr>
               <td class="subjectTitle">Ending Balance</td>

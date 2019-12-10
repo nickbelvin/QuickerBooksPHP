@@ -363,10 +363,10 @@ if ($result->num_rows > 0) {
 
     ?>
        <tr>
-                            <td> Total</td>
+                            <td> <b>Total</b></td>
                             <td></td>
-                            <td class = "doubleUnderline" align="right"><?php print "$" . number_format ($totaldebit, 2) ?> </td>
-                            <td class = "doubleUnderline" align="right"><?php print "$" . number_format ($totalcredit,2) ?> </td>
+                            <td class = "doubleUnderline" align="right"><b><?php print "$" . number_format ($totaldebit, 2) ?></b> </td>
+                            <td class = "doubleUnderline" align="right"><b><?php print "$" . number_format ($totalcredit,2) ?> </b></td>
                         </tr>
         </tbody>
                 </table>

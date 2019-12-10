@@ -343,7 +343,7 @@ if ($result->num_rows > 0) {
 
     ?>
     <tr>
-        <td> Assets Total</td>
+        <td> <b>Assets Total</b></td>
         <td></td>
         <td class = "subtotal" align="right"><?php print "$" . number_format ($totalassets, 2) ?> </td>
     </tr>
@@ -391,7 +391,7 @@ if ($result->num_rows > 0) {
 
     ?>
     <tr>
-        <td> Equity & Liability Total</td>
+        <td> <b>Equity & Liability Total</b></td>
         <td></td>
         <td class = "subtotal" align="right"><?php print "$" . number_format ($totalel, 2) ?> </td>
     </tr>

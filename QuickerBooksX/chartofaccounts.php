@@ -35,6 +35,20 @@ session_start();
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="DataTables/datatables.css">
+<script type="text/javascript" charset="utf8" src="DataTables/datatables.js"></script>
+
+<script>
+        //adding table formatting things
+        $(document).ready( function () {
+            
+            $('#table').dataTable();
+            
+            
+        });
+    </script>
+
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -923,7 +937,7 @@ if ($result->num_rows > 0) {
 		<td align="left"><?php echo $row["description"]; ?></td>
 		<td align="left"><?php echo $row["category"]; ?></td>
 		<td align="left"><?php echo $row["subcategory"]; ?></td>
-		<td align="left"><?php echo "$".number_format($row["balance"], 2); ?></td>
+		<td align="right"><?php echo "$".number_format($row["balance"], 2); ?></td>
 		<td align="left"><?php echo $row["comment"]; ?></td>
 		<td align="center">
 		<a href="deleteaccount.php?accountnumber=<?php echo $row["accountnumber"]; ?>">Deactivate</a>
@@ -945,4 +959,4 @@ $conn->close();
         </ul>
         </body>
         </html>
-        <?php include "Templates/footer.php"; ?>
+        <?php include "footer.php"; ?>

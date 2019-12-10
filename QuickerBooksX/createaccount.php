@@ -311,19 +311,22 @@
     </div>
     <!-- /.content-header -->
 
+<ul>
+<a href="chartofaccounts.php"><strong>Return to Chart of Accounts</strong></a>
+</ul>
         <!-- Main content -->
         <div class="content">
             <div class="container-fluid">
 
 
     <form method="post" action="createaccount.php">
-    	<label for="accountname">Account Name :</label>
+    	<label for="accountname">Account Name : </label><br />
     	<input type="text" name="accountname" id="accountname" required="required" placeholder="Please enter a name"/><br /><br />
-    	<label for="accountnumber">Account Number :</label>
+    	<label for="accountnumber">Account Number : </label><br />
     	<input type="text" name="accountnumber" id="accountnumber" required="required" placeholder="000000"/><br /><br />
-    	<label for="description">Description :</label>
+    	<label for="description">Description : </label><br />
     	<input type="text" name="description" id="description" placeholder="Please enter a description"/><br /><br />
-    	<label for="normalside">Normal Side :</label>
+    	<label for="normalside">Normal Side : </label><br />
         <select name="normalside">
             <?php
             $sql = mysqli_query($conn, "SELECT DISTINCT normalside FROM chartofaccounts order by normalside asc");
@@ -333,7 +336,7 @@
             ?>
         </select>
         <br /><br />
-    	<label for="category">Category :</label>
+    	<label for="category">Category : </label><br />
     	<!-- <input type="text" name="category" id="category" required="required" placeholder="Please Enter Category"/><br /><br /> -->
         <select name="category">
             <?php
@@ -344,7 +347,7 @@
             ?>
         </select>
         <br /><br />
-    	    	<label for="subcategory">Sub-Category :</label>
+    	    	<label for="subcategory">Sub-Category : </label><br />
     	<!-- <input type="text" name="subcategory" id="subcategory" required="required" placeholder="Please Enter SubCategory"/><br /><br /> -->
         <select name="subcategory">
             <?php
@@ -356,7 +359,7 @@
         </select>
         <br /><br />
         
-    	<label for="debit">Debit :</label>
+    	<label for="debit">Debit : </label><br />
     	<!-- <input type="text" name="debit" id="debit" placeholder="0.00"/><br /><br /> -->
     	<input type="text" name="debit" id="debit" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" value="" data-type="currency" placeholder="$0.00"><br /><br />
 
@@ -449,7 +452,7 @@
 
         </script>
         
-    	<label for="credit">Credit :</label>
+    	<label for="credit">Credit : </label><br />
     	<!-- <input type="text" name="credit" id="credit" placeholder="0.00"/><br /><br /> -->
     	<input type="text" name="credit" id="credit" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" value="" data-type="currency" placeholder="$0.00"><br /><br />
 
@@ -541,7 +544,7 @@
             }
 
         </script>
-    	<label for="statement">Statement :</label>
+    	<label for="statement">Statement : </label><br />
     	    	<select name="statement">
             <?php
             $sql = mysqli_query($conn, "SELECT DISTINCT statement FROM chartofaccounts order by statement asc");
@@ -549,14 +552,41 @@
                 echo "<option value=\"{$row['statement']} \">" . $row['statement'] . "</option>";
             }
             ?>
-                    </select>
-            <br /><br />
-    	<label for="comment">Comment :</label>
+            </select>
+            <br /><br /> 
+    	<label for="comment">Comment : </label><br />
+    	
     	<input type="text" name="comment" id="comment"/><br /><br />
     	
     	<input type="submit" name="submit" value="Submit">
     </form>
-    
+    <style>
+input[type=text], select {
+  width: 33%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 33%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+</style>
 
 </body>
 </html>
