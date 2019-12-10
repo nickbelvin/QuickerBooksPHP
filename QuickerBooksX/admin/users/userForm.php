@@ -80,7 +80,7 @@
                             </p>
                         </a>
                     </li>
-                    <li class="nav-item has-treeview menu">
+                    <li class="nav-item has-treeview menu-open">
                         <a href="../../admin/users/userList.php" class="nav-link active">
                             <i class="nav-icon fas fa-user-alt"></i>
                             <p>
@@ -107,7 +107,7 @@
                     </li>
 
                     <?php if(intval($_SESSION['user']['role_id']) == 2 || intval($_SESSION['user']['role_id']) == 3): ?>
-                    <li class="nav-item has-treeview menu">
+                    <li class="nav-item has-treeview menu-open">
                         <a href="../../Journalizing.php" class="nav-link">
                             <i class="nav-icon fas fa-book"></i>
                             <p>
@@ -145,7 +145,7 @@
                     </li>
 
                     <?php if(intval($_SESSION['user']['role_id']) == 2 || intval($_SESSION['user']['role_id']) == 3): ?>
-                    <li class="nav-item has-treeview menu">
+                    <li class="nav-item has-treeview menu-open">
                         <a href="" class="nav-link">
                             <i class="nav-icon fas fa-clipboard"></i>
                             <p>
@@ -155,7 +155,7 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="./../admin/reports/balancesheet.php" class="nav-link">
+                                <a href="../../admin/reports/balancesheet.php" class="nav-link">
                                     <i class="fas fa-plus nav-icon"></i>
                                     <p>Balance Sheet</p>
                                 </a>

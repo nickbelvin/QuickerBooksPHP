@@ -35,6 +35,20 @@ session_start();
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="DataTables/datatables.css">
+<script type="text/javascript" charset="utf8" src="DataTables/datatables.js"></script>
+
+<script>
+        //adding table formatting things
+        $(document).ready( function () {
+            
+            $('#table').dataTable();
+            
+            
+        });
+    </script>
+
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -550,41 +564,45 @@ session_start();
 
 <!---------------------------------->
 
-        <div id="dataModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Account Details</h4>
-                    </div>
-                    <div class="modal-body" id="account_detail">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="add_data_Modal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Update Account</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form method="post" id="insert_form">
-                            <div class="form-group">
-                                <label>Account Number</label>
-                                <input type="number" name="accountnumber" maxlength="8" class="form-control" required="required" />
-                            </div>
-                            <div class="form-group">
-                                <label>Account Name</label>
-                                <input type="text" name="accountname" class="form-control" required="required" />
-                            </div>
-                            <div class="form-group">
-                                <label>Description</label>
-                                <input type="text" name="description" class="form-control"/>
-                            </div>
+<div id="dataModal" class="modal fade">  
+<div class="modal-dialog">  
+<div class="modal-content">  
+<div class="modal-header">  
+<button type="button" class="close" data-dismiss="modal">&times;</button>  
+<h4 class="modal-title">Account Details</h4>  
+</div>  
+<div class="modal-body" id="account_detail">  
+</div>  
+<div class="modal-footer">  
+<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
+</div>  
+</div>  
+</div>  
+</div>  
+<div id="add_data_Modal" class="modal fade">  
+<div class="modal-dialog">  
+<div class="modal-content">  
+<div class="modal-header">  
+<h4 class="modal-title">Update Account</h4>  
+</div>  
+<div class="modal-body"> 
+
+
+
+<form method="post" id="insert_form">  
+<div class="form-group">
+<label>Account Number</label>
+<input type="number" name="accountnumber" maxlength="8" class="form-control" required="required" value="<?php echo $row['accountnumber'];?>"/>
+</div>
+<div class="form-group">
+<label>Account Name</label>
+<input type="text" name="accountname" class="form-control" required="required" placeholder="Account Name" 
+required value="<?php echo $row['accountname'];?>"  />
+</div>
+<div class="form-group">
+<label>Description</label>
+<input type="text" name="description" class="form-control"/>
+</div>
 
                             <div class="form-group">
                                 <label>Select Normal Side</label>
@@ -605,107 +623,150 @@ session_start();
                                 </select>
                             </div>
 
-                            <div class="form-group">
-                                <label>Select Sub-Category</label>
-                                <select name="subcategory" id="subcategory" class="form-control" required="required" />
-                                <option value="Cash Related Accounts">Cash Related Accounts</option>
-                                <option value="Receivables">Receivables</option>
-                                <option value="Inventories">Inventories</option>
-                                <option value="Prepaid Items">Prepaid Items</option>
-                                <option value="Long-Term Investments">Long-Term Investments</option>
-                                <option value="Land">Land</option>
-                                <option value="Buildings">Buildings</option>
-                                <option value="Equipment">Equipment</option>
-                                <option value="Intangibles">Intangibles</option>
-                                <option value="Short-term Payables">Short-term Payables</option>
-                                <option value="Employee Payroll Related Payables">Employee Payroll Related Payables</option>
-                                <option value="Employer Payroll Related Payables">Employer Payroll Related Payables</option>
-                                <option value="Sales Tax">Sales Tax</option>
-                                <option value="Deferred Revenues and Current Portion of Long-Term Debt">Deferred Revenues and Current Portion of Long-Term Debt</option>
-                                <option value="Long-Term Liabilities">Long-Term Liabilities</option>
-                                <option value="Operating Revenues">Operating Revenues</option>
-                                <option value="Other Revenues">Other Revenues</option>
-                                <option value="Cost of Goods Sold">Cost of Goods Sold</option>
-                                <option value="Selling Expenses">Selling Expenses</option>
-                                <option value="General and Administrative Expenses">General and Administrative Expenses</option>
-                                <option value="Other Expenses">Other Expenses</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Comment</label>
-                                <input type="text" name="comment" class="form-control"/>
-                            </div>
-                            <input type="submit" name="update" id="update" value="Update" class="btn btn-success" />
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <script>
-            $(document).ready(function(){
-                $('#add').click(function(){
-                    $('#insert').val("Insert");
-                    $('#insert_form')[0].reset();
-                });
-                $(document).on('click', '.edit_data', function(){
-                    var accountnumber = $(this).attr("id");
-                    $.ajax({
-                        url:"fetch.php",
-                        method:"POST",
-                        data:{accountnumber:accountnumber},
-                        dataType:"json",
-                        success:function(data){
-                            $('#accountname').val(data.accountname);
-                            $('#accountnumber').val(data.accountnumber);
-                            $('#description').val(data.description);
-                            $('#normalside').val(data.normalside);
-                            $('#category').val(data.category);
-                            $('#subcategory').val(data.subcategory);
-                            $('#insert').val("Update");
-                            $('#add_data_Modal').modal('show');
-                        }
-                    });
-                });
-                $('#insert_form').on("submit", function(event){
-                    event.preventDefault();
-                    if($('#accountname').val() == "")
-                    {
-                        alert("Account Name is required");
-                    }
-                    else if($('#accountnumber').val() == '')
-                    {
-                        alert("Account Number is required");
-                    }
-                    else if($('#category').val() == '')
-                    {
-                        alert("Category is required");
-                    }
-                    else if($('#subcategory').val() == '')
-                    {
-                        alert("Sub-Category is required");
-                    }
-                    else
-                    {
-                        $.ajax({
-                            url:"insert.php",
-                            method:"POST",
-                            data:$('#insert_form').serialize(),
-                            beforeSend:function(){
-                                $('#insert').val("Inserting");
-                            },
-                            success:function(data){
-                                $('#insert_form')[0].reset();
-                                $('#add_data_Modal').modal('hide');
-                                $('#account_table').html(data);
-                            }
-                        });
-                    }
-                });
-            });
-        </script>
+<div class="form-group">
+<label>Select Sub-Category</label>  
+<select name="subcategory" id="subcategory" class="form-control" required="required" />  
+<option value="Cash Related Accounts">Cash Related Accounts</option>  
+<option value="Receivables">Receivables</option>  
+<option value="Inventories">Inventories</option>  
+<option value="Prepaid Items">Prepaid Items</option>  
+<option value="Long-Term Investments">Long-Term Investments</option>  
+<option value="Land">Land</option>  
+<option value="Buildings">Buildings</option>  
+<option value="Equipment">Equipment</option>  
+<option value="Intangibles">Intangibles</option>  
+<option value="Short-term Payables">Short-term Payables</option> 
+<option value="Employee Payroll Related Payables">Employee Payroll Related Payables</option>  
+<option value="Employer Payroll Related Payables">Employer Payroll Related Payables</option>  
+<option value="Sales Tax">Sales Tax</option>  
+<option value="Deferred Revenues and Current Portion of Long-Term Debt">Deferred Revenues and Current Portion of Long-Term Debt</option>  
+<option value="Long-Term Liabilities">Long-Term Liabilities</option>  
+<option value="Operating Revenues">Operating Revenues</option>  
+<option value="Other Revenues">Other Revenues</option>  
+<option value="Cost of Goods Sold">Cost of Goods Sold</option>  
+<option value="Selling Expenses">Selling Expenses</option>  
+<option value="General and Administrative Expenses">General and Administrative Expenses</option>  
+<option value="Other Expenses">Other Expenses</option>  
+</select>  
+</div>
+<div class="form-group">
+<label>Comment</label>
+<input type="text" name="comment" class="form-control"/>
+</div>  
+<input type="submit" name="update" id="update" value="Update" class="btn btn-success" />  
+</form>  
+
+
+<form name="form" method="post" action=""> 
+
+<p><label for="accountname">Account Number :</label>
+<input name="id" type="hidden" value="<?php echo $row['accountnumber'];?>" />
+<input type="text" name="accountnumber" placeholder="Account Number" 
+required value="<?php echo $row['accountnumber'];?>" /></p>
+
+<p><label for="accountname">Account Name :</label>
+<input name="id" type="hidden" value="<?php echo $row['accountname'];?>" />
+<input type="text" name="accountname" placeholder="Account Name" 
+required value="<?php echo $row['accountname'];?>" /></p>
+
+<p><label for="accountname">Description :</label>
+<input name="id" type="hidden" value="<?php echo $row['description'];?>" />
+<input type="text" name="description" placeholder="Enter a Description" 
+value="<?php echo $row['description'];?>" /></p>
+
+<p><label for="accountname">Normal Side :</label>
+<input name="id" type="hidden" value="<?php echo $row['normalside'];?>" />
+<input type="text" name="normalside" placeholder="Normal Side" 
+required value="<?php echo $row['normalside'];?>" /></p>
+
+<p><label for="accountname">Category :</label>
+<input name="id" type="hidden" value="<?php echo $row['category'];?>" />
+<input type="text" name="category" placeholder="Category" 
+required value="<?php echo $row['category'];?>" /></p>
+
+<p><label for="accountname">Sub-Category :</label>
+<input name="id" type="hidden" value="<?php echo $row['subcategory'];?>" />
+<input type="text" name="subcategory" placeholder="Sub-Category" 
+required value="<?php echo $row['subcategory'];?>" /></p>
+
+<p><label for="accountname">Comment :</label>
+<input name="id" type="hidden" value="<?php echo $row['comment'];?>" />
+<input type="text" name="comment" placeholder="Enter a Comment" 
+value="<?php echo $row['comment'];?>" /></p>
+
+<p><input name="update" type="submit" value="Update" /></p>
+</form>
+
+
+</div>  
+<div class="modal-footer">  
+<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
+</div>  
+</div>  
+</div>  
+</div>  
+<script>  
+$(document).ready(function(){  
+		$('#add').click(function(){  
+				$('#insert').val("Insert");  
+				$('#insert_form')[0].reset();  
+		});  
+		$(document).on('click', '.edit_data', function(){  
+				var accountnumber = $(this).attr("id");  
+				$.ajax({  
+						url:"fetch.php",  
+						method:"POST",  
+						data:{accountnumber:accountnumber},  
+						dataType:"json",  
+						success:function(data){  
+							$('#accountname').val(data.accountname);  
+							$('#accountnumber').val(data.accountnumber);  
+							$('#description').val(data.description);  
+							$('#normalside').val(data.normalside);  
+							$('#category').val(data.category);  
+							$('#subcategory').val(data.subcategory);  
+							$('#insert').val("Update");  
+							$('#add_data_Modal').modal('show');  
+						}  
+				});  
+		});  
+		$('#insert_form').on("submit", function(event){  
+				event.preventDefault();  
+				if($('#accountname').val() == "")  
+				{  
+					alert("Account Name is required");  
+				}  
+				else if($('#accountnumber').val() == '')  
+				{  
+					alert("Account Number is required");  
+				}  
+				else if($('#category').val() == '')  
+				{  
+					alert("Category is required");  
+				}  
+				else if($('#subcategory').val() == '')  
+				{  
+					alert("Sub-Category is required");  
+				}  
+				else  
+				{  
+					$.ajax({  
+							url:"insert.php",  
+							method:"POST",  
+							data:$('#insert_form').serialize(),  
+							beforeSend:function(){  
+								$('#insert').val("Inserting");  
+							},  
+							success:function(data){  
+								$('#insert_form')[0].reset();  
+								$('#add_data_Modal').modal('hide');  
+								$('#account_table').html(data);  
+							}  
+					});  
+				}  
+		});   
+});  
+</script>
 
 
 
@@ -769,26 +830,29 @@ session_start();
 
         <body>
 
-        <ul>
-            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#form_modal"><span class="glyphicon glyphicon-plus"></span>Add Account</button>
-            <br /><br />
-            <form action="SearchCOA.php" method="GET">
-                <input type="text" name="query" id="query" onkeyup="searchTable()" placeholder="Search"/>
-<!--                <input type="submit" value="Search" />-->
-            </form>
-        </ul>
-        <table id="table">
+<ul>
+    <a href="createaccount.php" class="btn btn-success">
+     <i class="fas fa-plus"></i>
+      Create new account
+    </a>
+    <br> <br>
+<form action="SearchCOA.php" method="GET">
+<input type="text" name="query" />
+<input type="submit" value="Search"
+</form>
+</ul>
+<table id="table">
 
-            <tr>
-                <th onclick="sortTable(0)">Account Number</th>
-                <th onclick="sortTable(1)">Account Name</th>
-                <th>Description</th>
-                <th onclick="sortTable(3)">Category</th>
-                <th onclick="sortTable(4)">Sub-Category</th>
-                <th>Balance</th>
-                <th>Comment</th>
-                <th>Deactivate</th>
-            </tr>
+<tr>
+<th onclick="sortTable(0)">	Account Number</th>
+<th onclick="sortTable(1)">Account Name</th>
+<th>Description</th>
+<th onclick="sortTable(3)">Category</th>
+<th onclick="sortTable(4)">Sub-Category</th>
+<th>Balance</th>
+<th>Comment</th>
+<th>Status</th>
+</tr>
 
             <script>
                 function sortTable(n) {
@@ -851,40 +915,39 @@ session_start();
             <?php
 
             //$conn = mysqli_connect("localhost", "root", "", "QuickerBooksDB");
-            $conn = new mysqli("remotemysql.com", "tKROkoSDOO", "yGpAbKvSmu", "tKROkoSDOO");
+            $conn = mysqli_connect("remotemysql.com", "tKROkoSDOO", "yGpAbKvSmu", "tKROkoSDOO");
             // Check connection
             if ($conn->connect_error) {
                 die("Connection failed: " . $conn->connect_error);
             }
 
-            $sql = "SELECT accountnumber, accountname, description, category, subcategory, balance, comment from chartofaccounts2";
-            $result = $conn->query($sql);
-            if ($result->num_rows > 0) {
-// output data of each row
-                /* while($row = $result->fetch_assoc()) {
-                echo "<tr><td>" . $row["accountnumber"]. "</td><td>" . $row["accountname"] . "</td><td>" .
-                $row["description"]. "</td><td>" . $row["category"] .  "</td><td>" . $row["subcategory"] . "</td><td>" . $row["comment"] . "</td></tr>";
-                 */
-                while($row = mysqli_fetch_assoc($result)) { ?>
-                    <tr><td align="center">
-                            <input type="button" name="edit" value="<?php echo $row["accountnumber"]; ?>" id="<?php echo $row["accountnumber"]; ?>" class="btn btn-info btn-xs edit_data" /></td>
-
-                        <td align="left">
-                            <a href="ledger.php?accounts=<?php echo $row['accountnumber'] . ": " . $row['accountname']; ?>"><?php echo $row["accountname"]; ?></a></td>
-                        <td align="left"><?php echo $row["description"]; ?></td>
-                        <td align="left"><?php echo $row["category"]; ?></td>
-                        <td align="left"><?php echo $row["subcategory"]; ?></td>
-                        <td align="left"><?php echo "$".number_format($row["balance"], 2); ?></td>
-                        <td align="left"><?php echo $row["comment"]; ?></td>
-                        <td align="center">
-                            <a href="deactivateaccount.php?accountnumber=<?php echo $row["accountnumber"]; ?>">Deactivate</a>
-                        </td>
-                    </tr>
-                    <?php
-                }
-                echo "</table>";
-            } else { echo "0 results"; }
-            $conn->close();
+$sql = "SELECT accountnumber, accountname, description, category, subcategory, balance, comment from chartofaccounts";
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+	// output data of each row
+	/* while($row = $result->fetch_assoc()) {
+	echo "<tr><td>" . $row["accountnumber"]. "</td><td>" . $row["accountname"] . "</td><td>" . 
+	$row["description"]. "</td><td>" . $row["category"] .  "</td><td>" . $row["subcategory"] . "</td><td>" . $row["comment"] . "</td></tr>";
+	*/
+	while($row = mysqli_fetch_assoc($result)) { ?>
+		<tr><td align="center">
+			<a href="edit.php?accountnumber=<?php echo $row["accountnumber"]; ?>"><?php echo $row["accountnumber"]; ?></a></td>		
+		<td align="left">
+		<a href="ledger.php"><?php echo $row["accountname"]; ?></a></td>
+		<td align="left"><?php echo $row["description"]; ?></td>
+		<td align="left"><?php echo $row["category"]; ?></td>
+		<td align="left"><?php echo $row["subcategory"]; ?></td>
+		<td align="right"><?php echo "$".number_format($row["balance"], 2); ?></td>
+		<td align="left"><?php echo $row["comment"]; ?></td>
+		<td align="center">
+		<a href="deleteaccount.php?accountnumber=<?php echo $row["accountnumber"]; ?>">Deactivate</a>
+		</td>
+		</tr>
+		<?php
+	}
+	echo "</table>";
+} else { echo "0 results"; }
+$conn->close();
 
 
 
@@ -896,4 +959,4 @@ session_start();
         </ul>
         </body>
         </html>
-        <?php include "Templates/footer.php"; ?>
+        <?php include "footer.php"; ?>

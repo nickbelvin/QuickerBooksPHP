@@ -65,7 +65,7 @@ if (isset($_GET['token'])) {
                     <p>Thank you for signing up for Quicker Books Accounting. You have been verified and can now access your account.</p>
                     <p>Your username is '.$username.' </p>
                     <p>You can login with the password you used during registration at</p>
-                     <a href="http://localhost/qb/login.php "> this link </a>    
+                     <a href="http://quickerbooks.us-east-2.elasticbeanstalk.com/login.php "> this link </a>    
                   </div>
                 </body>
             

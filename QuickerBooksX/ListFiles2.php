@@ -437,7 +437,7 @@ if($result2 /*&& $result2 && $result3*/) {
 //class='sortable' for table
         echo "  
     
-                <input type=\"text\" id=\"myInput\" onkeyup=\"searchTable()\" placeholder=\"Search Journal\">
+                <!--<input type=\"text\" id=\"myInput\" onkeyup=\"searchTable()\" placeholder=\"Search Journal\">-->
                 <table width='100%' id='myTable'>
                 <thead>
                 <tr>

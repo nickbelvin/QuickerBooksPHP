@@ -12,7 +12,6 @@
   <?php include('../../header.php') ?>
 
 
-
  
 </head>
 
@@ -65,7 +64,7 @@
                     </li>
 
                     <?php if(intval($_SESSION['user']['role_id']) == 2 || intval($_SESSION['user']['role_id']) == 3): ?>
-                    <li class="nav-item has-treeview menu">
+                    <li class="nav-item has-treeview menu-open">
                         <a href="../../Journalizing.php" class="nav-link">
                             <i class="nav-icon fas fa-book"></i>
                             <p>
@@ -103,7 +102,7 @@
                     </li>
 
                     <?php if(intval($_SESSION['user']['role_id']) == 2 || intval($_SESSION['user']['role_id']) == 3): ?>
-                    <li class="nav-item has-treeview menu">
+                    <li class="nav-item has-treeview menu-open">
                         <a href="" class="nav-link">
                             <i class="nav-icon fas fa-clipboard"></i>
                             <p>
@@ -198,7 +197,8 @@
     </a>
     <br> <br>
     <?php if (isset($users)): ?>
-      <table align="left" class="table table-bordered">
+
+      <table align="left" class="table table-bordered" id='myTable'>
         <thead>
           <tr>
             <th></th>

@@ -16,78 +16,84 @@
     <style>
         body {margin:0;}
        
+        
         .income-statement {
-            width: 70%;
+            width: 100%;
             margin: auto;
-            margin-top: 0rem;
+            margin-top: 2rem;
             border: 1px solid #ccc;
             border-radius: 10px;
         }
-
         .title-heading {
             background-color: #6f42c1;
             border-radius: 5px;
             color: whitesmoke;
             margin-bottom: 20px;
-            padding: 0px;
+            padding: 10px;
         }
-
         .income-statement .income-statement-main-heading {
             font-size: 18px;
             margin-top: 0rem;
-
+            color: white;
         }
-
         .income-statement .business-name {
             font-size: 26px;
             margin-top: 0rem;
+            color: white;
         }
-
         .income-statement .as-of-date {
             font-size: 16px;
-            margin-top: 1rem;
+            margin-top: 0rem;
+            color: white;
         }
-
         .income-statement-heading {
             margin-top: 0px;
             margin-left: 50px;
             font-size: 20px;
-            color: #BA55D3;
+            color: #6f42c1;
             text-decoration: underline;
             text-align:left;
-           
-
         }
-
         .accountNameCol {
             width: 80%;
         }
-
         .debitCol,
         .creditCol {
             min-width: 10rem;
+            
         }
-
         .subtotal {
             text-decoration: overline underline;
         }
-
         .total {
             text-decoration: overline;
             padding-bottom: 1px;
             border-bottom: double 5px;
         }
-
         .income-statement-table {
-            width: 90%;
+            width: 100%;
         }
-
         .income-statement th,
         td {
             padding: 8px;
         }
-        }
+        
         tr:nth-child(even) {background-color: #f2f2f2;
+        }
+.print {
+  display: block;
+  width: 5%;
+  border: none;
+  background-color: #6f42c1;
+  color: white;
+  padding: 15px 10px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+  position:absolute;
+  left: 915px;
+  top: 230px;
+
 }
     </style>
 
@@ -96,6 +102,14 @@
   </head>
   
   <body class="hold-transition sidebar-mini layout-fixed">
+  <script>
+function printDiv() { 
+            document.getElementById("print").style.display = "none";
+            window.print();
+            document.getElementById("print").style.display = "";
+
+        } 
+</script>
 <div class="wrapper">
 <?php include('../../navigation.php') ?>
 
@@ -114,7 +128,7 @@
             </a>
           </li>
           <li class="nav-item has-treeview menu-open">
-            <a href="admin/users/userList.php" class="nav-link">
+            <a href="../../admin/users/userList.php" class="nav-link">
               <i class="nav-icon fas fa-user-alt"></i>
               <p>
                 Users
@@ -123,14 +137,14 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="admin/users/userList.php" class="nav-link">
+                <a href="../../admin/users/userList.php" class="nav-link">
                   <i class="fas fa-user-edit nav-icon"></i>
                   <p>View Users</p>
                 </a>
               </li>
               <?php if(intval($_SESSION['user']['role_id']) == 1): ?>
               <li class="nav-item">
-                <a href="admin/users/userForm.php" class="nav-link">
+                <a href="../../admin/users/userForm.php" class="nav-link">
                   <i class="fas fa-user-edit nav-icon"></i>
                   <p>Add Users</p>
                 </a>
@@ -140,7 +154,7 @@
           </li>
           
           <?php if(intval($_SESSION['user']['role_id']) == 2 || intval($_SESSION['user']['role_id']) == 3): ?>
-          <li class="nav-item has-treeview menu">
+          <li class="nav-item has-treeview menu-open">
                     <a href="../../Journalizing.php" class="nav-link">
                         <i class="nav-icon fas fa-book"></i> 
                         <p>
@@ -169,7 +183,7 @@
               <?php endif; ?>
           </li>
           <li class="nav-item">
-            <a href="admin/accounts/accountsList.php" class="nav-link">
+            <a href="../../admin/accounts/accountsList.php" class="nav-link">
               <i class="nav-icon fas fa-columns"></i>
               <p>
                Accounts
@@ -177,7 +191,7 @@
             </a>
           </li>
           <?php if(intval($_SESSION['user']['role_id']) == 2 || intval($_SESSION['user']['role_id']) == 3): ?> 
-          <li class="nav-item has-treeview menu">
+          <li class="nav-item has-treeview menu-open">
             <a href="" class="nav-link active">
               <i class="nav-icon fas fa-clipboard"></i>
               <p>
@@ -215,7 +229,7 @@
               <?php endif; ?>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="../../ViewLogs.php" class="nav-link">
               <i class="nav-icon fas fa-clone"></i>
               <p>
                Event Logs
@@ -257,6 +271,8 @@
     </div>
     <!-- /.content-header -->
 
+    <button class = "print" id = "print" onclick="printDiv()">Print</button>
+
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
@@ -276,6 +292,7 @@
                         <tr>
                             <th class="accountNameCol"></th>
                             <th class="debitCol"></th>
+                            <th class= "creditCol"> Amount </th>
                             <th class="creditCol">Total Amount</th>
                         </tr>
                     </thead>
@@ -289,12 +306,7 @@
                 <table class="income-statement-table">
                 <?php
 
-//$conn = mysqli_connect("localhost", "root", "", "QuickerBooksDB");
-                $conn = mysqli_connect("remotemysql.com", "tKROkoSDOO", "yGpAbKvSmu", "tKROkoSDOO");
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+
 
 $sql = "SELECT * from chartofaccounts WHERE category ='Assets' AND balance <> '0'";
 $result = $conn->query($sql);
@@ -305,26 +317,33 @@ if ($result->num_rows > 0) {
         <tbody>
             <tr>
                 <td align="left"><?php echo $row["accountname"]; ?></td>
-                <td align="right"><?php if ($row["debit"] != 0) {
-                                                echo "$" . number_format($row["balance"],2);
+                <td align="left"><?php if ($row["debit"] OR $row['credit'] != 0) {
+                                            if($row["balance"] < 0.00){
+                                            echo "(" . number_format(abs($row["balance"]),2).")";
+
+                                            }else{
+                                               echo "$" . number_format($row["balance"],2);
                                             } ?></td>
+                                            
                 <td align="right"><?php if ($row["credit"] != 0) {
-                                                echo "$" . number_format($row["balance"],2);
+                                                //echo "$" . number_format($row["balance"],2);
                                             } ?></td>
             </tr>
 
     <?php
             $totalassets = $row["balance"] + $totalassets;
         }
-    } else {
+      
+      }} else {
         echo "0 results";
     }
+  
 
 
 
     ?>
     <tr>
-        <td> Assets Total</td>
+        <td> <b>Assets Total</b></td>
         <td></td>
         <td class = "subtotal" align="right"><?php print "$" . number_format ($totalassets, 2) ?> </td>
     </tr>
@@ -372,7 +391,7 @@ if ($result->num_rows > 0) {
 
     ?>
     <tr>
-        <td> Equity & Liability Total</td>
+        <td> <b>Equity & Liability Total</b></td>
         <td></td>
         <td class = "subtotal" align="right"><?php print "$" . number_format ($totalel, 2) ?> </td>
     </tr>

@@ -28,8 +28,8 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item">
-            <a href="../../layout.php" class="nav-link">
+          <li class="nav-item">       
+            <a href= "../../layout.php" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -37,7 +37,7 @@
             </a>
           </li>
           <li class="nav-item has-treeview menu-open">
-            <a href="admin/users/userList.php" class="nav-link">
+            <a href="../../admin/users/userList.php" class="nav-link">
               <i class="nav-icon fas fa-user-alt"></i>
               <p>
                 Users
@@ -46,7 +46,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="admin/users/userList.php" class="nav-link">
+                <a href="../../admin/users/userList.php" class="nav-link">
                   <i class="fas fa-user-edit nav-icon"></i>
                   <p>View Users</p>
                 </a>
@@ -63,7 +63,7 @@
           </li>
 
           <?php if(intval($_SESSION['user']['role_id']) == 2 || intval($_SESSION['user']['role_id']) == 3): ?>
-          <li class="nav-item has-treeview menu">
+          <li class="nav-item has-treeview menu-open">
                     <a href="../../Journalizing.php" class="nav-link">
                         <i class="nav-icon fas fa-book"></i> 
                         <p>
@@ -92,7 +92,7 @@
               <?php endif; ?>
           </li>
           <li class="nav-item">
-            <a href="admin/accounts/accountsList.php" class="nav-link active">
+            <a href="../../admin/accounts/accountsList.php" class="nav-link active">
               <i class="nav-icon fas fa-columns"></i>
               <p>
                Accounts
@@ -101,7 +101,7 @@
           </li>
 
           <?php if(intval($_SESSION['user']['role_id']) == 2 || intval($_SESSION['user']['role_id']) == 3): ?> 
-          <li class="nav-item has-treeview menu">
+          <li class="nav-item has-treeview menu-open">
             <a href="" class="nav-link">
               <i class="nav-icon fas fa-clipboard"></i>
               <p>
@@ -139,7 +139,7 @@
               <?php endif; ?>
           </li>
           <li class="nav-item">
-            <a href="ViewLogs.php" class="nav-link">
+            <a href="../../ViewLogs.php" class="nav-link">
               <i class="nav-icon fas fa-clone"></i>
               <p>
                Event Logs

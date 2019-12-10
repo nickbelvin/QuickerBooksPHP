@@ -262,7 +262,13 @@
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
-
+    
+            <!-- Main content -->
+        <div class="content">
+            <div class="container-fluid">
+<ul>
+<a href="chartofaccounts.php"><strong>Return to Chart of Accounts</strong></a>
+</ul>
 <?php
 include('connect-quickerbooksdb.php');
  
@@ -276,6 +282,34 @@ $row = mysqli_fetch_assoc($result);
 <html>
 
 <body>
+    <style>
+input[type=text], select {
+  width: 33%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 33%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+</style>
+
 <?php
 	require_once 'connect-quickerbooksdb.php';
 	
@@ -305,37 +339,37 @@ $row = mysqli_fetch_assoc($result);
 <div>
 <form name="form" method="post" action=""> 
 
-<p><label for="accountname">Account Number :</label>
+<p><label for="accountname">Account Number : </label><br />
 <input name="id" type="hidden" value="<?php echo $row['accountnumber'];?>" />
 <input type="text" name="accountnumber" placeholder="Account Number" 
 required value="<?php echo $row['accountnumber'];?>" /></p>
 
-<p><label for="accountname">Account Name :</label>
+<p><label for="accountname">Account Name :</label><br />
 <input name="id" type="hidden" value="<?php echo $row['accountname'];?>" />
 <input type="text" name="accountname" placeholder="Account Name" 
 required value="<?php echo $row['accountname'];?>" /></p>
 
-<p><label for="accountname">Description :</label>
+<p><label for="accountname">Description :</label><br />
 <input name="id" type="hidden" value="<?php echo $row['description'];?>" />
 <input type="text" name="description" placeholder="Enter a Description" 
 value="<?php echo $row['description'];?>" /></p>
 
-<p><label for="accountname">Normal Side :</label>
+<p><label for="accountname">Normal Side :</label><br />
 <input name="id" type="hidden" value="<?php echo $row['normalside'];?>" />
 <input type="text" name="normalside" placeholder="Normal Side" 
 required value="<?php echo $row['normalside'];?>" /></p>
 
-<p><label for="accountname">Category :</label>
+<p><label for="accountname">Category :</label><br />
 <input name="id" type="hidden" value="<?php echo $row['category'];?>" />
 <input type="text" name="category" placeholder="Category" 
 required value="<?php echo $row['category'];?>" /></p>
 
-<p><label for="accountname">Sub-Category :</label>
+<p><label for="accountname">Sub-Category :</label><br />
 <input name="id" type="hidden" value="<?php echo $row['subcategory'];?>" />
 <input type="text" name="subcategory" placeholder="Sub-Category" 
 required value="<?php echo $row['subcategory'];?>" /></p>
 
-<p><label for="accountname">Comment :</label>
+<p><label for="accountname">Comment :</label><br />
 <input name="id" type="hidden" value="<?php echo $row['comment'];?>" />
 <input type="text" name="comment" placeholder="Enter a Comment" 
 value="<?php echo $row['comment'];?>" /></p>

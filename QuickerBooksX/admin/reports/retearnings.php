@@ -32,24 +32,24 @@
         }
         .income-statement .income-statement-main-heading {
             font-size: 18px;
-            margin-top: 1rem;
-            color: black;
+            margin-top: 0rem;
+            color: white;
         }
         .income-statement .business-name {
             font-size: 26px;
-            margin-top: 1rem;
-            color: black;
+            margin-top: 0rem;
+            color: white;
         }
         .income-statement .as-of-date {
             font-size: 16px;
-            margin-top: 1rem;
-            color: black;
+            margin-top: 0rem;
+            color: white;
         }
         .income-statement-heading {
             margin-top: 0px;
             margin-left: 50px;
             font-size: 20px;
-            color: blue;
+            color: #6f42c1;
             text-decoration: underline;
             text-align:left;
         }
@@ -75,9 +75,24 @@
         td {
             padding: 8px;
         }
-        }
+        
         tr:nth-child(even) {background-color: #f2f2f2;
         }
+        .print {
+  display: block;
+  width: 5%;
+  border: none;
+  background-color: #6f42c1;
+  color: white;
+  padding: 15px 10px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+  position:absolute;
+  left: 915px;
+  top: 175px;
+
+}
     </style>
 
     
@@ -88,7 +103,15 @@
   
   <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
+<script>
+function printDiv() { 
+            document.getElementById("print").style.display = "none";
+            window.print();
+            document.getElementById("print").style.display = "";
+        } 
+</script>
 <?php include('../../navigation.php') ?>
+
 
 
 <!-- Sidebar Menu -->
@@ -105,7 +128,7 @@
             </a>
           </li>
           <li class="nav-item has-treeview menu-open">
-            <a href="admin/users/userList.php" class="nav-link">
+            <a href="../../admin/users/userList.php" class="nav-link">
               <i class="nav-icon fas fa-user-alt"></i>
               <p>
                 Users
@@ -114,14 +137,14 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="admin/users/userList.php" class="nav-link">
+                <a href="../../admin/users/userList.php" class="nav-link">
                   <i class="fas fa-user-edit nav-icon"></i>
                   <p>View Users</p>
                 </a>
               </li>
               <?php if(intval($_SESSION['user']['role_id']) == 1): ?>
               <li class="nav-item">
-                <a href="admin/users/userForm.php" class="nav-link">
+                <a href="../../admin/users/userForm.php" class="nav-link">
                   <i class="fas fa-user-edit nav-icon"></i>
                   <p>Add Users</p>
                 </a>
@@ -131,7 +154,7 @@
           </li>
           
           <?php if(intval($_SESSION['user']['role_id']) == 2 || intval($_SESSION['user']['role_id']) == 3): ?>
-          <li class="nav-item has-treeview menu">
+          <li class="nav-item has-treeview menu-open">
                     <a href="../../Journalizing.php" class="nav-link">
                         <i class="nav-icon fas fa-book"></i> 
                         <p>
@@ -160,7 +183,7 @@
               <?php endif; ?>
           </li>
           <li class="nav-item">
-            <a href="admin/accounts/accountsList.php" class="nav-link">
+            <a href="../../admin/accounts/accountsList.php" class="nav-link">
               <i class="nav-icon fas fa-columns"></i>
               <p>
                Accounts
@@ -168,7 +191,7 @@
             </a>
           </li>
           <?php if(intval($_SESSION['user']['role_id']) == 2 || intval($_SESSION['user']['role_id']) == 3): ?> 
-          <li class="nav-item has-treeview menu">
+          <li class="nav-item has-treeview menu-open">
             <a href="" class="nav-link active">
               <i class="nav-icon fas fa-clipboard"></i>
               <p>
@@ -176,6 +199,7 @@
                <i class="right fas fa-angle-left"></i>
               </p>
             </a>
+          <!--</li>-->
 			<ul class="nav nav-treeview">
       <li class="nav-item">
                 <a href="../../admin/reports/balancesheet.php" class="nav-link">
@@ -205,7 +229,7 @@
               <?php endif; ?>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="../../ViewLogs.php" class="nav-link">
               <i class="nav-icon fas fa-clone"></i>
               <p>
                Event Logs
@@ -246,7 +270,7 @@
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
-
+    <button class = "print" id = "print" onclick="printDiv()">Print</button>
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
@@ -274,26 +298,78 @@
         </table>
       </div>
       <div class="tableWrapper">
-        <?php 
-        $beginningbalance = 0;
-        ?>
+        
+        
+      <?php
+
+$sql = "SELECT * from chartofaccounts WHERE category ='Revenue'";
+$result = $conn->query($sql);
+
+$totalrevenue = 0.00;
+$beginningbalance = 0.00;
+$dollarsign = 0;
+while ($row = mysqli_fetch_assoc($result)) { ?>
+
+
+<?php
+$totalrevenue = $row["balance"] + $totalrevenue;
+// $_SESSION["totalrev"] = $totalrevenue["totalrev"];
+}
+
+?>
+<?php
+
+$sql = "SELECT * from chartofaccounts WHERE category ='Expenses'";
+$result = $conn->query($sql);
+
+$totalexpenses = 0.00;
+$dollarsign = 0;
+while ($row = mysqli_fetch_assoc($result)) { ?>
+
+
+<?php
+$totalexpenses = $row["balance"] + $totalexpenses;
+$netincome = $totalrevenue - $totalexpenses;
+
+// $_SESSION["totalrev"] = $totalrevenue["totalrev"];
+}
+
+?>
+<?php
+
+$sql = "SELECT * from chartofaccounts WHERE balance <'0'";
+$result = $conn->query($sql);
+
+$lessincome = 0.00;
+$dollarsign = 0;
+while ($row = mysqli_fetch_assoc($result)) { ?>
+
+
+<?php
+$lessincome = $row["balance"] + $lessincome;
+
+// $_SESSION["totalrev"] = $totalrevenue["totalrev"];
+}
+
+?>
         <table class="income-statement-table">
           <tbody>
             <tr>
               <td class="subjectTitle">Beginning Balance</td>
-              <td class="amount" align="right"><label><?php echo "$" . number_format($beginningbalance,2)?></label></td>
+              <td class="amount" align="right"><?php echo "$" . number_format($beginningbalance,2)?></td>
             </tr>
             <tr>
               <td class="subjectTitle">Net Income</td>
-              <td class="amount" align="right"><label><?php  echo "$" . number_format($_SESSION["netinc"],2)?></label></td>
+              <td class="amount" align="right"><?php  echo "$" . number_format($netincome,2)?></td>
             </tr>
             <tr>
               <td class="subjectTitle">Less Drawings</td>
-              <td class="amount" align="right"><label>$0.00</label></td>
+               
+              <td class="amount" align="right"><?php echo "(". number_format(abs($lessincome),2). ")"?></td>
             </tr>
             <tr>
               <td class="subjectTitle">Ending Balance</td>
-              <td class="amount" align="right"><label class="total"><?php echo "$" . number_format($beginningbalance + $_SESSION["netinc"],2)?></label></td>
+              <td class="amount" align="right"><label class="total"><?php echo "$" . number_format(($beginningbalance + $netincome + $lessincome),2)?></label></td>
             </tr>
           </tbody>
                 </table>
